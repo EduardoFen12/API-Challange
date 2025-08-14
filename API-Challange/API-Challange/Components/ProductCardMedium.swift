@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ProductCardMedium: View {
     var body: some View {
-        VStack( spacing: 8){
+        VStack( spacing: 8) {
             
             Image(systemName: "bag.fill")
                 .resizable()
