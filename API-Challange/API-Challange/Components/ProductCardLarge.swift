@@ -12,14 +12,9 @@ struct ProductCardLarge: View {
         
         HStack(spacing: 16) {
         
-            Image(systemName: "bag.fill")
-                .resizable()
-                .frame(maxWidth: 160, maxHeight: 160)
-                .padding(50)
-                .foregroundStyle(.fillsTertiary)
-                .background(RoundedRectangle(cornerRadius: 8).fill(.fillsQuaternary))
+            Placeholder(imageStyle: .large)
             
-            VStack(spacing: 32) {
+            VStack(alignment: .leading, spacing: 32) {
                 HStack {
                     Text("Category")
                         
@@ -29,7 +24,6 @@ struct ProductCardLarge: View {
                         
                     Unfavorite()
                 }
-                .padding(.top, 8)
                 VStack(alignment: .leading, spacing: 4){
                 
                     Text("product name with two \nor more lines goes here")
@@ -45,8 +39,8 @@ struct ProductCardLarge: View {
             
                 
         }
+        .padding(8)
         .frame( maxWidth: 361, maxHeight: 176)
-            .padding(8)
             .background(RoundedRectangle(cornerRadius: 16).fill(.backgroundsSecondary))
     }
 }

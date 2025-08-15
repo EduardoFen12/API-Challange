@@ -46,6 +46,7 @@ struct CategoriesImage: View {
     var body: some View {
         Image(systemName: systemName.rawValue)
             .foregroundStyle(.fillsSecondary)
+        
     }
 }
 
