@@ -6,7 +6,7 @@
 //
 
 struct CategoryModel: Decodable {
-    
+
     var name: String
 
 }

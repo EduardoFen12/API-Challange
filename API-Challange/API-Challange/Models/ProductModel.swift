@@ -5,7 +5,7 @@
 //  Created by Eduardo Garcia Fensterseifer on 15/08/25.
 //
 
-struct ProductFromResponseModel: Decodable {
+struct ProductsFromResponseModel: Decodable {
     var results: [ProductModel]
 }
 
