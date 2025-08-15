@@ -8,13 +8,12 @@
 import SwiftUI
 
 struct CategorieListItem: View {
-    
-    @State var number: Int
+    var category: CategoryModel
     
     var body: some View {
         
         HStack {
-            Text("Category \(number)")
+            Text(category.name)
                 .font(.body)
                 .foregroundStyle(.labelsPrimary)
                 .padding(.leading, 16)
@@ -33,5 +32,5 @@ struct CategorieListItem: View {
 }
 
 #Preview {
-    CategorieListItem(number: 1)
+    CategorieListItem(category: CategoryModel(name: "Beauty"))
 }

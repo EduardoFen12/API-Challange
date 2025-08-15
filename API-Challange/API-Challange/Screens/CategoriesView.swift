@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct CategoriesView: View {
+    
+    let viewModel: CategoriesViewModel
+    
     @State private var searchText = ""
     
     var body: some View {
@@ -15,17 +18,17 @@ struct CategoriesView: View {
             VStack(spacing: 16) {
                 ScrollView {
                     HStack(spacing:8) {
-                        ForEach(1..<5) { index in
+                        ForEach(viewModel.categories) { category in
                             
-                            CategoriesCard(number: index)
+                            CategoriesCard(category: category)
                             
                         }
                         
                     }
                     .padding(.top, 16)
                     
-                    ForEach(1..<8) { index in
-                        CategorieListItem(number: index)
+                    ForEach(viewModel.categories) { category in
+                        CategorieListItem(category: category)
 
                             Divider()
                             .padding(.leading, 16)
@@ -41,6 +44,9 @@ struct CategoriesView: View {
                 
                 
             }
+        }
+        .task {
+            await viewModel.loadCategories()
         }
     }
 }

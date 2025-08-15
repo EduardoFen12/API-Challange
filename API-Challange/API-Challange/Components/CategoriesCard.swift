@@ -8,9 +8,7 @@
 import SwiftUI
 
 struct CategoriesCard: View {
-    
-    @State var number: Int
-
+    var category: CategoryModel
     
     var body: some View {
         
@@ -22,14 +20,14 @@ struct CategoriesCard: View {
                 .background(RoundedRectangle(cornerRadius: 16).fill(.backgroundsSecondary))
             
             
-            Text("Category \(number)")
+            Text(category.name)
                 .font(.subheadline)
                 .foregroundStyle(.labelsPrimary)
         }
         
     }
-}
+} 
 
 #Preview {
-    CategoriesCard(number: 1)
+    CategoriesCard(category: CategoryModel(name: "Beauty"))
 }

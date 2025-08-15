@@ -51,7 +51,6 @@ struct ProductDetails: View {
                         
                         
                     }
-                    .frame(width: .infinity, height: 82)
                     
                     Text(description)
                         .font(.system(size: 17, weight: .regular))

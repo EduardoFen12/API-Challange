@@ -21,7 +21,7 @@ struct TabBar: View {
                 }
                 .tag(0)
             
-            CategoriesView()
+            CategoriesView(viewModel: CategoriesViewModel(service: ProductService()))
                 .tabItem {
                     Image(systemName: "square.grid.2x2.fill")
                     Text("Categories")
