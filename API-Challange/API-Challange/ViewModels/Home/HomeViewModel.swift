@@ -7,12 +7,33 @@
 
 import SwiftUI
 
-struct HomeViewModel: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+@Observable
+class HomeViewModel: HomeProtocol {
+    
+    var dealPickProduct: ProductModel?
+    var products: [ProductModel] = []
+    var isLoading: Bool = false
+    var errorMessage: String?
+    
+    private let service: ProductServiceProtocol
+    
+    init(service: ProductServiceProtocol) {
+        self.service = service
     }
-}
-
-#Preview {
-    HomeViewModel()
+    
+    func loadProducts() async {
+        isLoading = true
+        
+        do {
+            
+            dealPickProduct = try await service.getProduct(number: 1)
+            products = try await service.getAllProducts()
+            isLoading = false
+            
+        } catch {
+            
+            errorMessage = "Error to fetch products: \(error.localizedDescription)"
+            
+        }
+    }
 }

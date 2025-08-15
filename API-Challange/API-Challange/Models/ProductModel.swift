@@ -13,8 +13,9 @@ struct ProductModel: Identifiable, Decodable {
 
     var id: Int
     var title: String
-    var longDescription: String
-    var category: CategoryModel
+    var description: String
+    var category: String
     var price: Double
+    var thumbnail: String
     
 }
