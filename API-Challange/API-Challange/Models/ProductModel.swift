@@ -1,10 +1,28 @@
 //
-//  Products.swift
+//  ProductModel.swift
 //  API-Challange
 //
-//  Created by Gustavo Ferreira bassani on 15/08/25.
+//  Created by Eduardo Garcia Fensterseifer on 15/08/25.
 //
 
-struct ProductModel {
+import Foundation
+import SwiftData
+
+@Model
+final class ProductModel: Identifiable {
+
+    var id: Int
+    var title: String
+    var longDescription: String
+    var category: CategoryModel
+    var price: Double
+    
+    init(id: Int, title: String, description: String, category: CategoryModel, price: Double) {
+        self.id = id
+        self.title = title
+        self.longDescription = description
+        self.category = category
+        self.price = price
+    }
     
 }
