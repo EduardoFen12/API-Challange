@@ -8,6 +8,7 @@
 import SwiftUI
 
 enum CategoriesEnum: String {
+    
     case sparkles = "sparkles"
     case dropFill = "drop.fill"
     case chairLoungeFill = "chair.lounge.fill"

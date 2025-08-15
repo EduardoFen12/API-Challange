@@ -5,14 +5,31 @@
 //  Created by Gustavo Ferreira bassani on 15/08/25.
 //
 
-import SwiftUI
+import Foundation
 
-struct CategoriesViewModel: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+@Observable
+class CategoriesViewModel: CategoriesViewModelProtocol {
+    
+    var categories: [CategoryModel] = []
+    var isLoading: Bool = false
+    var errorMessage: String?
+    
+    private let service: ProductServiceProtocol
+    
+    init(service: ProductServiceProtocol) {
+        self.service = service
     }
-}
-
-#Preview {
-    CategoriesViewModel()
+    
+    func loadCategories() async {
+        isLoading = true
+        
+        do {
+            categories = try await service.getCategories()
+        } catch {
+            errorMessage = "Error to fetch Categories: \(error.localizedDescription)"
+        }
+        
+        isLoading = false
+    }
+    
 }

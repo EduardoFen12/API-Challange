@@ -14,7 +14,8 @@ struct ProductModel: Identifiable, Decodable {
     var id: Int
     var title: String
     var longDescription: String
-    var category: CategoryModel
+    var category: String
     var price: Double
+    var image: String
     
 }
