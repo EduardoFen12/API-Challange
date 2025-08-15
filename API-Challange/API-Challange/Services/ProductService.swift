@@ -5,14 +5,54 @@
 //  Created by Gustavo Ferreira bassani on 15/08/25.
 //
 
-import SwiftUI
+import Foundation
 
-struct ProductService: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+struct ProductService: ProductServiceProtocol {
+    
+    private let baseURL = "http://dummyjson.com"
+    
+    func getCategories() async throws -> [CategoryModel] {
+        
+        let urlString: String = "\(baseURL)/products/categories"
+        
+        guard let url = URL(string: urlString) else {
+            throw URLError(.badURL)
+        }
+        
+        let (data, response) = try await URLSession.shared.data(from: url)
+        
+        guard let httpResponse = response as? HTTPURLResponse,
+              httpResponse.statusCode == 200 else {
+            throw URLError(.badServerResponse)
+        }
+        
+        let categories = try JSONDecoder().decode([CategoryModel].self, from: data)
+        
+        return categories
+        
     }
-}
+    
 
-#Preview {
-    ProductService()
+    
+    
+    
+    func getProduct(number: Int) async throws -> ProductModel {
+        let urlString: String = "\(baseURL)/products/\(number)"
+        
+        guard let url = URL(string: urlString) else {
+            throw URLError(.badURL)
+        }
+        
+        let (data, response) = try await URLSession.shared.data(from: url)
+        
+        guard let httpResponse = response as? HTTPURLResponse,
+              httpResponse.statusCode == 200 else {
+            throw URLError(.badServerResponse)
+        }
+        
+        let product = try JSONDecoder().decode(ProductModel.self, from: data)
+        
+        return product
+    }
+    
 }

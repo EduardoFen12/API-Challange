@@ -1,14 +1,14 @@
 //
-//  CategoriesModel.swift
+//  categories.swift
 //  API-Challange
 //
-//  Created by Eduardo Garcia Fensterseifer on 15/08/25.
+//  Created by Gustavo Ferreira bassani on 15/08/25.
 //
 
-import Foundation
 
-struct CategoryModel {
 
-    var name: String
+struct CategoryModel: Decodable {
     
+    var name: String
+
 }
