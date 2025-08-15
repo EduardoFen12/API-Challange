@@ -6,7 +6,7 @@
 //
 
 struct ProductsFromResponseModel: Decodable {
-    var products: [ProductModel]
+    var results: [ProductModel]
 }
 
 struct ProductModel: Identifiable, Decodable {

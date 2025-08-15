@@ -7,14 +7,31 @@
 
 import Foundation
 
-class ProductService: ProductServiceProtocol {
+struct ProductService: ProductServiceProtocol {
     
-    private let baseURL = "https://dummyjson.com"
+    private let baseURL = "http://dummyjson.com"
     
     func getCategories() async throws -> [CategoryModel] {
-        <#code#>
+        
+        let urlString: String = "\(baseURL)/products/categories"
+        
+        guard let url = URL(string: urlString) else {
+            throw URLError(.badURL)
+        }
+        
+        let (data, response) = try await URLSession.shared.data(from: url)
+        
+        guard let httpResponse = response as? HTTPURLResponse,
+              httpResponse.statusCode == 200 else {
+            throw URLError(.badServerResponse)
+        }
+        
+        let categories = try JSONDecoder().decode([CategoryModel].self, from: data)
+        
+        return categories
+        
     }
-    
+
     func getAllProducts() async throws -> [ProductModel] {
         let urlString: String = "\(baseURL)/products"
         
@@ -27,6 +44,22 @@ class ProductService: ProductServiceProtocol {
     }
     
     func getProduct(number: Int) async throws -> ProductModel {
-        <#code#>
+        let urlString: String = "\(baseURL)/products/\(number)"
+        
+        guard let url = URL(string: urlString) else {
+            throw URLError(.badURL)
+        }
+        
+        let (data, response) = try await URLSession.shared.data(from: url)
+        
+        guard let httpResponse = response as? HTTPURLResponse,
+              httpResponse.statusCode == 200 else {
+            throw URLError(.badServerResponse)
+        }
+        
+        let product = try JSONDecoder().decode(ProductModel.self, from: data)
+        
+        return product
     }
+    
 }
