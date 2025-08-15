@@ -20,7 +20,6 @@ struct CartView: View {
             self.price = price
             self.quantity = quantity
         }
-        
     }
     
     var products: [Product] = [
@@ -40,74 +39,53 @@ struct CartView: View {
     }
     
     var body: some View {
-        
-        VStack(spacing: 16) {
-            
-            if products.isEmpty {
-                
-                EmptyState(style: .cart)
-                
-            } else {
-                
-                VStack {
-                    ScrollView {
+        NavigationStack {
+            VStack(spacing: 16) {
+                if products.isEmpty {
+                    EmptyState(style: .cart)
+                } else {
+                    VStack {
+                        ScrollView {
+                            VStack (spacing: 16) {
+                                ForEach(products) { product in
+                                    ProductListCart(productName: product.name, price: product.price, quantity: product.quantity)
+                                }
+                            }
+                        }
                         
-                        VStack (spacing: 16) {
+                        VStack {
+                            HStack {
+                                Text("Total:")
+                                    .font(.system(size: 15, weight: .regular))
+                                    .foregroundStyle(.labelsPrimary)
+                                Spacer()
+                                Text("US$ \(String(format: "%05.2f", totalPrice))")
+                                    .font(.system(size: 17, weight: .semibold))
+                                    .foregroundColor(.labelsPrimary)
+                            }
                             
-                            ForEach(products) { product in
-                                
-                                ProductListCart(productName: product.name, price: product.price, quantity: product.quantity)
-                                
+                            Button {
+                                print("Botão Checkout clicado!")
+                            } label: {
+                                Text("Checkout")
+                                    .font(.system(size: 17, weight: .semibold))
+                                    .foregroundColor(.labelsPrimary)
+                                    .frame(maxWidth: .infinity, minHeight: 54, maxHeight: 54)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 16)
+                                            .foregroundStyle(.fillsTertiary)
+                                    )
                             }
                             
                         }
-                        
+                        .padding(.leading)
+                        .padding(.trailing)
                     }
-                    
-                    VStack {
-                        HStack {
-                            Text("Total:")
-                                .font(.system(size: 15, weight: .regular))
-                                .foregroundStyle(.labelsPrimary)
-                            Spacer()
-                            Text("US$ \(String(format: "%05.2f", totalPrice))")
-                                .font(.system(size: 17, weight: .semibold))
-                                .foregroundColor(.labelsPrimary)
-                        }
-                        
-                        Button {
-                            print("Botão Checkout clicado!")
-                        } label: {
-                            
-                            Text("Checkout")
-                                .font(.system(size: 17, weight: .semibold))
-                                .foregroundColor(.labelsPrimary)
-                                .frame(maxWidth: .infinity, minHeight: 54, maxHeight: 54)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 16)
-                                        .foregroundStyle(.fillsTertiary)
-                                )
-                            
-                        }
-                        
-                    }
-                    .padding(.leading)
-                    .padding(.trailing)
-                    
                 }
-                
             }
-            
+            .padding(.bottom)
+            .navigationTitle("Cart")
         }
-        .padding()
-        .navigationTitle("Cart")
-        .background(.backgroundsPrimary)
-        .toolbarBackground(.backgroundsPrimary, for: .navigationBar)
-        .toolbarBackgroundVisibility(.visible, for: .navigationBar)
-        .toolbarBackground(.backgroundsPrimary, for: .tabBar)
-        .toolbarBackgroundVisibility(.visible, for: .tabBar)
-        .toolbarTitleDisplayMode(.large)
-        
     }
 }
 
