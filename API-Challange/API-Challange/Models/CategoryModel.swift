@@ -5,10 +5,14 @@
 //  Created by Eduardo Garcia Fensterseifer on 15/08/25.
 //
 
-import Foundation
+import SwiftData
 
-struct CategoryModel {
+@Model
+class CategoryModel {
 
     var name: String
     
+    init(name: String) {
+        self.name = name
+    }
 }
