@@ -26,6 +26,8 @@ struct TabBar: View {
                     Text("Categories")
                 }
                 .tag(1)
+            
+            
         }
         
     }

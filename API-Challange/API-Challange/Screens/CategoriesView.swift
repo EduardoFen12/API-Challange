@@ -15,10 +15,11 @@ struct CategoriesView: View {
             VStack(spacing: 16) {
                 ScrollView {
                     HStack(spacing:8) {
-                        CategoriesCard()
-                        CategoriesCard()
-                        CategoriesCard()
-                        CategoriesCard()
+                        ForEach(1..<5) { index in
+                            
+                            CategoriesCard(number: index)
+                            
+                        }
                         
                     }
                     .padding(.top, 16)
@@ -26,7 +27,6 @@ struct CategoriesView: View {
                     ForEach(1..<8) { index in
                         CategorieListItem(number: index)
 
-                            .listRowSeparator(index == 0 ? .hidden : .visible)
                             Divider()
                             .padding(.leading, 16)
                             .frame(height: 1)
