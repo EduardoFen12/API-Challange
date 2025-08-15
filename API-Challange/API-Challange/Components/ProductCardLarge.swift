@@ -12,7 +12,7 @@ struct ProductCardLarge: View {
         
         HStack(spacing: 16) {
         
-            Placeholder(imageStyle: .large)
+            Placeholder(imageStyle: .medium)
             
             VStack(alignment: .leading, spacing: 32) {
                 HStack {

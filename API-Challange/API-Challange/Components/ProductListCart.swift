@@ -96,16 +96,16 @@ struct ProductListCart: View {
     }
     
     func isMultiline(text: String, font: UIFont, maxWidth: CGFloat, maxLines: Int) -> Bool {
-            let attributes: [NSAttributedString.Key: Any] = [.font: font]
-            let textSize = NSString(string: text).boundingRect(
-                with: CGSize(width: maxWidth, height: .greatestFiniteMagnitude),
-                options: [.usesLineFragmentOrigin, .usesFontLeading],
-                attributes: attributes,
-                context: nil
-            )
-            let lineHeight = font.lineHeight
-            return textSize.height > lineHeight * CGFloat(maxLines - 1)
-        }
+        let attributes: [NSAttributedString.Key: Any] = [.font: font]
+        let textSize = NSString(string: text).boundingRect(
+            with: CGSize(width: maxWidth, height: .greatestFiniteMagnitude),
+            options: [.usesLineFragmentOrigin, .usesFontLeading],
+            attributes: attributes,
+            context: nil
+        )
+        let lineHeight = font.lineHeight
+        return textSize.height > lineHeight * CGFloat(maxLines - 1)
+    }
 }
 
 #Preview {

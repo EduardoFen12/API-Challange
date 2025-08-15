@@ -11,7 +11,7 @@ struct ProductCardMedium: View {
     var body: some View {
         VStack( spacing: 8) {
             
-            Placeholder(imageStyle: .large)
+            Placeholder(imageStyle: .medium)
                 .background(RoundedRectangle(cornerRadius: 8).fill(.fillsQuaternary))
                 .clipShape(RoundedRectangle(cornerRadius: 8))
                 .overlay(alignment: .topTrailing) {
