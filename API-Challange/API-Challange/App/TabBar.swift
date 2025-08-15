@@ -10,7 +10,7 @@ import SwiftUI
 struct TabBar: View {
 
     // Poem esse selectedTab no numero que tu quer ver, ai no preview tu já põem a tabbar la na tela ao invés de ver a tela fora da tabbar.. 
-    @State private var selectedTab = 3
+    @State private var selectedTab = 4
 
     var body: some View {
         TabView(selection: $selectedTab) {
@@ -41,6 +41,13 @@ struct TabBar: View {
                     Text("Favorites")
                 }
                 .tag(3)
+            
+            OrdersView()
+                .tabItem {
+                    Image(systemName: "bag.fill")
+                    Text("Orders")
+                }
+                .tag(4)
         }
         
     }
