@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct CategoriesCard: View {
+    
+    @State var number: Int
+
+    
     var body: some View {
         
         VStack(spacing: 8){
@@ -18,7 +22,7 @@ struct CategoriesCard: View {
                 .background(RoundedRectangle(cornerRadius: 16).fill(.backgroundsSecondary))
             
             
-            Text("Category 1")
+            Text("Category \(number)")
                 .font(.subheadline)
                 .foregroundStyle(.labelsPrimary)
         }
@@ -27,5 +31,5 @@ struct CategoriesCard: View {
 }
 
 #Preview {
-    CategoriesCard()
+    CategoriesCard(number: 1)
 }
