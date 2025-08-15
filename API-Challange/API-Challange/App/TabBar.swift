@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct TabBar: View {
+
     // Poem esse selectedTab no numero que tu quer ver, ai no preview tu já põem a tabbar la na tela ao invés de ver a tela fora da tabbar.. 
     @State private var selectedTab = 2
 
