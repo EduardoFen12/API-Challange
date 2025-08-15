@@ -9,11 +9,13 @@ import Foundation
 
 protocol ProductServiceProtocol{
 
-    func getCategories()
-    func getAllProducts()
-    func getProduct()
+    func getCategories() async throws -> [CategoriesModel]
+    func getAllProducts() async throws -> [ProductModel]
+    func getProduct(number: Int) async throws -> ProductModel
     
-//mais algumas coisas
+
+
+    
 
 }
 
