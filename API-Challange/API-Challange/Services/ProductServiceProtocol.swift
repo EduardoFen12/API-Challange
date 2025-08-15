@@ -14,4 +14,3 @@ protocol ProductServiceProtocol{
     func getProduct(number: Int) async throws -> ProductModel
 
 }
-
