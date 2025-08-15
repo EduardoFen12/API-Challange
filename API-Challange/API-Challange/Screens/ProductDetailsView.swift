@@ -54,7 +54,7 @@ struct ProductDetailsView: View {
             .safeAreaInset(edge: .bottom) {
                 
                 Rectangle()
-                    .fill(.white)
+                    .fill(.backgroundsPrimary)
                     .frame(height: 86)
                     .overlay {
                         Button {
