@@ -1,5 +1,5 @@
 //
-//  ProdutListDelivery.swift
+//  ProdutListFavorite.swift
 //  API-Challange
 //
 //  Created by Eduardo Garcia Fensterseifer on 13/08/25.
@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-struct ProdutListDelivery: View {
+struct ProductListDelivery: View {
     
     var productName: String
-    var price: Float
-    @State var isClicked: Bool = false
+    var price: Double
+    var month: Int
     
     var body: some View {
         
@@ -23,9 +23,16 @@ struct ProdutListDelivery: View {
 
                 VStack(spacing: 4) {
                     
+                    Text("DELIVERY BY MONTH, \(String(format: "%02d", month))")
+                        .multilineTextAlignment(.leading)
+                        .lineLimit(1)
+                        .font(.system(size: 12, weight: .regular))
+                        .foregroundStyle(.labelsSecondary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    
                     Text(productName)
                         .multilineTextAlignment(.leading)
-                        .lineLimit(2)
+                        .lineLimit(1)
                         .font(.system(size: 13, weight: .regular))
                         .foregroundStyle(.labelsPrimary)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -37,21 +44,7 @@ struct ProdutListDelivery: View {
                     
                     
                 }
-                .frame(width: 189, height: 62)
-                
-                Button {
-                    isClicked.toggle()
-                } label: {
-                    Image(systemName: "cart.fill")
-                        .font(.system(size: 17, weight: .regular))
-                        .foregroundStyle(.labelsPrimary)
-                        .background(
-                            RoundedRectangle(cornerRadius: 4)
-                                .foregroundStyle(.fillsTertiary)
-                                .frame(width: 38, height: 38)
-                        )
-                }
-                .padding(8)
+                .frame(width: 241, height: 62)
                 
             }
             .padding(8)
@@ -71,5 +64,5 @@ struct ProdutListDelivery: View {
 }
 
 #Preview {
-    ProdutListDelivery(productName: "Product name with two or more lines goes here", price: 0)
+    ProductListDelivery(productName: "Product name with two or more lines goes here", price: 0, month: 1)
 }

@@ -11,12 +11,15 @@ struct Placeholder: View {
     
     enum ImageStyle {
         case small
+        case medium
         case large
         
         var imageName: String {
             switch self {
             case .small:
                 return "placeHolderSmall"
+            case .medium:
+                return "placeHolderMedium"
             case .large:
                 return "placeHolderLarge"
             }
@@ -39,5 +42,5 @@ struct Placeholder: View {
 }
 
 #Preview {
-    Placeholder(imageStyle: .small)
+    Placeholder(imageStyle: .large)
 }

@@ -10,7 +10,7 @@ import SwiftUI
 struct ProductListCart: View {
     
     var productName: String
-    var price: Float
+    var price: Double
     @State var quantity: Int = 1
     
     var body: some View {
@@ -29,7 +29,11 @@ struct ProductListCart: View {
                         .font(.system(size: 13, weight: .regular))
                         .foregroundStyle(.labelsPrimary)
                         .frame(maxWidth: .infinity, alignment: .leading)
-
+                        .layoutPriority(1)
+                    
+                    if !isMultiline(text: productName, font: .systemFont(ofSize: 13), maxWidth: 157, maxLines: 2) {
+                                    Spacer()
+                                }
                     
                     Text("US$ \(String(format: "%05.2f", price))")
                         .font(.system(size: 17, weight: .semibold))
@@ -89,6 +93,18 @@ struct ProductListCart: View {
         .padding(.leading)
         .padding(.trailing)
         
+    }
+    
+    func isMultiline(text: String, font: UIFont, maxWidth: CGFloat, maxLines: Int) -> Bool {
+        let attributes: [NSAttributedString.Key: Any] = [.font: font]
+        let textSize = NSString(string: text).boundingRect(
+            with: CGSize(width: maxWidth, height: .greatestFiniteMagnitude),
+            options: [.usesLineFragmentOrigin, .usesFontLeading],
+            attributes: attributes,
+            context: nil
+        )
+        let lineHeight = font.lineHeight
+        return textSize.height > lineHeight * CGFloat(maxLines - 1)
     }
 }
 
