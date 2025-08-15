@@ -26,14 +26,14 @@ class HomeViewModel: HomeProtocol {
         
         do {
             
-            dealPickProduct = try await service.getProduct(number: 2)
+            dealPickProduct = try await service.getProduct(number: 1)
             products = try await service.getAllProducts()
+            isLoading = false
             
         } catch {
             
             errorMessage = "Error to fetch products: \(error.localizedDescription)"
             
         }
-        isLoading = false
     }
 }

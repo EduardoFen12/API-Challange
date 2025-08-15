@@ -10,11 +10,11 @@ import SwiftUI
 struct TabBar: View {
 
     // Poem esse selectedTab no numero que tu quer ver, ai no preview tu já põem a tabbar la na tela ao invés de ver a tela fora da tabbar.. 
-    @State private var selectedTab = 4
+    @State private var selectedTab = 0
 
     var body: some View {
         TabView(selection: $selectedTab) {
-            HomeView()
+            HomeView(viewModel: HomeViewModel(service: ProductService()))
                 .tabItem {
                     Image(systemName: "house.fill")
                     Text("Home")
