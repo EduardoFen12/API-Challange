@@ -9,7 +9,7 @@ import Foundation
 
 struct ProductService: ProductServiceProtocol {
     
-    private let baseURL = "http://dummyjson.com"
+    private let baseURL = "https://dummyjson.com"
     
     func getCategories() async throws -> [CategoryModel] {
         
