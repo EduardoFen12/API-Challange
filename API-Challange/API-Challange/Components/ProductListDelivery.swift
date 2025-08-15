@@ -10,7 +10,7 @@ import SwiftUI
 struct ProductListDelivery: View {
     
     var productName: String
-    var price: Int
+    var price: Double
     var month: Int
     
     var body: some View {
