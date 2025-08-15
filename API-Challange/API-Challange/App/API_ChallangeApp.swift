@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct API_ChallangeApp: App {
@@ -13,6 +14,7 @@ struct API_ChallangeApp: App {
         WindowGroup {
             TabBar()
         }
+        .modelContainer(for: [ProductModel.self, CategoryModel.self])
     }
 }
 
