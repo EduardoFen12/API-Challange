@@ -40,7 +40,9 @@ struct ProductService: ProductServiceProtocol {
         }
         
         let (data, _) = try await URLSession.shared.data(from: url)
-        let response = try JSONDecoder().decode(ProductModel.self, from: data)
+        let response = try JSONDecoder().decode(ProductsFromResponseModel.self, from: data)
+        
+        return response.results
     }
     
     func getProduct(number: Int) async throws -> ProductModel {
