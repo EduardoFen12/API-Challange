@@ -6,16 +6,17 @@
 //
 
 struct ProductsFromResponseModel: Decodable {
-    var results: [ProductModel]
+    var products: [ProductModel]
 }
 
 struct ProductModel: Identifiable, Decodable {
 
-    var id: Int
-    var title: String
-    var description: String
-    var category: String
-    var price: Double
-    var thumbnail: String
+    let id: Int
+    let title: String
+    let description: String
+    let category: String
+    let price: Double
+    let discountPercentage: Double
+    let thumbnail: String
     
 }

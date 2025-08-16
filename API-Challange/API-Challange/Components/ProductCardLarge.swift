@@ -24,6 +24,7 @@ struct ProductCardLarge: View {
                 Placeholder(imageStyle: .medium)
                 
             }
+            .background(RoundedRectangle(cornerRadius: 8).fill(.fillsQuaternary))
             
             VStack(alignment: .leading, spacing: 32) {
                 HStack {
@@ -37,7 +38,7 @@ struct ProductCardLarge: View {
                 }
                 VStack(alignment: .leading, spacing: 4){
                     
-                    Text(product.description)
+                    Text(product.title)
                         .font(.subheadline)
                         .foregroundStyle(.labelsPrimary)
                     
@@ -57,5 +58,5 @@ struct ProductCardLarge: View {
 }
 
 #Preview {
-    ProductCardLarge(product: ProductModel(id: 2, title: "Sei la", description: "Loooooooonnnnnggg description", category: "quauqler coisa" , price: 60.00, thumbnail: ""))
+    ProductCardLarge(product: ProductModel(id: 2, title: "Sei la", description: "Loooooooonnnnnggg description", category: "quauqler coisa" , price: 60.00, discountPercentage: 30.00, thumbnail: ""))
 }

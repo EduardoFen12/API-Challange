@@ -6,33 +6,39 @@
 //
 
 import SwiftUI
+import Observation
+
+enum HomeState {
+    case idle
+    case loading
+    case error(message: String)
+    case loaded(deal: ProductModel, products: [ProductModel])
+}
 
 @Observable
-class HomeViewModel: HomeProtocol {
+final class HomeViewModel: HomeProtocol {
     
-    var dealPickProduct: ProductModel?
-    var products: [ProductModel] = []
-    var isLoading: Bool = false
-    var errorMessage: String?
-    
+    var state: HomeState = .idle
     private let service: ProductServiceProtocol
+    
     
     init(service: ProductServiceProtocol) {
         self.service = service
     }
     
     func loadProducts() async {
-        isLoading = true
+        
+        state = .loading
         
         do {
             
-            dealPickProduct = try await service.getProduct(number: 1)
-            products = try await service.getAllProducts()
-            isLoading = false
+            let dealOfDay = try await service.getRandomProduct()
+            let allProducts = try await service.getAllProducts()
             
+            state = .loaded(deal: dealOfDay, products: allProducts)
         } catch {
-            
-            errorMessage = "Error to fetch products: \(error.localizedDescription)"
+
+            state = .error(message: "Error to fetch products: \(error.localizedDescription)")
             
         }
     }
