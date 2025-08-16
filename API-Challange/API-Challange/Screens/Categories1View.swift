@@ -22,7 +22,7 @@ struct Categories1View: View {
                         HStack  {
                             ForEach (1..<3) { _ in
                                 
-                            ProductCardMedium()
+//                            ProductCardMedium()
                             }
                         }
                         

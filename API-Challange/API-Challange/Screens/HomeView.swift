@@ -8,59 +8,72 @@
 import SwiftUI
 
 struct HomeView: View {
-    
     let viewModel: HomeViewModel
-        
+    
     var body: some View {
-        
-        NavigationStack{
+        NavigationStack {
+            content
+                .navigationTitle("Home")
+                .task {
+                    if case .idle = viewModel.state {
+                        await viewModel.loadProducts()
+                    }
+                }
+        }
+    }
+    
+    @ViewBuilder
+    private var content: some View {
+        switch viewModel.state {
+        case .idle:
             
-//            if viewModel.isLoading {
-//                ProgressView()
-//            } else if let errorMessage = viewModel.errorMessage {
-//                Text(errorMessage)
-//                    .foregroundStyle(.red)
-//            } else {
-                ScrollView() {
+            Color.clear
+            
+        case .loading:
+            ProgressView()
+            
+        case .error(let message):
+            
+            VStack(spacing: 12) {
+                Text(message)
+                    .foregroundStyle(.red)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal)
+                
+                Button("Tentar novamente") {
+                    Task { await viewModel.loadProducts() }
+                }
+                .buttonStyle(.borderedProminent)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+            
+        case .loaded(let deal, let products):
+            ScrollView {
+                VStack(spacing: 16) {
                     
-                    VStack(spacing: 16) {
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("Deals of the day")
-                                .font(.title2)
-                                .fontWeight(.semibold)
-                            
-                            if let dealPickProduct = viewModel.dealPickProduct {
-                                
-                                ProductCardLarge(product: dealPickProduct)
-                            }
-                            
-                        }
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Deals of the day")
+                            .font(.title2)
+                            .fontWeight(.semibold)
                         
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("Top picks")
-                                .font(.title2)
-                                .fontWeight(.semibold)
-                            
-                            VStack {
-                                HStack(spacing: 8) {
-                                    ProductCardMedium()
-                                    ProductCardMedium()
-                                }
-                                
-                                HStack(spacing: 8) {
-                                    ProductCardMedium()
-                                    ProductCardMedium()
-                                }
+                        ProductCardLarge(product: deal)
+                    }
+                    
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Top picks")
+                            .font(.title2)
+                            .fontWeight(.semibold)
+                        
+                        ForEach(0..<(products.count)/2) { index in
+                            HStack(spacing: 8) {
+                                    ProductCardMedium(product: products[2*index])
+                                    ProductCardMedium(product: products[2*index+1])
                             }
                         }
                     }
-                    
                 }
-                .navigationTitle("Home")
-                .task {
-                    await viewModel.loadProducts()
-                }
-//            }
+                .padding()
+            }
         }
     }
 }

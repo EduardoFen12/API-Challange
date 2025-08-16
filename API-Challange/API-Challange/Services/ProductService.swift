@@ -42,7 +42,7 @@ struct ProductService: ProductServiceProtocol {
         let (data, _) = try await URLSession.shared.data(from: url)
         let response = try JSONDecoder().decode(ProductsFromResponseModel.self, from: data)
         
-        return response.results
+        return response.products
     }
     
     func getProduct(number: Int) async throws -> ProductModel {
@@ -64,4 +64,16 @@ struct ProductService: ProductServiceProtocol {
         return product
     }
     
+    func getRandomProduct() async throws -> ProductModel {
+        
+        let products = try await getAllProducts()
+        
+        guard !products.isEmpty else {
+            throw URLError(.badServerResponse)
+        }
+        
+        let randomIndex = Int.random(in: 0..<products.count)
+        
+        return products[randomIndex]
+    }
 }

@@ -8,10 +8,25 @@
 import SwiftUI
 
 struct ProductCardMedium: View {
+    
+    @State var product: ProductModel
+    
+    var stringPrice: String? { NumberFormatterManager.shared.doubleToString(self.product.price)}
+    
     var body: some View {
         VStack( spacing: 8) {
             
-            Placeholder(imageStyle: .medium)
+            
+            AsyncImage(url: URL(string: product.thumbnail)) { image in
+                image.resizable()
+                    .frame(maxWidth: 161, maxHeight: 160)
+                
+            } placeholder: {
+                
+                Placeholder(imageStyle: .medium)
+                
+            }
+            
                 .background(RoundedRectangle(cornerRadius: 8).fill(.fillsQuaternary))
                 .clipShape(RoundedRectangle(cornerRadius: 8))
                 .overlay(alignment: .topTrailing) {
@@ -22,18 +37,18 @@ struct ProductCardMedium: View {
                 }
             VStack(alignment: .leading, spacing: 8){
             
-                Text("Product name with two or more lines goes here")
+                Text(product.title)
                     .font(.subheadline)
                     .foregroundStyle(.labelsPrimary)
                 
-                Text("US$ 00,00")
+                Text(stringPrice ?? "")
                     .font(.headline)
                     .foregroundStyle(.labelsPrimary)
                 
             }
-            .frame(maxWidth: 161)
             
         }
+        .frame(maxWidth: 161, maxHeight: 250)
         .padding(8)
         .background(RoundedRectangle(cornerRadius: 16).fill(.backgroundsSecondary))
         
@@ -42,5 +57,4 @@ struct ProductCardMedium: View {
 }
 
 #Preview {
-    ProductCardMedium()
-}
+    ProductCardMedium(product: ProductModel(id: 2, title: "Sei la", description: "Loooooooonnnnnggg description", category: "quauqler coisa" , price: 60.00, discountPercentage: 30.00, thumbnail: ""))}
