@@ -10,11 +10,14 @@ import SwiftData
 
 @main
 struct API_ChallangeApp: App {
+//    @State private var favorites = FavoritesStore()
+    
     var body: some Scene {
         WindowGroup {
             TabBar()
+//                .environment(favorites)
         }
-//        .modelContainer(for: [ProductModel.self, CategoryModel.self])
+        .modelContainer(for: [Favorite.self])
     }
 }
 

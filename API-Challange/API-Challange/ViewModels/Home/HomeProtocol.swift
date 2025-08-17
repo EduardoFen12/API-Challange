@@ -7,13 +7,7 @@
 import Foundation
 
 protocol HomeProtocol {
-    
-//    var dealPickProduct: ProductModel? { get }
-//    var products: [ProductModel] { get }
-//    var isLoading: Bool { get }
-//    var errorMessage: String? { get }
     func loadProducts() async
-    
 }
 
 

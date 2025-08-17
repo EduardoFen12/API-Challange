@@ -18,7 +18,7 @@ enum HomeState {
 @Observable
 final class HomeViewModel: HomeProtocol {
     
-    var state: HomeState = .idle
+    var state: HomeState = .idle 
     private let service: ProductServiceProtocol
     
     

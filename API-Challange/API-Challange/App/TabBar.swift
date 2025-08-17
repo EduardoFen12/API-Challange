@@ -6,11 +6,14 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct TabBar: View {
 
     // Poem esse selectedTab no numero que tu quer ver, ai no preview tu já põem a tabbar la na tela ao invés de ver a tela fora da tabbar.. 
-    @State private var selectedTab = 0
+    @State private var selectedTab = 3
+    @Environment(\.modelContext) private var context
+
 
     var body: some View {
         TabView(selection: $selectedTab) {
@@ -35,7 +38,7 @@ struct TabBar: View {
                 }
                 .tag(2)
             
-            FavoritesView()
+            FavoritesView(viewModel: FavoritesViewModel(service: ProductService(), context: context /*, favs: FavoritesStore()*/))
                 .tabItem {
                     Image(systemName: "heart.fill")
                     Text("Favorites")
