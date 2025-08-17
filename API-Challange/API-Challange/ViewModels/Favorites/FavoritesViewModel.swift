@@ -24,11 +24,9 @@ final class FavoritesViewModel: FavoritesProtocol {
     
     var state: FavoriteState = .idle
     private let service: ProductServiceProtocol
-//    var favs: FavoritesStore
     
-    init(service: ProductServiceProtocol, context: ModelContext/*, favs: FavoritesStore*/) {
+    init(service: ProductServiceProtocol, context: ModelContext) {
         self.service = service
-//        self.favs = favs
         
         self.context = context
     }
@@ -43,25 +41,12 @@ final class FavoritesViewModel: FavoritesProtocol {
         
         do {
             
-//            if !favs.ids.isEmpty {
-//                
-//                var allFavorites: [ProductModel] = []
-//
-//                for id in favs.ids {
-                    
-//                    let favorite = try await service.getProduct(number: id)
-//                    allFavorites.append(favorite)
-//                    print(favorite.price)
-//                }
-//            print(try getFavorites().first?.productID)
+        
+            
                 let allProducts = try await service.getAllProducts()
                 
                 state = .loaded( allFavorites: allProducts)
 
-//                } else {
-//
-//                state = .favsEmpty
-//            }
             
         } catch {
             

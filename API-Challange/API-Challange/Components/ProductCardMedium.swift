@@ -18,19 +18,21 @@ struct ProductCardMedium: View {
     @Environment(\.modelContext ) private var modelContext
     @Query var favorites: [Favorite]
     
-    private var isFavorite: Bool {
+    var isFavorite: Bool {
           favorites.contains { $0.productID == product.id }
       }
     
     @State var product: ProductModel
-    @State var heartState: Bool = false
-//    @Environment(FavoritesStore.self) var favs
     
     func toggleFavorite(_ id: Int) {
         if let favID = favorites.first(where: {$0.productID == id}) {
             modelContext.delete(favID)
+            try? modelContext.save()
+            print("entrou no if")
         } else {
             modelContext.insert(Favorite(productID: id))
+            try? modelContext.save()
+            print("entrou no else")
         }
     }
     
@@ -53,17 +55,16 @@ struct ProductCardMedium: View {
                 .background(RoundedRectangle(cornerRadius: 8).fill(.fillsQuaternary))
                 .clipShape(RoundedRectangle(cornerRadius: 8))
                 .overlay(alignment: .topTrailing) {
-                    Image(systemName: (/*heartState*/ isFavorite ? heart.filled.rawValue : heart.empty.rawValue))
+                    Image(systemName: ( isFavorite ? heart.filled.rawValue : heart.empty.rawValue))
                         .frame(width: 22)
                         .padding(8)
                         .background(RoundedRectangle(cornerRadius: 8).fill(.fillsTertiary))
                         .onTapGesture {
-                            heartState.toggle()
                             toggleFavorite(product.id)
-//                            favs.favsAddAndRemove(product.id)
-//                            print(favs.ids)
-                            print(favorites)
                             
+                            for fav in favorites {
+                                print(fav.productID)
+                            }
                         }
                 }
             VStack(alignment: .leading, spacing: 8){
