@@ -40,14 +40,29 @@ final class FavoritesViewModel: FavoritesProtocol {
         state = .isLoading
         
         do {
-            
-        
-            
-                let allProducts = try await service.getAllProducts()
-                
-                state = .loaded( allFavorites: allProducts)
 
+            var favoriteProducts: [ProductModel] = []
+
+            let allFavoritesIds = try getFavorites()
             
+            if !allFavoritesIds.isEmpty {
+                
+                for favorite in allFavoritesIds {
+                    
+                    let favoriteProduct = try await service.getProduct(number: favorite.productID)
+                    
+                    favoriteProducts.append(favoriteProduct)
+                    
+                }
+                
+                state = .loaded(allFavorites: favoriteProducts)
+                
+            } else {
+                
+                state = .favsEmpty
+                
+            }
+                
         } catch {
             
             state = .error(message: "Error to fetch products: \(error.localizedDescription)")

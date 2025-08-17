@@ -20,13 +20,14 @@ struct ProductListFavorites: View {
             
             AsyncImage(url: URL(string: product.thumbnail)) { image in
                 image.resizable()
-                    .frame(maxWidth: 161, maxHeight: 160)
+                    .frame(maxWidth: 78, maxHeight: 78)
                 
             } placeholder: {
                 
                 Placeholder(imageStyle: .small)
 
             }
+            .background(RoundedRectangle(cornerRadius: 8).fill(.fillsQuaternary))
         
             HStack(spacing: 16) {
 

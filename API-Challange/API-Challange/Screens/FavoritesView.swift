@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct FavoritesView: View {
     
-//    @Environment(FavoritesStore.self) var favs
+
     @State private var showCartSheet = false
     @State private var searchText = ""
+    @Query var favorites: [Favorite]
+
     
     let viewModel: FavoritesViewModel
     
