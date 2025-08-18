@@ -6,27 +6,28 @@
 //
 
 import SwiftData
+import Foundation
 
 class ProductFavoriteService: ProductFavoriteProtocol {
     
     var context: ModelContext
-    var favorites: [Favorite] = []
     
     init(context: ModelContext) {
         self.context = context
     }
 
-    func getFavorites() throws {
+    func getFavorites() throws -> [Favorite] {
         let descriptor = FetchDescriptor<Favorite>()
         let queriedFavorites = try context.fetch(descriptor)
-        favorites = queriedFavorites
+        return queriedFavorites
     }
     
-    func toggleFavorite(_ id: Int, loadFav: @escaping () async  ->Void) {
+    func toggleFavorite(_ id: Int) {
         
-        try? getFavorites()
+        let descriptor = FetchDescriptor<Favorite>()
+        let favorites = try? context.fetch(descriptor)
         
-        if let favID = favorites.first(where: {$0.productID == id}) {
+        if let favID = favorites?.first(where: {$0.productID == id}) {
             context.delete(favID)
             try? context.save()
             print("entrou no if")
@@ -36,11 +37,6 @@ class ProductFavoriteService: ProductFavoriteProtocol {
             print("entrou no else")
         }
         
-        Task {
-            await loadFav()
-            
-            print("recarregando")
-        }
     }
     
 }

@@ -10,13 +10,6 @@ import SwiftData
 
 class ProductAPIService: ProductAPIServiceProtocol {
     
-    let context: ModelContext
-    
-    
-    init(context: ModelContext) {
-        self.context = context
-    }
-    
     private let baseURL = "https://dummyjson.com"
     
     func getCategories() async throws -> [CategoryModel] {
@@ -84,4 +77,19 @@ class ProductAPIService: ProductAPIServiceProtocol {
         
         return products[randomIndex]
     }
+    
+    func getProduct(by ids: [Int]) async throws -> [ProductModel] {
+        var allFavoriteProducts: [ProductModel] = []
+        
+        for id in ids {
+            
+            if let product = try? await getProduct(number: id) {
+                allFavoriteProducts.append(product)
+            }
+        }
+        
+        
+        return allFavoriteProducts
+    }
+    
 }

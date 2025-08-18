@@ -13,48 +13,49 @@ enum FavoriteState {
     case idle
     case isLoading
     case error(message: String)
-    case loaded(allFavorites: [ProductModel])
+    case loaded
     case favsEmpty
 }
 
 @Observable
 final class FavoritesViewModel: FavoritesProtocol {
-        
-    var state: FavoriteState = .idle
+    
+    var state: FavoriteState = .idle {
+        didSet {
+            print("newState: \(state)")
+        }
+    }
     var serviceAPI: ProductAPIServiceProtocol
+    var favorites: [Favorite] = []
+    var favoriteProducts: [ProductModel] = []
     let serviceFavorites: ProductFavoriteProtocol
     
     init(serviceAPI: ProductAPIServiceProtocol, serviceFavorites: ProductFavoriteProtocol) {
         self.serviceAPI = serviceAPI
         self.serviceFavorites = serviceFavorites
     }
-        
+    
+    func getFavoriteProducts() async {
+        do {
+            let productIds = favorites.map { $0.productID }
+            favoriteProducts = try await serviceAPI.getProduct(by: productIds)
+            favoriteProducts.forEach{print($0.id)}
+            state = .loaded
+        } catch {
+            state = .error(message: "failed to load favorite products")
+        }
+    }
     
     func loadingFavorites() async {
         state = .isLoading
         
         do {
-
-            var favoriteProducts: [ProductModel] = []
+            favorites = try serviceFavorites.getFavorites()
             
-            if !serviceFavorites.favorites.isEmpty {
-                
-                for favorite in serviceFavorites.favorites {
-                    
-                    let favoriteProduct = try await serviceAPI.getProduct(number: favorite.productID)
-                    
-                    favoriteProducts.append(favoriteProduct)
-                    
-                }
-                
-                state = .loaded(allFavorites: favoriteProducts)
-                
-            } else {
-                
+            if favorites.isEmpty {
                 state = .favsEmpty
-                
             }
-                
+            
         } catch {
             
             state = .error(message: "Error to fetch products: \(error.localizedDescription)")

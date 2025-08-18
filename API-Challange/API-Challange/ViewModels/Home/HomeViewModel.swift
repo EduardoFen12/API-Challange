@@ -29,8 +29,8 @@ final class HomeViewModel: HomeProtocol {
         self.serviceFavorites = serviceFavorites
     }
     
-    func toggleFavorites(_ id: Int, _ loadingFunc: @escaping ()->Void) {
-        serviceFavorites.toggleFavorite(id, loadFav: loadingFunc)
+    func toggleFavorites(_ id: Int) {
+        serviceFavorites.toggleFavorite(id)
     }
     
     func loadProducts() async {

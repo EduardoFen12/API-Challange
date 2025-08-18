@@ -7,9 +7,6 @@
 
 
 protocol ProductFavoriteProtocol {
-    var favorites: [Favorite] { get }
-    func toggleFavorite(_ id: Int, loadFav: @escaping () async  ->Void)
-
-
-    
+    func getFavorites() throws -> [Favorite]
+    func toggleFavorite(_ id: Int)
 }

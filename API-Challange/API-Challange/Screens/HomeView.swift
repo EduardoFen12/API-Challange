@@ -15,9 +15,9 @@ struct HomeView: View {
             content
                 .navigationTitle("Home")
                 .task {
-                    if case .idle = viewModel.state {
+//                    if case .idle = viewModel.state {
                         await viewModel.loadProducts()
-                    }
+//                    }
                 }
         }
     }
@@ -62,16 +62,32 @@ struct HomeView: View {
                             .font(.title2)
                             .fontWeight(.semibold)
                         
-                        ForEach(0..<(products.count)/2) { index in
-                            HStack(spacing: 8) {
-                                    ProductCardMedium(
-                                        product: products[2*index],
-                                        toggleFavorite: viewModel.toggleFavorite)
-                                    ProductCardMedium(
-                                        product: products[2*index+1],
-                                        toggleFavorite: viewModel.toggleFavorite)
+                        LazyVGrid(columns: [GridItem(), GridItem()]) {
+                            
+                            ForEach(products){ product in
+                                ProductCardMedium(
+                                    product: product,
+                                    toggleFavorite: {
+                                        viewModel.toggleFavorites(product.id)
+                                    })
                             }
+                            
                         }
+                        
+//                        ForEach(0..<(products.count)/2) { index in
+//                            HStack(spacing: 8) {
+//                                    ProductCardMedium(
+//                                        product: products[2*index],
+//                                        toggleFavorite: {
+//                                            viewModel.toggleFavorites(index)
+//                                        })
+//                                    ProductCardMedium(
+//                                        product: products[2*index+1],
+//                                        toggleFavorite: {
+//                                            viewModel.toggleFavorites(index)
+//                                        })
+//                            }
+//                        }
                     }
                 }
                 .padding()
