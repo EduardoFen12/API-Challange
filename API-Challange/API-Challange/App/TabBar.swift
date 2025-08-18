@@ -9,8 +9,9 @@ import SwiftUI
 import SwiftData
 
 struct TabBar: View {
-    
-    @State private var selectedTab = 3
+
+    @State private var selectedTab = 0
+
     @Environment(\.modelContext) private var context
     
     var body: some View {
@@ -56,11 +57,6 @@ struct TabBar: View {
         }
         
     }
-    
-    //        .onAppear {
-    //            favoritesViewModel = FavoritesViewModel(serviceAPI: ProductAPIService(context: context), serviceFavorites: ProductFavoriteService(context: context))
-    //        }
-    
 }
 
 #Preview {
