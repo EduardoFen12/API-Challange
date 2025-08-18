@@ -19,11 +19,18 @@ enum HomeState {
 final class HomeViewModel: HomeProtocol {
     
     var state: HomeState = .idle 
-    private let service: ProductServiceProtocol
+    private let serviceAPI: ProductAPIServiceProtocol
+    private let serviceFavorites: ProductFavoriteProtocol
+
     
     
-    init(service: ProductServiceProtocol) {
-        self.service = service
+    init(serviceAPI: ProductAPIServiceProtocol, serviceFavorites: ProductFavoriteProtocol) {
+        self.serviceAPI = serviceAPI
+        self.serviceFavorites = serviceFavorites
+    }
+    
+    func toggleFavorites(_ id: Int, _ loadingFunc: @escaping ()->Void) {
+        serviceFavorites.toggleFavorite(id, loadFav: loadingFunc)
     }
     
     func loadProducts() async {
@@ -32,8 +39,8 @@ final class HomeViewModel: HomeProtocol {
         
         do {
             
-            let dealOfDay = try await service.getRandomProduct()
-            let allProducts = try await service.getAllProducts()
+            let dealOfDay = try await serviceAPI.getRandomProduct()
+            let allProducts = try await serviceAPI.getAllProducts()
             
             state = .loaded(deal: dealOfDay, products: allProducts)
         } catch {

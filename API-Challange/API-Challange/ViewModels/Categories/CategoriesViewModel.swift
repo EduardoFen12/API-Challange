@@ -14,9 +14,9 @@ class CategoriesViewModel: CategoriesViewModelProtocol {
     var isLoading: Bool = false
     var errorMessage: String?
     
-    private let service: ProductServiceProtocol
+    private let service: ProductAPIServiceProtocol
     
-    init(service: ProductServiceProtocol) {
+    init(service: ProductAPIServiceProtocol) {
         self.service = service
     }
     

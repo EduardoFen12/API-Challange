@@ -19,43 +19,16 @@ enum FavoriteState {
 
 @Observable
 final class FavoritesViewModel: FavoritesProtocol {
-    
-    private let context: ModelContext
-    
+        
     var state: FavoriteState = .idle
-    private let service: ProductServiceProtocol
+    var serviceAPI: ProductAPIServiceProtocol
+    let serviceFavorites: ProductFavoriteProtocol
     
-    var favorites: [Favorite] = []
-    
-    init(service: ProductServiceProtocol, context: ModelContext) {
-        self.service = service
+    init(serviceAPI: ProductAPIServiceProtocol, serviceFavorites: ProductFavoriteProtocol) {
+        self.serviceAPI = serviceAPI
+        self.serviceFavorites = serviceFavorites
+    }
         
-        self.context = context
-    }
-    
-    func getFavorites() throws {
-        let descriptor = FetchDescriptor<Favorite>()
-        let queriedFavorites = try context.fetch(descriptor)
-        favorites = queriedFavorites
-    }
-    
-    func toggleFavorite(_ id: Int) {
-        if let favID = favorites.first(where: {$0.productID == id}) {
-            context.delete(favID)
-            try? context.save()
-            print("entrou no if")
-        } else {
-            context.insert(Favorite(productID: id))
-            try? context.save()
-            print("entrou no else")
-        }
-        
-        Task {
-            await loadingFavorites()
-            
-            print("recarregando")
-        }
-    }
     
     func loadingFavorites() async {
         state = .isLoading
@@ -63,14 +36,12 @@ final class FavoritesViewModel: FavoritesProtocol {
         do {
 
             var favoriteProducts: [ProductModel] = []
-
-            try getFavorites()
             
-            if !favorites.isEmpty {
+            if !serviceFavorites.favorites.isEmpty {
                 
-                for favorite in favorites {
+                for favorite in serviceFavorites.favorites {
                     
-                    let favoriteProduct = try await service.getProduct(number: favorite.productID)
+                    let favoriteProduct = try await serviceAPI.getProduct(number: favorite.productID)
                     
                     favoriteProducts.append(favoriteProduct)
                     

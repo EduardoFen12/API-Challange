@@ -7,11 +7,12 @@
 
 import Foundation
 
-protocol ProductServiceProtocol {
-
+protocol ProductAPIServiceProtocol {
+    
     func getCategories() async throws -> [CategoryModel]
     func getAllProducts() async throws -> [ProductModel]
     func getProduct(number: Int) async throws -> ProductModel
     func getRandomProduct() async throws -> ProductModel
-
 }
+
+

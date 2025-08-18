@@ -6,8 +6,16 @@
 //
 
 import Foundation
+import SwiftData
 
-struct ProductService: ProductServiceProtocol {
+class ProductAPIService: ProductAPIServiceProtocol {
+    
+    let context: ModelContext
+    
+    
+    init(context: ModelContext) {
+        self.context = context
+    }
     
     private let baseURL = "https://dummyjson.com"
     

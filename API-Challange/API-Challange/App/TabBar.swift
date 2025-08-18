@@ -19,14 +19,14 @@ struct TabBar: View {
         TabView(selection: $selectedTab) {
             
             if let favoritesViewModel {
-                HomeView(viewModel: HomeViewModel(service: ProductService()), favoritesViewModel: favoritesViewModel)
+                HomeView(viewModel: HomeViewModel(serviceAPI: ProductAPIService(context: context), serviceFavorites: ProductFavoriteService(context: context)))
                     .tabItem {
                         Image(systemName: "house.fill")
                         Text("Home")
                     }
                     .tag(0)
                 
-                CategoriesView(viewModel: CategoriesViewModel(service: ProductService()))
+                CategoriesView(viewModel: CategoriesViewModel(service: ProductAPIService(context: context)))
                     .tabItem {
                         Image(systemName: "square.grid.2x2.fill")
                         Text("Categories")
@@ -57,7 +57,7 @@ struct TabBar: View {
            
         }
         .onAppear {
-            favoritesViewModel = FavoritesViewModel(service: ProductService(), context: context)
+            favoritesViewModel = FavoritesViewModel(serviceAPI: ProductAPIService(context: context), serviceFavorites: ProductFavoriteService(context: context))
         }
         
     }

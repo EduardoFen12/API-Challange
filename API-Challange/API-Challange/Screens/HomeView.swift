@@ -9,7 +9,6 @@ import SwiftUI
 
 struct HomeView: View {
     let viewModel: HomeViewModel
-    let favoritesViewModel: FavoritesViewModel
     
     var body: some View {
         NavigationStack {
@@ -27,7 +26,6 @@ struct HomeView: View {
     private var content: some View {
         switch viewModel.state {
         case .idle:
-            
             Color.clear
         case .loading:
             ProgressView()
@@ -68,10 +66,10 @@ struct HomeView: View {
                             HStack(spacing: 8) {
                                     ProductCardMedium(
                                         product: products[2*index],
-                                        toggleFavorite: favoritesViewModel.toggleFavorite)
+                                        toggleFavorite: viewModel.toggleFavorite)
                                     ProductCardMedium(
                                         product: products[2*index+1],
-                                        toggleFavorite: favoritesViewModel.toggleFavorite)
+                                        toggleFavorite: viewModel.toggleFavorite)
                             }
                         }
                     }
