@@ -30,7 +30,7 @@ struct CategorieListItem: View {
     }
     
 }
-
-#Preview {
-    CategorieListItem(category: CategoryModel(name: "Beauty"))
-}
+//
+//#Preview {
+//    CategorieListItem(category: CategoryModel(name: "Beauty"))
+//}

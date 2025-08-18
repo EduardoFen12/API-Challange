@@ -27,7 +27,7 @@ struct CategoriesCard: View {
         
     }
 } 
-
-#Preview {
-    CategoriesCard(category: CategoryModel(name: "Beauty"))
-}
+//
+//#Preview {
+//    CategoriesCard(category: CategoryModel(name: "Beauty"))
+//}
