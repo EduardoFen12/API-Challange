@@ -18,12 +18,10 @@ enum CategoriesState {
 @Observable
 final class CategoriesViewModel: CategoriesViewModelProtocol {
     
-<<<<<<< HEAD
     private let service: ProductAPIServiceProtocol
-=======
+    
     var state: CategoriesState = .idle
-    private let service: ProductServiceProtocol
->>>>>>> main
+
     
     init(service: ProductAPIServiceProtocol) {
         self.service = service
