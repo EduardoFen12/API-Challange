@@ -6,16 +6,30 @@
 //
 
 import SwiftUI
+import SwiftData
+
+enum heart: String {
+    case empty = "heart"
+    case filled = "heart.fill"
+}
 
 struct ProductCardMedium: View {
     
+    @Environment(\.modelContext ) private var modelContext
+    @Query var favorites: [Favorite]
+    
+    var isFavorite: Bool {
+          favorites.contains { $0.productID == product.id }
+      }
+    
     @State var product: ProductModel
+    
+    var toggleFavorite: (Int) -> Void
     
     var stringPrice: String? { NumberFormatterManager.shared.doubleToString(self.product.price)}
     
     var body: some View {
         VStack( spacing: 8) {
-            
             
             AsyncImage(url: URL(string: product.thumbnail)) { image in
                 image.resizable()
@@ -30,10 +44,17 @@ struct ProductCardMedium: View {
                 .background(RoundedRectangle(cornerRadius: 8).fill(.fillsQuaternary))
                 .clipShape(RoundedRectangle(cornerRadius: 8))
                 .overlay(alignment: .topTrailing) {
-                    Image(systemName: "heart")
+                    Image(systemName: ( isFavorite ? heart.filled.rawValue : heart.empty.rawValue))
                         .frame(width: 22)
                         .padding(8)
                         .background(RoundedRectangle(cornerRadius: 8).fill(.fillsTertiary))
+                        .onTapGesture {
+                            toggleFavorite(product.id)
+                            
+                            for fav in favorites {
+                                print(fav.productID)
+                            }
+                        }
                 }
             VStack(alignment: .leading, spacing: 8){
             
@@ -56,5 +77,5 @@ struct ProductCardMedium: View {
     }
 }
 
-#Preview {
-    ProductCardMedium(product: ProductModel(id: 2, title: "Sei la", description: "Loooooooonnnnnggg description", category: "quauqler coisa" , price: 60.00, discountPercentage: 30.00, thumbnail: ""))}
+//#Preview {
+////    ProductCardMedium(product: ProductModel(id: 2, title: "Sei la", description: "Loooooooonnnnnggg description", category: "quauqler coisa" , price: 60.00, discountPercentage: 30.00, thumbnail: ""))}

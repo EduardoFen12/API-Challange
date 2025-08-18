@@ -9,21 +9,31 @@ import SwiftUI
 
 struct ProductListFavorites: View {
     
-    var productName: String
-    var price: Double
+    @State var product: ProductModel
     @State var isClicked: Bool = false
     
+    var stringPrice: String? { NumberFormatterManager.shared.doubleToString(self.product.price)}
     var body: some View {
         
         HStack(spacing: 8) {
             
-            Placeholder(imageStyle: .small)
-                    
+            
+            AsyncImage(url: URL(string: product.thumbnail)) { image in
+                image.resizable()
+                    .frame(maxWidth: 78, maxHeight: 78)
+                
+            } placeholder: {
+                
+                Placeholder(imageStyle: .small)
+
+            }
+            .background(RoundedRectangle(cornerRadius: 8).fill(.fillsQuaternary))
+        
             HStack(spacing: 16) {
 
                 VStack(spacing: 4) {
                     
-                    Text(productName)
+                    Text(product.title)
                         .multilineTextAlignment(.leading)
                         .lineLimit(2)
                         .font(.system(size: 13, weight: .regular))
@@ -31,7 +41,7 @@ struct ProductListFavorites: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
 
                     
-                    Text("US$ \(String(format: "%05.2f", price))")
+                    Text(stringPrice ?? "")
                         .font(.system(size: 17, weight: .semibold))
                         .foregroundStyle(.labelsPrimary)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -72,5 +82,4 @@ struct ProductListFavorites: View {
 }
 
 #Preview {
-    ProductListFavorites(productName: "Product name with two or more lines goes here", price: 0)
-}
+    ProductListFavorites(product: ProductModel(id: 2, title: "TITLE", description: "description", category: "category", price: 44.44, discountPercentage: 44.44, thumbnail: "imageName"), isClicked: false)}

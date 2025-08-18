@@ -10,11 +10,12 @@ import SwiftData
 
 @main
 struct API_ChallangeApp: App {
+    
     var body: some Scene {
         WindowGroup {
             TabBar()
         }
-//        .modelContainer(for: [ProductModel.self, CategoryModel.self])
+        .modelContainer(for: [Favorite.self])
     }
 }
 
