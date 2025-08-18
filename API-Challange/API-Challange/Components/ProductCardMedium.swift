@@ -24,7 +24,7 @@ struct ProductCardMedium: View {
     
     @State var product: ProductModel
     
-    var toggleFavorite: (Int) -> Void
+    var toggleFavorite: () -> Void
     
     var stringPrice: String? { NumberFormatterManager.shared.doubleToString(self.product.price)}
     
@@ -49,7 +49,7 @@ struct ProductCardMedium: View {
                         .padding(8)
                         .background(RoundedRectangle(cornerRadius: 8).fill(.fillsTertiary))
                         .onTapGesture {
-                            toggleFavorite(product.id)
+                            toggleFavorite()
                             
                             for fav in favorites {
                                 print(fav.productID)

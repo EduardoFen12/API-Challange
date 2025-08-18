@@ -6,8 +6,9 @@
 //
 
 import Foundation
+import SwiftData
 
-struct ProductService: ProductServiceProtocol {
+class ProductAPIService: ProductAPIServiceProtocol {
     
     private let baseURL = "https://dummyjson.com"
     
@@ -70,4 +71,19 @@ struct ProductService: ProductServiceProtocol {
         
         return products[randomIndex]
     }
+    
+    func getProduct(by ids: [Int]) async throws -> [ProductModel] {
+        var allFavoriteProducts: [ProductModel] = []
+        
+        for id in ids {
+            
+            if let product = try? await getProduct(number: id) {
+                allFavoriteProducts.append(product)
+            }
+        }
+        
+        
+        return allFavoriteProducts
+    }
+    
 }
