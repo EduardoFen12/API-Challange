@@ -16,7 +16,7 @@ struct FavoritesView: View {
     @Query var favorites: [Favorite]
 
     
-    let viewModel: FavoritesViewModel
+    var viewModel: FavoritesViewModel
     
     var body: some View {
         NavigationStack {
@@ -39,10 +39,17 @@ struct FavoritesView: View {
         switch viewModel.state {
         case .idle:
             Color.clear
-            
+                .onAppear {
+                    print("passou pelo idle")
+
+                }
+
         case .isLoading:
             ProgressView()
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                .onAppear {
+                    print("passou pelo isloading")
+                }
             
         case .error(let message):
             VStack(spacing: 12) {
@@ -57,6 +64,7 @@ struct FavoritesView: View {
                 .buttonStyle(.borderedProminent)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+            
             
         case .loaded(let allFavorites):
             VStack(spacing: 16) {

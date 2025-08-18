@@ -24,23 +24,12 @@ struct ProductCardMedium: View {
     
     @State var product: ProductModel
     
-    func toggleFavorite(_ id: Int) {
-        if let favID = favorites.first(where: {$0.productID == id}) {
-            modelContext.delete(favID)
-            try? modelContext.save()
-            print("entrou no if")
-        } else {
-            modelContext.insert(Favorite(productID: id))
-            try? modelContext.save()
-            print("entrou no else")
-        }
-    }
+    var toggleFavorite: (Int) -> Void
     
     var stringPrice: String? { NumberFormatterManager.shared.doubleToString(self.product.price)}
     
     var body: some View {
         VStack( spacing: 8) {
-            
             
             AsyncImage(url: URL(string: product.thumbnail)) { image in
                 image.resizable()
@@ -88,5 +77,5 @@ struct ProductCardMedium: View {
     }
 }
 
-#Preview {
-    ProductCardMedium(product: ProductModel(id: 2, title: "Sei la", description: "Loooooooonnnnnggg description", category: "quauqler coisa" , price: 60.00, discountPercentage: 30.00, thumbnail: ""))}
+//#Preview {
+////    ProductCardMedium(product: ProductModel(id: 2, title: "Sei la", description: "Loooooooonnnnnggg description", category: "quauqler coisa" , price: 60.00, discountPercentage: 30.00, thumbnail: ""))}

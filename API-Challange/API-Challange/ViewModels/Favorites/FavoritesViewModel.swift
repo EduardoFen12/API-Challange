@@ -25,15 +25,36 @@ final class FavoritesViewModel: FavoritesProtocol {
     var state: FavoriteState = .idle
     private let service: ProductServiceProtocol
     
+    var favorites: [Favorite] = []
+    
     init(service: ProductServiceProtocol, context: ModelContext) {
         self.service = service
         
         self.context = context
     }
     
-    func getFavorites() throws -> [Favorite] {
+    func getFavorites() throws {
         let descriptor = FetchDescriptor<Favorite>()
-        return try context.fetch(descriptor)
+        let queriedFavorites = try context.fetch(descriptor)
+        favorites = queriedFavorites
+    }
+    
+    func toggleFavorite(_ id: Int) {
+        if let favID = favorites.first(where: {$0.productID == id}) {
+            context.delete(favID)
+            try? context.save()
+            print("entrou no if")
+        } else {
+            context.insert(Favorite(productID: id))
+            try? context.save()
+            print("entrou no else")
+        }
+        
+        Task {
+            await loadingFavorites()
+            
+            print("recarregando")
+        }
     }
     
     func loadingFavorites() async {
@@ -43,11 +64,11 @@ final class FavoritesViewModel: FavoritesProtocol {
 
             var favoriteProducts: [ProductModel] = []
 
-            let allFavoritesIds = try getFavorites()
+            try getFavorites()
             
-            if !allFavoritesIds.isEmpty {
+            if !favorites.isEmpty {
                 
-                for favorite in allFavoritesIds {
+                for favorite in favorites {
                     
                     let favoriteProduct = try await service.getProduct(number: favorite.productID)
                     
