@@ -6,14 +6,19 @@
 //
 
 import Foundation
+import SwiftData
+
+enum CategoriesState {
+    case idle
+    case isLoading
+    case error(message: String)
+    case loaded(allCategories: [CategoryModel])
+}
 
 @Observable
-class CategoriesViewModel: CategoriesViewModelProtocol {
+final class CategoriesViewModel: CategoriesViewModelProtocol {
     
-    var categories: [CategoryModel] = []
-    var isLoading: Bool = false
-    var errorMessage: String?
-    
+    var state: CategoriesState = .idle
     private let service: ProductServiceProtocol
     
     init(service: ProductServiceProtocol) {
@@ -21,15 +26,20 @@ class CategoriesViewModel: CategoriesViewModelProtocol {
     }
     
     func loadCategories() async {
-        isLoading = true
+        
+        state = .isLoading
         
         do {
-            categories = try await service.getCategories()
+            
+            let categories = try await service.getCategories()
+            
+            state = .loaded(allCategories: categories)
         } catch {
-            errorMessage = "Error to fetch Categories: \(error.localizedDescription)"
+            
+            state = .error(message: "Error to fetch categories: \(error.localizedDescription)")
+            
         }
         
-        isLoading = false
     }
     
 }

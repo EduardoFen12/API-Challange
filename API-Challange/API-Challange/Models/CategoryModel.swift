@@ -4,13 +4,15 @@
 //
 //  Created by Gustavo Ferreira bassani on 15/08/25.
 //
-import Foundation
 
-struct CategoryModel: Identifiable, Decodable {
-    var id = UUID()
-    var name: String
+//struct CategoriesFromResponseModel: Decodable {
+//    var categories: [CategoryModel]
+//}
+
+struct CategoryModel: Decodable {
     
-    init(name: String) {
-        self.name = name
-    }
+    let slug: String
+    let name: String
+    let url: String
+    
 }
