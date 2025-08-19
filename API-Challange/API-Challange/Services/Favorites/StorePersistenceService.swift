@@ -8,7 +8,7 @@
 import SwiftData
 import Foundation
 
-class ProductFavoriteService: ProductFavoriteProtocol {
+class StorePersistenceService: StorePersistenceProtocol {
     
     var context: ModelContext
         
