@@ -8,17 +8,21 @@
 import SwiftUI
 
 struct HomeView: View {
+    
     let viewModel: HomeViewModel
+    @State var showDetails = false
+    @State var productNavigation: ProductModel = ProductModel(id: 0, title: "", description: "", category: "", price: 0, discountPercentage: 0, thumbnail: "")
     
     var body: some View {
         NavigationStack {
             content
                 .navigationTitle("Home")
                 .task {
-//                    if case .idle = viewModel.state {
-                        await viewModel.loadProducts()
-//                    }
+                    await viewModel.loadProducts()
                 }
+                .sheet(isPresented: $showDetails, content: {
+                    ProductDetailsView(product: productNavigation, toggleFavorite: {viewModel.serviceFavorites.toggleFavorite(productNavigation.id)})
+                })
         }
     }
     
@@ -55,31 +59,37 @@ struct HomeView: View {
                             .fontWeight(.semibold)
                         
                         ProductCardLarge(toggleFavorite: { viewModel.toggleFavorites(deal.id) }, product: deal)
-                    }
-                    
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Top picks")
-                            .font(.title2)
-                            .fontWeight(.semibold)
-                        
-                        LazyVGrid(columns: [GridItem(), GridItem()]) {
-                            
-                            ForEach(products){ product in
-                                ProductCardMedium(
-                                    toggleFavorite: {
-                                        viewModel.toggleFavorites(product.id)
-                                    }, product: product)
+                            .onTapGesture {
+                                productNavigation = deal
+                                showDetails = true
                             }
+                        
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Top picks")
+                                .font(.title2)
+                                .fontWeight(.semibold)
                             
+                            LazyVGrid(columns: [GridItem(), GridItem()]) {
+                                
+                                ForEach(products){ product in
+                                    ProductCardMedium(
+                                        toggleFavorite: { viewModel.toggleFavorites(product.id)},
+                                        product: product)
+                                    .onTapGesture {
+                                        productNavigation = product
+                                        showDetails = true
+                                    }
+                                }
+                            }
                         }
                     }
+                    .padding()
                 }
-                .padding()
             }
         }
     }
 }
-
 #Preview {
     TabBar()
 }
+

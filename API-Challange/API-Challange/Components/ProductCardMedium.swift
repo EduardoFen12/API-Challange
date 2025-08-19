@@ -56,6 +56,7 @@ struct ProductCardMedium: View {
                             }
                         }
                 }
+                
             VStack(alignment: .leading, spacing: 8){
             
                 Text(product.title)
@@ -72,10 +73,6 @@ struct ProductCardMedium: View {
         .frame(maxWidth: 161, maxHeight: 250)
         .padding(8)
         .background(RoundedRectangle(cornerRadius: 16).fill(.backgroundsSecondary))
-        
-        
+                
     }
 }
-
-//#Preview {
-////    ProductCardMedium(product: ProductModel(id: 2, title: "Sei la", description: "Loooooooonnnnnggg description", category: "quauqler coisa" , price: 60.00, discountPercentage: 30.00, thumbnail: ""))}
