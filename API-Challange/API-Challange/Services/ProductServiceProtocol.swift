@@ -13,5 +13,6 @@ protocol ProductServiceProtocol {
     func getAllProducts() async throws -> [ProductModel]
     func getProduct(number: Int) async throws -> ProductModel
     func getRandomProduct() async throws -> ProductModel
+    func getFourRandomCategories() async throws -> [CategoryModel]
 
 }

@@ -12,7 +12,7 @@ enum CategoriesState {
     case idle
     case isLoading
     case error(message: String)
-    case loaded(allCategories: [CategoryModel])
+    case loaded(fourRandomCategories: [CategoryModel], allCategories: [CategoryModel])
 }
 
 @Observable
@@ -31,9 +31,10 @@ final class CategoriesViewModel: CategoriesViewModelProtocol {
         
         do {
             
+            let randomCategories = try await service.getFourRandomCategories()
             let categories = try await service.getCategories()
             
-            state = .loaded(allCategories: categories)
+            state = .loaded(fourRandomCategories: randomCategories, allCategories: categories)
         } catch {
             
             state = .error(message: "Error to fetch categories: \(error.localizedDescription)")

@@ -70,4 +70,24 @@ struct ProductService: ProductServiceProtocol {
         
         return products[randomIndex]
     }
+    
+    func getFourRandomCategories() async throws -> [CategoryModel] {
+        
+        let categories = try await getCategories()
+        
+        var randomCategories: [CategoryModel] = []
+        
+        guard !categories.isEmpty else {
+            throw URLError(.badServerResponse)
+        }
+        
+        for _ in 0..<4 {
+            let randomIndex = Int.random(in: 0..<categories.count)
+            
+            randomCategories.append(categories[randomIndex])
+        }
+        
+        return randomCategories
+    }
+    
 }

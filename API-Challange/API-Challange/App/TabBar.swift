@@ -10,7 +10,7 @@ import SwiftData
 
 struct TabBar: View {
  
-    @State private var selectedTab = 0
+    @State private var selectedTab = 1
     @Environment(\.modelContext) private var context
     
     @State var favoritesViewModel: FavoritesViewModel?
@@ -26,7 +26,7 @@ struct TabBar: View {
                     }
                     .tag(0)
                 
-                CategoriesView(viewModel: CategoriesViewModel(service: ProductService()))
+                CategoriesView(viewModel: CategoriesViewModel(service: ProductService()), favoritesViewModel: favoritesViewModel)
                     .tabItem {
                         Image(systemName: "square.grid.2x2.fill")
                         Text("Categories")

@@ -10,6 +10,7 @@ import SwiftUI
 struct CategoriesView: View {
     
     let viewModel: CategoriesViewModel
+    let favoritesViewModel: FavoritesViewModel
     
     @State private var searchText = ""
     
@@ -47,28 +48,29 @@ struct CategoriesView: View {
                 .buttonStyle(.borderedProminent)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-        case .loaded(let allCategories):
+        case .loaded(let fourRandomCategories, let allCategories):
             ScrollView {
-                ScrollView(.horizontal)
-                {
-                    HStack(spacing:8) {
-                        ForEach(allCategories, id: \.name) { category in
-                            
+                HStack(spacing:8) {
+                    ForEach(fourRandomCategories, id: \.name) { category in
+                        
+                        NavigationLink (destination: Categories1View(category: category, viewModel: Categories1ViewModel(service: ProductService()), favoritesViewModel: favoritesViewModel)){
                             CategoriesCard(category: category)
-                            
                         }
                         
                     }
-                    .padding(.top, 16)
+                    
                 }
+                .padding(.top, 16)
                 
                 ForEach(allCategories, id: \.name) { category in
-                    CategorieListItem(category: category)
-
-                        Divider()
-                        .padding(.leading, 16)
-                        .frame(height: 1)
-                        .padding(.vertical, 0)
+                    NavigationLink (destination: Categories1View(category: category, viewModel: Categories1ViewModel(service: ProductService()), favoritesViewModel: favoritesViewModel)){
+                        CategorieListItem(category: category)
+                    }
+                    
+                    Divider()
+                    .padding(.leading, 16)
+                    .frame(height: 1)
+                    .padding(.vertical, 0)
                 }
                 
                 
@@ -77,41 +79,6 @@ struct CategoriesView: View {
             .searchable(text: $searchText)
         }
     
-//    var body: some View {
-//        NavigationStack {
-//            VStack(spacing: 16) {
-//                ScrollView {
-//                    HStack(spacing:8) {
-//                        ForEach(viewModel.categories) { category in
-//                            
-//                            CategoriesCard(category: category)
-//                            
-//                        }
-//                        
-//                    }
-//                    .padding(.top, 16)
-//                    
-//                    ForEach(viewModel.categories) { category in
-//                        CategorieListItem(category: category)
-//
-//                            Divider()
-//                            .padding(.leading, 16)
-//                            .frame(height: 1)
-//                                    .padding(.vertical, 0)
-//                    }
-//                    
-//                    
-//                }
-//                .navigationTitle("Categories")
-//                .searchable(text: $searchText)
-//                
-//                
-//                
-//            }
-//        }
-//        .task {
-//            await viewModel.loadCategories()
-//        }
     }
 }
 

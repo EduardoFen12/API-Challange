@@ -23,7 +23,9 @@ struct CategoriesCard: View {
             Text(category.name)
                 .font(.subheadline)
                 .foregroundStyle(.labelsPrimary)
+                .lineLimit(1)
         }
+        .frame(maxWidth: 84)
         
     }
 } 

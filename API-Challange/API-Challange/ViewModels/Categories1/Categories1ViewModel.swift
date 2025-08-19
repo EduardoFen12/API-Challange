@@ -6,13 +6,52 @@
 //
 
 import SwiftUI
+import SwiftData
 
-struct Categories1ViewModel: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
+enum Categories1State {
+    case idle
+    case isLoading
+    case error(message: String)
+    case loaded(filteredProducts: [ProductModel])
 }
 
-#Preview {
-    Categories1ViewModel()
+
+@Observable
+final class Categories1ViewModel: Categories1Protocol {
+    
+    var state: Categories1State = .idle
+    private let service: ProductServiceProtocol
+    
+    init(service: ProductServiceProtocol) {
+        self.service = service
+    }
+    
+    func loadProducts(category: CategoryModel) async {
+        
+        state = .isLoading
+        
+        do {
+            
+            let products = try await service.getAllProducts()
+            
+            var filteredProducts: [ProductModel] = []
+            
+            for product in products {
+                
+                if product.category == category.slug {
+                    
+                    filteredProducts.append(product)
+                    
+                }
+            }
+            
+            state = .loaded(filteredProducts: filteredProducts)
+        } catch {
+            
+            state = .error(message: "Error to fetch categories: \(error.localizedDescription)")
+            
+        }
+        
+    }
+    
 }
