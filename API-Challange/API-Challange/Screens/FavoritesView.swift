@@ -13,9 +13,7 @@ struct FavoritesView: View {
 
     @State private var showCartSheet = false
     @State private var searchText = ""
-    @Query var favorites: [Favorite]
 
-    
     var viewModel: FavoritesViewModel
     
     var body: some View {
@@ -27,9 +25,11 @@ struct FavoritesView: View {
                     DetailView(name: "oi", price: 4.4, description: "oi")
                 })
                 .task {
-                    if case .idle = viewModel.state {
-                        await viewModel.loadingFavorites()
-                    }
+//                    if case .idle = viewModel.state {
+                    await viewModel.loadingFavorites()
+                    await viewModel.getFavoriteProducts()
+                    
+//                    }
                 }
         }
     }
@@ -66,12 +66,12 @@ struct FavoritesView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             
             
-        case .loaded(let allFavorites):
+        case .loaded:
             VStack(spacing: 16) {
                 VStack {
                     ScrollView {
                         VStack(spacing: 16) {
-                            ForEach(allFavorites) { fav in
+                            ForEach(viewModel.favoriteProducts) { fav in
                                 Button {
                                     showCartSheet = true
                                 } label: {

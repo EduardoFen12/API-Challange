@@ -5,10 +5,6 @@
 //  Created by Gustavo Ferreira bassani on 15/08/25.
 //
 
-//struct CategoriesFromResponseModel: Decodable {
-//    var categories: [CategoryModel]
-//}
-
 struct CategoryModel: Decodable {
     
     let slug: String

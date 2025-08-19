@@ -11,7 +11,6 @@ struct Categories1View: View {
     
     let category: CategoryModel
     let viewModel: Categories1ViewModel
-    let favoritesViewModel: FavoritesViewModel
     
     @State private var searchText = ""
     
@@ -55,17 +54,28 @@ struct Categories1View: View {
                 VStack (spacing: 8) {
                     Divider()
                     ScrollView {
-                        ForEach(0..<(filteredProducts.count)/2) { index in
-                            HStack  {
-                                ProductCardMedium(product: filteredProducts[2*index]) { productID in
-                                    //código de toggle
-                                }
-                                ProductCardMedium(product: filteredProducts[2*index+1]) { productID in
-                                    //código de toggle
-                                }
+                        LazyVGrid(columns: [GridItem(), GridItem()]) {
+                            
+                            ForEach(filteredProducts){ product in
+                                ProductCardMedium(
+                                    product: product,
+                                    toggleFavorite: {
+                                        viewModel.toggleFavorites(product.id)
+                                    })
                             }
                             
                         }
+//                        ForEach(0..<(filteredProducts.count)/2) { index in
+//                            HStack  {
+//                                ProductCardMedium(product: filteredProducts[2*index]) { productID in
+//                                    //código de toggle
+//                                }
+//                                ProductCardMedium(product: filteredProducts[2*index+1]) { productID in
+//                                    //código de toggle
+//                                }
+//                            }
+//                            
+//                        }
                     }
                     .navigationTitle(category.name)
                     .navigationBarTitleDisplayMode(.inline)

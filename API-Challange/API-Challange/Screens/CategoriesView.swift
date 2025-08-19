@@ -10,7 +10,8 @@ import SwiftUI
 struct CategoriesView: View {
     
     let viewModel: CategoriesViewModel
-    let favoritesViewModel: FavoritesViewModel
+    
+    @Environment(\.modelContext) private var context
     
     @State private var searchText = ""
     
@@ -53,7 +54,11 @@ struct CategoriesView: View {
                 HStack(spacing:8) {
                     ForEach(fourRandomCategories, id: \.name) { category in
                         
-                        NavigationLink (destination: Categories1View(category: category, viewModel: Categories1ViewModel(service: ProductService()), favoritesViewModel: favoritesViewModel)){
+                        NavigationLink (destination: Categories1View(
+                            category: category,
+                            viewModel: Categories1ViewModel(serviceAPI: ProductAPIService(), serviceFavorites: ProductFavoriteService(context: context))
+                        )
+                        ) {
                             CategoriesCard(category: category)
                         }
                         
@@ -63,14 +68,14 @@ struct CategoriesView: View {
                 .padding(.top, 16)
                 
                 ForEach(allCategories, id: \.name) { category in
-                    NavigationLink (destination: Categories1View(category: category, viewModel: Categories1ViewModel(service: ProductService()), favoritesViewModel: favoritesViewModel)){
+                    NavigationLink (destination: Categories1View(category: category, viewModel: Categories1ViewModel(serviceAPI: ProductAPIService(), serviceFavorites: ProductFavoriteService(context: context)))){
                         CategorieListItem(category: category)
                     }
-                    
+                                    
                     Divider()
-                    .padding(.leading, 16)
-                    .frame(height: 1)
-                    .padding(.vertical, 0)
+                        .padding(.leading, 16)
+                        .frame(height: 1)
+                        .padding(.vertical, 0)
                 }
                 
                 
@@ -78,7 +83,7 @@ struct CategoriesView: View {
             .navigationTitle("Categories")
             .searchable(text: $searchText)
         }
-    
+        
     }
 }
 

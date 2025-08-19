@@ -20,10 +20,16 @@ enum Categories1State {
 final class Categories1ViewModel: Categories1Protocol {
     
     var state: Categories1State = .idle
-    private let service: ProductServiceProtocol
+    private let serviceAPI: ProductAPIServiceProtocol
+    var serviceFavorites: ProductFavoriteProtocol
     
-    init(service: ProductServiceProtocol) {
-        self.service = service
+    init(serviceAPI: ProductAPIServiceProtocol, serviceFavorites: ProductFavoriteProtocol) {
+        self.serviceAPI = serviceAPI
+        self.serviceFavorites = serviceFavorites
+    }
+    
+    func toggleFavorites(_ id: Int) {
+        serviceFavorites.toggleFavorite(id)
     }
     
     func loadProducts(category: CategoryModel) async {
@@ -32,7 +38,7 @@ final class Categories1ViewModel: Categories1Protocol {
         
         do {
             
-            let products = try await service.getAllProducts()
+            let products = try await serviceAPI.getAllProducts()
             
             var filteredProducts: [ProductModel] = []
             
