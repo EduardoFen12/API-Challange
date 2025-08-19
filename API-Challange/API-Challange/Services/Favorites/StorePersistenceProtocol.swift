@@ -6,7 +6,7 @@
 //
 
 
-protocol ProductFavoriteProtocol {
+protocol StorePersistenceProtocol {
     func getFavorites() throws -> [Favorite]
     func toggleFavorite(_ id: Int)
 }

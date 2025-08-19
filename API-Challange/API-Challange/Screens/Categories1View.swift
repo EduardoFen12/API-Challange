@@ -58,10 +58,9 @@ struct Categories1View: View {
                             
                             ForEach(filteredProducts){ product in
                                 ProductCardMedium(
-                                    product: product,
                                     toggleFavorite: {
                                         viewModel.toggleFavorites(product.id)
-                                    })
+                                    }, product: product)
                             }
                             
                         }

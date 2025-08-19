@@ -20,9 +20,9 @@ final class HomeViewModel: HomeProtocol {
     
     var state: HomeState = .idle 
     private let serviceAPI: ProductAPIServiceProtocol
-    private var serviceFavorites: ProductFavoriteProtocol
+    private var serviceFavorites: StorePersistenceProtocol
     
-    init(serviceAPI: ProductAPIServiceProtocol, serviceFavorites: ProductFavoriteProtocol) {
+    init(serviceAPI: ProductAPIServiceProtocol, serviceFavorites: StorePersistenceProtocol) {
         self.serviceAPI = serviceAPI
         self.serviceFavorites = serviceFavorites
         

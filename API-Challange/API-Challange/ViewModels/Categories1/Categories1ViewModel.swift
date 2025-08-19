@@ -21,9 +21,9 @@ final class Categories1ViewModel: Categories1Protocol {
     
     var state: Categories1State = .idle
     private let serviceAPI: ProductAPIServiceProtocol
-    var serviceFavorites: ProductFavoriteProtocol
+    var serviceFavorites: StorePersistenceProtocol
     
-    init(serviceAPI: ProductAPIServiceProtocol, serviceFavorites: ProductFavoriteProtocol) {
+    init(serviceAPI: ProductAPIServiceProtocol, serviceFavorites: StorePersistenceProtocol) {
         self.serviceAPI = serviceAPI
         self.serviceFavorites = serviceFavorites
     }

@@ -56,7 +56,7 @@ struct CategoriesView: View {
                         
                         NavigationLink (destination: Categories1View(
                             category: category,
-                            viewModel: Categories1ViewModel(serviceAPI: ProductAPIService(), serviceFavorites: ProductFavoriteService(context: context))
+                            viewModel: Categories1ViewModel(serviceAPI: ProductAPIService(), serviceFavorites: StorePersistenceService(context: context))
                         )
                         ) {
                             CategoriesCard(category: category)
@@ -68,7 +68,7 @@ struct CategoriesView: View {
                 .padding(.top, 16)
                 
                 ForEach(allCategories, id: \.name) { category in
-                    NavigationLink (destination: Categories1View(category: category, viewModel: Categories1ViewModel(serviceAPI: ProductAPIService(), serviceFavorites: ProductFavoriteService(context: context)))){
+                    NavigationLink (destination: Categories1View(category: category, viewModel: Categories1ViewModel(serviceAPI: ProductAPIService(), serviceFavorites: StorePersistenceService(context: context)))){
                         CategorieListItem(category: category)
                     }
                                     
