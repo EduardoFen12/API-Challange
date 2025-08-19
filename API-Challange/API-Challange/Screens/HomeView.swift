@@ -21,7 +21,7 @@ struct HomeView: View {
                     await viewModel.loadProducts()
                 }
                 .sheet(isPresented: $showDetails, content: {
-                    ProductDetailsView(product: productNavigation, toggleFavorite: {viewModel.serviceFavorites.toggleFavorite(productNavigation.id)})
+                    ProductDetailsView(product: productNavigation, toggleFavorite: {viewModel.toggleFavorite(productNavigation.id)})
                 })
         }
     }
@@ -58,7 +58,7 @@ struct HomeView: View {
                             .font(.title2)
                             .fontWeight(.semibold)
                         
-                        ProductCardLarge(toggleFavorite: { viewModel.toggleFavorites(deal.id) }, product: deal)
+                        ProductCardLarge(toggleFavorite: { viewModel.toggleFavorite(deal.id) }, product: deal)
                             .onTapGesture {
                                 productNavigation = deal
                                 showDetails = true
@@ -73,7 +73,7 @@ struct HomeView: View {
                                 
                                 ForEach(products){ product in
                                     ProductCardMedium(
-                                        toggleFavorite: { viewModel.toggleFavorites(product.id)},
+                                        toggleFavorite: { viewModel.toggleFavorite(product.id)},
                                         product: product)
                                     .onTapGesture {
                                         productNavigation = product

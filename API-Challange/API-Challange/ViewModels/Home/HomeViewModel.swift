@@ -28,7 +28,7 @@ final class HomeViewModel: HomeProtocol {
         
     }
     
-    func toggleFavorites(_ id: Int) {
+    func toggleFavorite(_ id: Int) {
         
         serviceFavorites.toggleFavorite(id)
 
