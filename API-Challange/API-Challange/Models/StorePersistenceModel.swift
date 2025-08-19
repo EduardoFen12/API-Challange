@@ -16,8 +16,14 @@ final class Favorite {
 
 @Model
 final class Cart {
-    @Attribute(.unique) var productID: Int
-    init(productID: Int) { self.productID = productID }
+    @Attribute(.unique)
+    var productID: Int
+    var quantity: Int
+    
+    init(productID: Int) {
+        self.productID = productID
+        self.quantity = 1
+    }
 }
 
 @Model
