@@ -12,7 +12,11 @@ struct Categories1View: View {
     let category: CategoryModel
     let viewModel: Categories1ViewModel
     
+    @State var showDetails = false
+    @State var productNavigation: ProductModel = ProductModel(id: 0, title: "", description: "", category: "", price: 0, discountPercentage: 0, thumbnail: "")
     @State private var searchText = ""
+
+
     
     var body: some View {
         NavigationStack {
@@ -23,6 +27,9 @@ struct Categories1View: View {
                         await viewModel.loadProducts(category: category)
                     }
                 }
+                .sheet(isPresented: $showDetails, content: {
+                    ProductDetailsView(product: productNavigation, toggleFavorite: {viewModel.serviceFavorites.toggleFavorite(productNavigation.id)})
+                })
         }
     }
     
@@ -61,20 +68,14 @@ struct Categories1View: View {
                                     toggleFavorite: {
                                         viewModel.toggleFavorites(product.id)
                                     }, product: product)
+                                .onTapGesture {
+                                    productNavigation = product
+                                    showDetails = true
+                                }
                             }
                             
                         }
-//                        ForEach(0..<(filteredProducts.count)/2) { index in
-//                            HStack  {
-//                                ProductCardMedium(product: filteredProducts[2*index]) { productID in
-//                                    //código de toggle
-//                                }
-//                                ProductCardMedium(product: filteredProducts[2*index+1]) { productID in
-//                                    //código de toggle
-//                                }
-//                            }
-//                            
-//                        }
+
                     }
                     .navigationTitle(category.name)
                     .navigationBarTitleDisplayMode(.inline)
@@ -83,35 +84,9 @@ struct Categories1View: View {
             }
         }
     }
-
-//    var body: some View {
-//        
-//        NavigationStack{
-//        
-//            VStack (spacing: 8) {
-//                Divider()
-//                ScrollView {
-//                    ForEach(1..<4) { _ in
-//                        HStack  {
-//                            ForEach (1..<3) { _ in
-//                                
-//                            ProductCardMedium()
-//                            }
-//                        }
-//                        
-//                    }
-//                }
-//                .navigationTitle("Category 1")
-//                .navigationBarTitleDisplayMode(.inline)
-//                .searchable(text: $searchText, placement: .navigationBarDrawer)
-//            }
-//        }
-//        
-//    }
 }
 
 #Preview {
     TabBar()
 }
 
-//search bar diferente?? 

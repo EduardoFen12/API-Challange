@@ -26,9 +26,6 @@ final class HomeViewModel: HomeProtocol {
         self.serviceAPI = serviceAPI
         self.serviceFavorites = serviceFavorites
         
-//        self.serviceFavorites.onChange = {
-//            Task { await self.loadProducts() }
-//        }
     }
     
     func toggleFavorites(_ id: Int) {
