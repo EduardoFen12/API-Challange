@@ -72,6 +72,7 @@ class ProductAPIService: ProductAPIServiceProtocol {
         return products[randomIndex]
     }
     
+
     func getFourRandomCategories() async throws -> [CategoryModel] {
         
         let categories = try await getCategories()
@@ -91,8 +92,9 @@ class ProductAPIService: ProductAPIServiceProtocol {
         return randomCategories
     }
 
-    func getProduct(by ids: [Int]) async throws -> [ProductModel] {
-        var allFavoriteProducts: [ProductModel] = []
+    func getFiltredProducts(by ids: [Int]) async throws -> [ProductModel] {
+
+      var allFavoriteProducts: [ProductModel] = []
         
         for id in ids {
             

@@ -6,12 +6,21 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ProductCardLarge: View {
     
+    @Environment(\.modelContext ) private var modelContext
+    @Query var favorites: [Favorite]
+    
+    var isFavorite: Bool {
+          favorites.contains { $0.productID == product.id }
+      }
+    var toggleFavorite: () -> Void
     var product: ProductModel
     
     var stringPrice: String? { NumberFormatterManager.shared.doubleToString(self.product.price)}
+    
     
     var body: some View {
         
@@ -34,8 +43,19 @@ struct ProductCardLarge: View {
                         .font(.footnote)
                         .foregroundStyle(.labelsSecondary)
                     
-                    Unfavorite()
+                    Image(systemName: ( isFavorite ? heart.filled.rawValue : heart.empty.rawValue))
+                        .frame(width: 22)
+                        .padding(8)
+                        .background(RoundedRectangle(cornerRadius: 8).fill(.fillsTertiary))
+                        .onTapGesture {
+                            toggleFavorite()
+                            
+                            for fav in favorites {
+                                print(fav.productID)
+                            }
+                        }
                 }
+                
                 VStack(alignment: .leading, spacing: 4){
                     
                     Text(product.title)
@@ -57,6 +77,6 @@ struct ProductCardLarge: View {
     }
 }
 
-#Preview {
-    ProductCardLarge(product: ProductModel(id: 2, title: "Sei la", description: "Loooooooonnnnnggg description", category: "quauqler coisa" , price: 60.00, discountPercentage: 30.00, thumbnail: ""))
-}
+//#Preview {
+//    ProductCardLarge(product: ProductModel(id: 2, title: "Sei la", description: "Loooooooonnnnnggg description", category: "quauqler coisa" , price: 60.00, discountPercentage: 30.00, thumbnail: ""))
+//}

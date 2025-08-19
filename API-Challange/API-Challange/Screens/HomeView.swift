@@ -54,7 +54,7 @@ struct HomeView: View {
                             .font(.title2)
                             .fontWeight(.semibold)
                         
-                        ProductCardLarge(product: deal)
+                        ProductCardLarge(toggleFavorite: { viewModel.toggleFavorites(deal.id) }, product: deal)
                     }
                     
                     VStack(alignment: .leading, spacing: 8) {
@@ -66,28 +66,12 @@ struct HomeView: View {
                             
                             ForEach(products){ product in
                                 ProductCardMedium(
-                                    product: product,
                                     toggleFavorite: {
                                         viewModel.toggleFavorites(product.id)
-                                    })
+                                    }, product: product)
                             }
                             
                         }
-                        
-//                        ForEach(0..<(products.count)/2) { index in
-//                            HStack(spacing: 8) {
-//                                    ProductCardMedium(
-//                                        product: products[2*index],
-//                                        toggleFavorite: {
-//                                            viewModel.toggleFavorites(index)
-//                                        })
-//                                    ProductCardMedium(
-//                                        product: products[2*index+1],
-//                                        toggleFavorite: {
-//                                            viewModel.toggleFavorites(index)
-//                                        })
-//                            }
-//                        }
                     }
                 }
                 .padding()

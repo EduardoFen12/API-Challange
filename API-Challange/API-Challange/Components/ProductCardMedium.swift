@@ -21,10 +21,10 @@ struct ProductCardMedium: View {
     var isFavorite: Bool {
           favorites.contains { $0.productID == product.id }
       }
+    var toggleFavorite: () -> Void
     
     @State var product: ProductModel
     
-    var toggleFavorite: () -> Void
     
     var stringPrice: String? { NumberFormatterManager.shared.doubleToString(self.product.price)}
     

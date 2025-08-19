@@ -20,17 +20,21 @@ final class HomeViewModel: HomeProtocol {
     
     var state: HomeState = .idle 
     private let serviceAPI: ProductAPIServiceProtocol
-    private let serviceFavorites: ProductFavoriteProtocol
-
-    
+    private var serviceFavorites: ProductFavoriteProtocol
     
     init(serviceAPI: ProductAPIServiceProtocol, serviceFavorites: ProductFavoriteProtocol) {
         self.serviceAPI = serviceAPI
         self.serviceFavorites = serviceFavorites
+        
+//        self.serviceFavorites.onChange = {
+//            Task { await self.loadProducts() }
+//        }
     }
     
     func toggleFavorites(_ id: Int) {
+        
         serviceFavorites.toggleFavorite(id)
+
     }
     
     func loadProducts() async {

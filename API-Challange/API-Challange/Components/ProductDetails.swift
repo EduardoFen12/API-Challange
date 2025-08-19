@@ -6,12 +6,22 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ProductDetails: View {
     
-    var name: String
-    var price: Double
-    var description: String
+    let product: ProductModel
+    var stringPrice: String? { NumberFormatterManager.shared.doubleToString(self.product.price)}
+    
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext ) private var modelContext
+    @Query var favorites: [Favorite]
+    @State var counter: Int = 0
+    
+    var isFavorite: Bool {
+        favorites.contains { $0.productID == product.id }
+    }
+    var toggleFavorite: () -> Void
     
     var body: some View {
         
@@ -19,21 +29,37 @@ struct ProductDetails: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16){
                     
-                    Placeholder(imageStyle: .large)
-                        .clipShape(RoundedRectangle(cornerRadius: 8))
-                        .overlay(alignment: .topTrailing) {
-                            Image(systemName: "heart")
-                                .font(.system(size: 28))
-                                .frame(width: 34, height: 34)
-                                .padding(8)
-                                .background(RoundedRectangle(cornerRadius: 8).fill(.graysGray5))
-                        }
-                        .padding()
-                        .background(RoundedRectangle(cornerRadius: 32).fill(.backgroundsSecondary))
+                    AsyncImage(url: URL(string: product.thumbnail)) { image in
+                        image.resizable()
+                    } placeholder: {
+                        
+                        Placeholder(imageStyle: .large)
+                        
+                    }
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    .overlay(alignment: .topTrailing) {
+                        Image(systemName: (isFavorite ? heart.filled : heart.empty).rawValue)
+                            .font(.system(size: 28))
+                            .frame(width: 34, height: 34)
+                            .padding(8)
+                            .background(RoundedRectangle(cornerRadius: 8).fill(.graysGray5))
+                            .onTapGesture {
+                                toggleFavorite()
+                                dismiss()
+                                for fav in favorites {
+                                    print(fav.productID)
+                                }
+                            }
+                    }
+                    .onAppear {
+                        counter += 1
+                    }
+                    .padding()
+                    .background(RoundedRectangle(cornerRadius: 32).fill(.backgroundsSecondary))
                     
                     VStack(spacing: 4) {
                         
-                        Text(name)
+                        Text(product.title)
                             .multilineTextAlignment(.leading)
                             .lineLimit(2)
                             .font(.system(size: 20, weight: .regular))
@@ -41,18 +67,18 @@ struct ProductDetails: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .layoutPriority(1)
                         
-                        if !isMultiline(text: name, font: .systemFont(ofSize: 13), maxWidth: 157, maxLines: 2) {
-                                        Spacer()
-                                    }
+                        if !isMultiline(text: product.title, font: .systemFont(ofSize: 13), maxWidth: 157, maxLines: 2) {
+                            Spacer()
+                        }
                         
-                        Text("US$ \(String(format: "%05.2f", price))")
+                        Text(stringPrice ?? "")
                             .font(.system(size: 22, weight: .bold))
                             .frame(maxWidth: .infinity, alignment: .leading)
                         
                         
                     }
                     
-                    Text(description)
+                    Text(product.description)
                         .font(.system(size: 17, weight: .regular))
                         .foregroundStyle(.labelsSecondary)
                 }
@@ -60,7 +86,7 @@ struct ProductDetails: View {
                 .padding(.trailing)
                 .padding(.bottom)
             }
-                
+            
             Button {
                 print("Add to cart clicked!")
             } label: {
@@ -96,6 +122,6 @@ struct ProductDetails: View {
     }
 }
 
-#Preview {
-    ProductDetails(name: "Name of a product with two or more lines goes here", price: 0, description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lobortis nec mauris ac placerat. Cras pulvinar dolor at orci semper hendrerit. Nam elementum leo vitae quam commodo, blandit ultricies diam malesuada. Suspendisse lacinia euismod quam interdum mollis. Pellentesque a eleifend ante. Aliquam tempus ultricies velit, eget consequat magna volutpat vitae. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris pulvinar vestibulum congue. Aliquam et magna ultrices justo condimentum varius.")
-}
+//#Preview {
+//    ProductDetails(product: ProductModel(id: 2, title: "", description: "", category: "", price: 2.2, discountPercentage: 2.2, thumbnail: ""), _favorites: [Favorite(productID: 2)], toggleFavorite: {})
+//}

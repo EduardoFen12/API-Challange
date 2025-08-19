@@ -13,7 +13,7 @@ enum FavoriteState {
     case idle
     case isLoading
     case error(message: String)
-    case loaded
+    case loaded(favProducts: [ProductModel])
     case favsEmpty
 }
 
@@ -26,9 +26,8 @@ final class FavoritesViewModel: FavoritesProtocol {
         }
     }
     var serviceAPI: ProductAPIServiceProtocol
+    var serviceFavorites: ProductFavoriteProtocol
     var favorites: [Favorite] = []
-    var favoriteProducts: [ProductModel] = []
-    let serviceFavorites: ProductFavoriteProtocol
     
     init(serviceAPI: ProductAPIServiceProtocol, serviceFavorites: ProductFavoriteProtocol) {
         self.serviceAPI = serviceAPI
@@ -38,9 +37,9 @@ final class FavoritesViewModel: FavoritesProtocol {
     func getFavoriteProducts() async {
         do {
             let productIds = favorites.map { $0.productID }
-            favoriteProducts = try await serviceAPI.getProduct(by: productIds)
+            let favoriteProducts = try await serviceAPI.getFiltredProducts(by: productIds)
             favoriteProducts.forEach{print($0.id)}
-            state = .loaded
+            state = .loaded(favProducts: favoriteProducts)
         } catch {
             state = .error(message: "failed to load favorite products")
         }
@@ -53,8 +52,10 @@ final class FavoritesViewModel: FavoritesProtocol {
             favorites = try serviceFavorites.getFavorites()
             
             if favorites.isEmpty {
+                
                 state = .favsEmpty
             }
+            
             
         } catch {
             
