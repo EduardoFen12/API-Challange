@@ -26,10 +26,10 @@ final class FavoritesViewModel: FavoritesProtocol {
         }
     }
     var serviceAPI: ProductAPIServiceProtocol
-    var serviceFavorites: ProductFavoriteProtocol
+    var serviceFavorites: StorePersistenceProtocol
     var favorites: [Favorite] = []
     
-    init(serviceAPI: ProductAPIServiceProtocol, serviceFavorites: ProductFavoriteProtocol) {
+    init(serviceAPI: ProductAPIServiceProtocol, serviceFavorites: StorePersistenceProtocol) {
         self.serviceAPI = serviceAPI
         self.serviceFavorites = serviceFavorites
     }
