@@ -6,5 +6,7 @@
 //
 
 protocol FavoritesProtocol {
+    
     func loadingFavorites() async
+    func getFavoriteProducts() async
 }

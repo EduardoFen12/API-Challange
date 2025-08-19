@@ -9,17 +9,13 @@
 import SwiftUI
 
 struct DetailView: View {
-    let name: String
-    let price: Double
-    let description: String
+    
+    let product: ProductModel
+    let toggleFavorite: () -> Void
 
     var body: some View {
         NavigationStack {
-            ProductDetails(
-                name: name,
-                price: price,
-                description: description
-            )
+            ProductDetails(product: product, toggleFavorite: toggleFavorite )
             .navigationTitle("Details")
             .navigationBarTitleDisplayMode(.inline)
         }
@@ -27,6 +23,6 @@ struct DetailView: View {
 }
 
 
-#Preview {
-    DetailView(name: "oi", price: 4.4, description: "oioioi")
-}
+//#Preview {
+//    DetailView(product: ProductModel(id: 2, title: "", description: "", category: "", price: 2.2, discountPercentage: 2.2, thumbnail: ""), toggleFavorite: {}())
+//}

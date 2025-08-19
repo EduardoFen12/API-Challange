@@ -13,6 +13,7 @@ struct FavoritesView: View {
 
     @State private var showCartSheet = false
     @State private var searchText = ""
+    @State private var productNavigation: ProductModel = ProductModel(id: 0, title: "", description: "", category: "", price: 0, discountPercentage: 0, thumbnail: "")
 
     var viewModel: FavoritesViewModel
     
@@ -22,14 +23,17 @@ struct FavoritesView: View {
                 .navigationTitle("Favorites")
                 .searchable(text: $searchText)
                 .sheet(isPresented: $showCartSheet, content: {
-                    DetailView(name: "oi", price: 4.4, description: "oi")
+                    DetailView(product: productNavigation, toggleFavorite: {viewModel.serviceFavorites.toggleFavorite(productNavigation.id)})
+                    .onDisappear {
+                        Task {
+                            await viewModel.loadingFavorites()
+                            await viewModel.getFavoriteProducts()
+                        }
+                    }
                 })
                 .task {
-//                    if case .idle = viewModel.state {
                     await viewModel.loadingFavorites()
                     await viewModel.getFavoriteProducts()
-                    
-//                    }
                 }
         }
     }
@@ -66,13 +70,14 @@ struct FavoritesView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             
             
-        case .loaded:
+        case .loaded(let favoriteProducts):
             VStack(spacing: 16) {
                 VStack {
                     ScrollView {
                         VStack(spacing: 16) {
-                            ForEach(viewModel.favoriteProducts) { fav in
+                            ForEach(favoriteProducts) { fav in
                                 Button {
+                                    productNavigation = fav
                                     showCartSheet = true
                                 } label: {
                                     ProductListFavorites(product: fav)

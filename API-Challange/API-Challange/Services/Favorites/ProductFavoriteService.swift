@@ -11,7 +11,7 @@ import Foundation
 class ProductFavoriteService: ProductFavoriteProtocol {
     
     var context: ModelContext
-    
+        
     init(context: ModelContext) {
         self.context = context
     }
@@ -24,8 +24,7 @@ class ProductFavoriteService: ProductFavoriteProtocol {
     
     func toggleFavorite(_ id: Int) {
         
-        let descriptor = FetchDescriptor<Favorite>()
-        let favorites = try? context.fetch(descriptor)
+        let favorites = try? getFavorites()
         
         if let favID = favorites?.first(where: {$0.productID == id}) {
             context.delete(favID)
@@ -36,7 +35,5 @@ class ProductFavoriteService: ProductFavoriteProtocol {
             try? context.save()
             print("entrou no else")
         }
-        
     }
-    
 }
