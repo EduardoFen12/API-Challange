@@ -33,7 +33,7 @@ struct TabBar: View {
                 }
                 .tag(1)
             
-            CartView()
+            CartView(viewModel: CartViewModel(serviceAPI: ProductAPIService(), serviceStore: StorePersistenceService(context: context)))
                 .tabItem {
                     Image(systemName: "cart.fill")
                     Text("Cart")

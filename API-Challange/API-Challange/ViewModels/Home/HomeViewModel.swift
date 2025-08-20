@@ -19,8 +19,8 @@ enum HomeState {
 final class HomeViewModel: HomeProtocol {
     
     var state: HomeState = .idle 
-    private let serviceAPI: ProductAPIServiceProtocol
-    private var serviceFavorites: StorePersistenceProtocol
+    let serviceAPI: ProductAPIServiceProtocol
+    var serviceFavorites: StorePersistenceProtocol
     
     init(serviceAPI: ProductAPIServiceProtocol, serviceFavorites: StorePersistenceProtocol) {
         self.serviceAPI = serviceAPI

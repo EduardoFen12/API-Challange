@@ -10,6 +10,7 @@ import SwiftData
 
 struct FavoritesView: View {
     
+    @Environment(\.modelContext) var context
 
     @State private var showCartSheet = false
     @State private var searchText = ""
@@ -23,7 +24,7 @@ struct FavoritesView: View {
                 .navigationTitle("Favorites")
                 .searchable(text: $searchText)
                 .sheet(isPresented: $showCartSheet, content: {
-                    ProductDetailsView(product: productNavigation, toggleFavorite: {viewModel.toggleFavorite(productNavigation.id)})
+                    ProductDetailsView(product: productNavigation, viewModel: ProductDetailViewModel(storeService: StorePersistenceService(context: context)), toggleFavorite: {viewModel.serviceFavorites.toggleFavorite(productNavigation.id)})
                     .onDisappear {
                         Task {
                             

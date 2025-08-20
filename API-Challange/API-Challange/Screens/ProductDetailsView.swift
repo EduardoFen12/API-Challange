@@ -13,10 +13,12 @@ struct ProductDetailsView: View {
     let product: ProductModel
     var stringPrice: String? { NumberFormatterManager.shared.doubleToString(self.product.price)}
     
+    @State var viewModel: ProductDetailViewModel
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext ) private var modelContext
     @Query var favorites: [Favorite]
     @State var counter: Int = 0
+//    var addToCart: (_ id: Int) -> Void
     
     var isFavorite: Bool {
         favorites.contains { $0.productID == product.id }
@@ -89,6 +91,8 @@ struct ProductDetailsView: View {
                 }
                 
                 Button {
+                    print("produto adicionado: \(product.title)")
+                    viewModel.addToCart(product.id)
                     print("Add to cart clicked!")
                 } label: {
                     Text("Add to cart")

@@ -6,11 +6,13 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct Categories1View: View {
     
     let category: CategoryModel
     let viewModel: Categories1ViewModel
+    @Environment(\.modelContext) var context
     
     @State var showDetails = false
     @State var productNavigation: ProductModel = ProductModel(id: 0, title: "", description: "", category: "", price: 0, discountPercentage: 0, thumbnail: "")
@@ -28,7 +30,7 @@ struct Categories1View: View {
                     }
                 }
                 .sheet(isPresented: $showDetails, content: {
-                    ProductDetailsView(product: productNavigation, toggleFavorite: {viewModel.serviceFavorites.toggleFavorite(productNavigation.id)})
+                    ProductDetailsView(product: productNavigation, viewModel: ProductDetailViewModel(storeService: StorePersistenceService(context: context)), toggleFavorite: {viewModel.serviceFavorites.toggleFavorite(productNavigation.id)})
                 })
         }
     }

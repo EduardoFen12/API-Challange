@@ -5,14 +5,70 @@
 //  Created by Gustavo Ferreira bassani on 15/08/25.
 //
 
-import SwiftUI
+import Foundation
+import SwiftData
 
-struct CartViewModel: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
+enum CartState {
+    case idle
+    case isLoading
+    case error(message: String)
+    case loaded
+    case cartEmpty
 }
 
-#Preview {
-    CartViewModel()
+@Observable
+final class CartViewModel: CartViewModelProtocol {
+        
+    var state: CartState = .idle
+    var serviceAPI: ProductAPIServiceProtocol
+    var serviceStore: StorePersistenceProtocol
+    var cart: [Cart] = []
+    var cartProducts: [ProductModel] = []
+    var totalPrice: String  {
+        Task {
+            await getCartProducts()
+        }
+        var total: Double = 0
+        for item in cart {
+            total = cartProducts.first(where: { $0.id == item.productID })!.price + total
+        }
+        return NumberFormatterManager.shared.doubleToString(total)
+    }
+    
+    init(serviceAPI: ProductAPIServiceProtocol, serviceStore: StorePersistenceProtocol) {
+        self.serviceAPI = serviceAPI
+        self.serviceStore = serviceStore
+    }
+    
+    func getCartProducts() async {
+        do {
+            let productIds = cart.map { $0.productID }
+            let awaitCartProducts = try await serviceAPI.getFiltredProducts(by: productIds)
+            awaitCartProducts.forEach{print($0.id)}
+            cartProducts = awaitCartProducts
+            state = .loaded
+        } catch {
+            state = .error(message: "failed to load favorite products")
+        }
+    }
+    
+    func loadCartProducts() async {
+        state = .isLoading
+        
+        do {
+            
+            cart = try serviceStore.getAllCart()
+            print("produtos do carrinho: \(cart.forEach({$0.productID}))")
+            if cart.isEmpty {
+                
+                state = .cartEmpty
+            }
+            
+        } catch {
+            
+            state = .error(message: "Error to fetch categories: \(error.localizedDescription)")
+            
+        }
+    }
+    
 }
