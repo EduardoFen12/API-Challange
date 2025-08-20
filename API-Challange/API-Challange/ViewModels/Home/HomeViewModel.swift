@@ -19,19 +19,16 @@ enum HomeState {
 final class HomeViewModel: HomeProtocol {
     
     var state: HomeState = .idle 
-    private let serviceAPI: ProductAPIServiceProtocol
-    private var serviceFavorites: StorePersistenceProtocol
+    let serviceAPI: ProductAPIServiceProtocol
+    var serviceFavorites: StorePersistenceProtocol
     
     init(serviceAPI: ProductAPIServiceProtocol, serviceFavorites: StorePersistenceProtocol) {
         self.serviceAPI = serviceAPI
         self.serviceFavorites = serviceFavorites
         
-//        self.serviceFavorites.onChange = {
-//            Task { await self.loadProducts() }
-//        }
     }
     
-    func toggleFavorites(_ id: Int) {
+    func toggleFavorite(_ id: Int) {
         
         serviceFavorites.toggleFavorite(id)
 

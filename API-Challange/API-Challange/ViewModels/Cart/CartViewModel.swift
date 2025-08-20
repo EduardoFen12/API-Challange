@@ -58,7 +58,7 @@ final class CartViewModel: CartViewModelProtocol {
         do {
             
             cart = try serviceStore.getAllCart()
-            
+            print("produtos do carrinho: \(cart.forEach({$0.productID}))")
             if cart.isEmpty {
                 
                 state = .cartEmpty

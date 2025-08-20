@@ -7,12 +7,17 @@
 
 import SwiftUI
 
-struct ProductDetailViewModel: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+struct ProductDetailViewModel: ProductDetailProtocol {
+    
+    var storeService: StorePersistenceService
+    
+    init(storeService: StorePersistenceService) {
+        self.storeService = storeService
     }
-}
+    
+    func addToCart(_ id: Int) {
+        self.storeService.addToCart(id)
+    }
 
-#Preview {
-    ProductDetailViewModel()
+    
 }

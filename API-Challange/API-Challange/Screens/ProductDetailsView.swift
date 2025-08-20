@@ -2,82 +2,134 @@
 //  ProductDetails.swift
 //  API-Challange
 //
-//  Created by Gustavo Ferreira bassani on 15/08/25.
+//  Created by Eduardo Garcia Fensterseifer on 15/08/25.
 //
 
 import SwiftUI
+import SwiftData
 
 struct ProductDetailsView: View {
+    
+    let product: ProductModel
+    var stringPrice: String? { NumberFormatterManager.shared.doubleToString(self.product.price)}
+    
+    @State var viewModel: ProductDetailViewModel
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext ) private var modelContext
+    @Query var favorites: [Favorite]
+    @State var counter: Int = 0
+//    var addToCart: (_ id: Int) -> Void
+    
+    var isFavorite: Bool {
+        favorites.contains { $0.productID == product.id }
+    }
+    var toggleFavorite: () -> Void
+    
     var body: some View {
         
         NavigationStack {
-                
-                Divider()
-                
-                ScrollView() {
-                    
-                    VStack(spacing: 16){
-                        Placeholder(imageStyle: .large)
-                            .padding()
-                            .background(RoundedRectangle(cornerRadius: 32).fill(.backgroundsSecondary))
-                            .overlay(alignment: .topTrailing) {
-                                Image(systemName: "heart")
-                                    .frame(width: 50, height: 50)
-                                    .background(RoundedRectangle(cornerRadius: 8).fill(.fillsTertiary))
-                                    .padding(16)
-                                
-                            }
-                            .padding(.top, 16)
+            VStack{
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 16){
                         
-                        
-                        VStack(alignment: .leading, spacing: 4){
-                            Text("Name of a product with two or more lines goes here")
-                                .foregroundStyle(.labelsPrimary)
-                                .font(.system(size: 20))
+                        AsyncImage(url: URL(string: product.thumbnail)) { image in
+                            image.resizable()
+                        } placeholder: {
                             
-                            Text("R$ 00,00")
+                            Placeholder(imageStyle: .large)
+                            
+                        }
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                        .overlay(alignment: .topTrailing) {
+                            Image(systemName: (isFavorite ? heart.filled : heart.empty).rawValue)
+                                .font(.system(size: 28))
+                                .frame(width: 34, height: 34)
+                                .padding(8)
+                                .background(RoundedRectangle(cornerRadius: 8).fill(.graysGray5))
+                                .onTapGesture {
+                                    toggleFavorite()
+                                    dismiss()
+                                    for fav in favorites {
+                                        print(fav.productID)
+                                    }
+                                }
+                        }
+                        .onAppear {
+                            counter += 1
+                        }
+                        .padding()
+                        .background(RoundedRectangle(cornerRadius: 32).fill(.backgroundsSecondary))
+                        
+                        VStack(spacing: 4) {
+                            
+                            Text(product.title)
+                                .multilineTextAlignment(.leading)
+                                .lineLimit(2)
+                                .font(.system(size: 20, weight: .regular))
                                 .foregroundStyle(.labelsPrimary)
-                                .font(.system(size: 22))
-                                .fontWeight(.bold)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .layoutPriority(1)
+                            
+                            if !isMultiline(text: product.title, font: .systemFont(ofSize: 13), maxWidth: 157, maxLines: 2) {
+                                Spacer()
+                            }
+                            
+                            Text(stringPrice ?? "")
+                                .font(.system(size: 22, weight: .bold))
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            
+                            
                         }
                         
-                        Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lobortis nec mauris ac placerat. Cras pulvinar dolor at orci semper hendrerit. Nam elementum leo vitae quam commodo, blandit ultricies diam malesuada. Suspendisse lacinia euismod quam interdum mollis. Pellentesque a eleifend ante. Aliquam tempus ultricies velit, eget consequat magna volutpat vitae. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris pulvinar vestibulum congue. Aliquam et magna ultrices justo condimentum varius.")
-                            .font(.body)
+                        Text(product.description)
+                            .font(.system(size: 17, weight: .regular))
                             .foregroundStyle(.labelsSecondary)
                     }
-
+                    .padding(.leading)
+                    .padding(.trailing)
+                    .padding(.bottom)
+                }
+                
+                Button {
+                    print("produto adicionado: \(product.title)")
+                    viewModel.addToCart(product.id)
+                    print("Add to cart clicked!")
+                } label: {
+                    Text("Add to cart")
+                        .font(.system(size: 17, weight: .semibold))
+                        .foregroundStyle(.labelsPrimary)
+                        .frame(maxWidth: .infinity, minHeight: 54, maxHeight: 54)
+                        .background(
+                            RoundedRectangle(cornerRadius: 16)
+                                .foregroundStyle(.fillsTertiary)
+                        )
+                        .padding(.leading)
+                        .padding(.trailing)
+                        .padding(.bottom)
+                        .padding(.top, 12)
+                }
+                .background(.backgroundsPrimary)
                 
             }
             .navigationTitle("Details")
             .navigationBarTitleDisplayMode(.inline)
-            .padding(.horizontal, 16)
-            .safeAreaInset(edge: .bottom) {
-                
-                Rectangle()
-                    .fill(.backgroundsPrimary)
-                    .frame(height: 86)
-                    .overlay {
-                        Button {
-                            //action
-                        } label: {
-                            Text("Add to cart")
-                                .padding(.vertical, 16)
-                                .font(.system(size: 17))
-                                .fontWeight(.semibold)
-                                .foregroundStyle(.labelsPrimary)
-                                .frame(maxWidth: .infinity)
-                                .background(RoundedRectangle(cornerRadius: 16).fill(.fillsTertiary))
-                                .padding(.horizontal, 16)
-                        }
-                    }
-                
-            }
-            .ignoresSafeArea(edges: .bottom)
-            
         }
+        .ignoresSafeArea(edges: .bottom)
+    }
+    
+    func isMultiline(text: String, font: UIFont, maxWidth: CGFloat, maxLines: Int) -> Bool {
+        let attributes: [NSAttributedString.Key: Any] = [.font: font]
+        let textSize = NSString(string: text).boundingRect(
+            with: CGSize(width: maxWidth, height: .greatestFiniteMagnitude),
+            options: [.usesLineFragmentOrigin, .usesFontLeading],
+            attributes: attributes,
+            context: nil
+        )
+        let lineHeight = font.lineHeight
+        return textSize.height > lineHeight * CGFloat(maxLines - 1)
     }
 }
 
-#Preview {
-    ProductDetailsView()
-}
+//#Preview {
+//    ProductDetails(product: ProductModel(id: 2, title: "", description: "", category: "", price: 2.2, discountPercentage: 2.2, thumbnail: ""), _favorites: [Favorite(productID: 2)], toggleFavorite: {})
+//}
