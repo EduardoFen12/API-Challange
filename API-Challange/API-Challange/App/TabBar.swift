@@ -10,7 +10,7 @@ import SwiftData
 
 struct TabBar: View {
 
-    @State private var selectedTab = 0
+    @State private var selectedTab = 2
 
     @Environment(\.modelContext) private var context
     
@@ -33,7 +33,7 @@ struct TabBar: View {
                 }
                 .tag(1)
             
-            CartView()
+            CartView(viewModel: CartViewModel(serviceAPI: ProductAPIService(), serviceStore: StorePersistenceService(context: context)))
                 .tabItem {
                     Image(systemName: "cart.fill")
                     Text("Cart")

@@ -6,85 +6,90 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct CartView: View {
     
-    struct Product: Identifiable, Decodable {
-        var id: UUID = UUID()
-        var name: String
-        var price: Double
-        var quantity: Int
-        
-        init(name: String, price: Double, quantity: Int) {
-            self.name = name
-            self.price = price
-            self.quantity = quantity
-        }
-    }
-    
-    var products: [Product] = [
-        Product(name: "Iphone 16 Pro Max 128GB Space Gray", price: 5399, quantity: 1),
-        Product(name: "Cadeira Gamer Recliner", price: 1200, quantity: 1),
-        Product(name: "Memoria Ram 32GB DDR5", price: 569, quantity: 2),
-        Product(name: "Memoria Ram 32GB DDR5", price: 569, quantity: 2),
-        Product(name: "Memoria Ram 32GB DDR5", price: 569, quantity: 2),
-        Product(name: "Memoria Ram 32GB DDR5", price: 569, quantity: 2),
-        Product(name: "Memoria Ram 32GB DDR5", price: 569, quantity: 2),
-    ]
-    
-    var totalPrice: Double {
-        products.reduce(0) { partialResult, product in
-            partialResult + (product.price * Double(product.quantity))
-        }
-    }
+    let viewModel: CartViewModel
     
     var body: some View {
         NavigationStack {
+            content
+                .navigationTitle("Cart")
+                .task {
+                    await viewModel.loadCartProducts()
+                    await viewModel.getCartProducts()
+                }
+        }
+    }
+    
+    @ViewBuilder
+    private var content: some View {
+        switch viewModel.state {
+        case .idle:
+            Color.clear
+        case .isLoading:
+            ProgressView()
+        case .error(let message):
+            
+            VStack(spacing: 12) {
+                Text(message)
+                    .foregroundStyle(.red)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal)
+                
+                Button("Tentar novamente") {
+                    Task { await viewModel.loadCartProducts() }
+                }
+                .buttonStyle(.borderedProminent)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+            
+        case .loaded:
+            
             VStack(spacing: 16) {
-                if products.isEmpty {
-                    EmptyState(style: .cart)
-                } else {
-                    VStack {
-                        ScrollView {
-                            VStack (spacing: 16) {
-                                ForEach(products) { product in
-                                    ProductListCart(productName: product.name, price: product.price, quantity: product.quantity)
-                                }
+                VStack {
+                    ScrollView {
+                        VStack (spacing: 16) {
+                            ForEach(viewModel.cartProducts) { product in
+                                ProductListCart(product: product)
                             }
+                        }
+                    }
+                    
+                    VStack {
+                        HStack {
+                            Text("Total:")
+                                .font(.system(size: 15, weight: .regular))
+                                .foregroundStyle(.labelsPrimary)
+                            Spacer()
+                            Text("US$ \(viewModel.totalPrice)")
+                                .font(.system(size: 17, weight: .semibold))
+                                .foregroundColor(.labelsPrimary)
                         }
                         
-                        VStack {
-                            HStack {
-                                Text("Total:")
-                                    .font(.system(size: 15, weight: .regular))
-                                    .foregroundStyle(.labelsPrimary)
-                                Spacer()
-                                Text("US$ \(String(format: "%05.2f", totalPrice))")
-                                    .font(.system(size: 17, weight: .semibold))
-                                    .foregroundColor(.labelsPrimary)
-                            }
-                            
-                            Button {
-                                print("Botão Checkout clicado!")
-                            } label: {
-                                Text("Checkout")
-                                    .font(.system(size: 17, weight: .semibold))
-                                    .foregroundColor(.labelsPrimary)
-                                    .frame(maxWidth: .infinity, minHeight: 54, maxHeight: 54)
-                                    .background(
-                                        RoundedRectangle(cornerRadius: 16)
-                                            .foregroundStyle(.fillsTertiary)
-                                    )
-                            }
-                            
+                        Button {
+                            print("Botão Checkout clicado!")
+                        } label: {
+                            Text("Checkout")
+                                .font(.system(size: 17, weight: .semibold))
+                                .foregroundColor(.labelsPrimary)
+                                .frame(maxWidth: .infinity, minHeight: 54, maxHeight: 54)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 16)
+                                        .foregroundStyle(.fillsTertiary)
+                                )
                         }
-                        .padding(.leading)
-                        .padding(.trailing)
+                        
                     }
+                    .padding(.leading)
+                    .padding(.trailing)
                 }
             }
-            .padding(.bottom)
-            .navigationTitle("Cart")
+                
+        case .cartEmpty:
+            EmptyState(style: .favorites)
+            
         }
     }
 }

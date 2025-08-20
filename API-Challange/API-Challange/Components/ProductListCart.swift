@@ -9,8 +9,7 @@ import SwiftUI
 
 struct ProductListCart: View {
     
-    var productName: String
-    var price: Double
+    var product: ProductModel
     @State var quantity: Int = 1
     
     var body: some View {
@@ -23,7 +22,7 @@ struct ProductListCart: View {
 
                 VStack(spacing: 4) {
                     
-                    Text(productName)
+                    Text(product.title)
                         .multilineTextAlignment(.leading)
                         .lineLimit(2)
                         .font(.system(size: 13, weight: .regular))
@@ -31,11 +30,11 @@ struct ProductListCart: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .layoutPriority(1)
                     
-                    if !isMultiline(text: productName, font: .systemFont(ofSize: 13), maxWidth: 157, maxLines: 2) {
+                    if !isMultiline(text: product.title, font: .systemFont(ofSize: 13), maxWidth: 157, maxLines: 2) {
                                     Spacer()
                                 }
                     
-                    Text("US$ \(String(format: "%05.2f", price))")
+                    Text("US$ \(String(format: "%05.2f", product.price))")
                         .font(.system(size: 17, weight: .semibold))
                         .frame(maxWidth: .infinity, alignment: .leading)
                     
@@ -106,8 +105,4 @@ struct ProductListCart: View {
         let lineHeight = font.lineHeight
         return textSize.height > lineHeight * CGFloat(maxLines - 1)
     }
-}
-
-#Preview {
-    ProductListCart(productName: "Product name with two or more lines goes here", price: 0)
 }

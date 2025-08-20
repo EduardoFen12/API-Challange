@@ -9,4 +9,9 @@
 protocol StorePersistenceProtocol {
     func getFavorites() throws -> [Favorite]
     func toggleFavorite(_ id: Int)
+    func getAllCart() throws -> [Cart]
+    func addToCart(_ id: Int)
+    func removeFromCart(_ id: Int)
+    func addToQuantity(_ id: Int)
+    func removeFromQuantity(_ id: Int)
 }
