@@ -27,12 +27,12 @@ final class Cart {
 }
 
 @Model
-final class Orders {
+final class Order {
     @Attribute(.unique)
     var productID: Int
     var date: Date
     
-    init(productID: Int, date: Date) {
+    init(productID: Int) {
         self.productID = productID
         self.date = Date()
     }

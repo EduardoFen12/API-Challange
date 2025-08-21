@@ -14,4 +14,5 @@ protocol StorePersistenceProtocol {
     func removeFromCart(_ id: Int)
     func addToQuantity(_ id: Int)
     func removeFromQuantity(_ id: Int)
+    func makeOrder()
 }

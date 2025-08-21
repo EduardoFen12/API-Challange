@@ -6,6 +6,9 @@
 //
 
 protocol CartViewModelProtocol {
-    func loadCartProducts() async
+    func loadCart() async
     func getCartProducts() async
+    func addToQuantity(_ id: Int)
+    func removeFromQuantity(_ id: Int)
+    func makeOrder() async
 }

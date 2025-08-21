@@ -59,8 +59,10 @@ class StorePersistenceService: StorePersistenceProtocol {
     func addToQuantity(_ id: Int) {
         let cart = try? getAllCart()
         if let selectedProduct = cart?.first(where: {$0.productID == id}) {
-            selectedProduct.quantity += 1
-            try? context.save()
+            if selectedProduct.quantity < 9{
+                selectedProduct.quantity += 1
+                try? context.save()
+            }
         }
     }
 
@@ -74,6 +76,14 @@ class StorePersistenceService: StorePersistenceProtocol {
                 selectedProduct.quantity -= 1
             }
             try? context.save()
+        }
+    }
+    
+    func makeOrder() {
+        let cart = try? getAllCart()
+        for item in cart ?? [] {
+            context.insert(Order(productID: item.productID))
+            context.delete(item)
         }
     }
 }

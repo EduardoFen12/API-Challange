@@ -18,7 +18,6 @@ struct ProductDetailsView: View {
     @Environment(\.modelContext ) private var modelContext
     @Query var favorites: [Favorite]
     @State var counter: Int = 0
-//    var addToCart: (_ id: Int) -> Void
     
     var isFavorite: Bool {
         favorites.contains { $0.productID == product.id }

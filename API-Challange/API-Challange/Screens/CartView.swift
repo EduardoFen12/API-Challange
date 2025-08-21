@@ -17,7 +17,7 @@ struct CartView: View {
             content
                 .navigationTitle("Cart")
                 .task {
-                    await viewModel.loadCartProducts()
+                    await viewModel.loadCart()
                     await viewModel.getCartProducts()
                 }
         }
@@ -39,7 +39,7 @@ struct CartView: View {
                     .padding(.horizontal)
                 
                 Button("Tentar novamente") {
-                    Task { await viewModel.loadCartProducts() }
+                    Task { await viewModel.loadCart() }
                 }
                 .buttonStyle(.borderedProminent)
             }
@@ -52,10 +52,11 @@ struct CartView: View {
                     ScrollView {
                         VStack (spacing: 16) {
                             ForEach(viewModel.cartProducts) { product in
-                                ProductListCart(product: product)
+                                ProductListCart(product: product, viewModel: viewModel)
                             }
                         }
                     }
+                    .padding(.top)
                     
                     VStack {
                         HStack {
@@ -69,7 +70,20 @@ struct CartView: View {
                         }
                         
                         Button {
-                            print("Botão Checkout clicado!")
+                            
+                            Task {
+                                await viewModel.makeOrder()
+                                
+                                await MainActor.run {
+                                    viewModel.state = .isLoading
+                                }
+                                
+                                await viewModel.loadCart()
+//                                viewModel.state = .cartEmpty
+                                
+//                                await viewModel.getCartProducts()
+                            }
+                            
                         } label: {
                             Text("Checkout")
                                 .font(.system(size: 17, weight: .semibold))
@@ -84,11 +98,12 @@ struct CartView: View {
                     }
                     .padding(.leading)
                     .padding(.trailing)
+                    .padding(.bottom)
                 }
             }
                 
         case .cartEmpty:
-            EmptyState(style: .favorites)
+            EmptyState(style: .cart)
             
         }
     }

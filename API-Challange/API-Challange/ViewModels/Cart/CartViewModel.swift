@@ -30,7 +30,11 @@ final class CartViewModel: CartViewModelProtocol {
         }
         var total: Double = 0
         for item in cart {
-            total = cartProducts.first(where: { $0.id == item.productID })!.price + total
+            if let itemPrice = cartProducts.first(where: { $0.id == item.productID })?.price {
+                total += itemPrice * Double(item.quantity)
+            } else {
+                total += 0
+            }
         }
         return NumberFormatterManager.shared.doubleToString(total)
     }
@@ -42,23 +46,36 @@ final class CartViewModel: CartViewModelProtocol {
     
     func getCartProducts() async {
         do {
-            let productIds = cart.map { $0.productID }
-            let awaitCartProducts = try await serviceAPI.getFiltredProducts(by: productIds)
-            awaitCartProducts.forEach{print($0.id)}
-            cartProducts = awaitCartProducts
-            state = .loaded
+            if cart.isEmpty {
+                state = .cartEmpty
+            } else {
+                let productIds = cart.map { $0.productID }
+                let awaitCartProducts = try await serviceAPI.getFiltredProducts(by: productIds)
+                
+                cart.forEach{
+                    if $0.quantity == 0 {
+                        Task{
+                            await loadCart()
+                            await getCartProducts()
+                        }
+                    }
+                }
+                cartProducts = awaitCartProducts
+                state = .loaded
+            }
         } catch {
-            state = .error(message: "failed to load favorite products")
+            state = .error(message: "failed to load Cart products")
         }
     }
     
-    func loadCartProducts() async {
+    func loadCart() async {
         state = .isLoading
         
         do {
             
             cart = try serviceStore.getAllCart()
-            print("produtos do carrinho: \(cart.forEach({$0.productID}))")
+            print(cart)
+            
             if cart.isEmpty {
                 
                 state = .cartEmpty
@@ -69,6 +86,18 @@ final class CartViewModel: CartViewModelProtocol {
             state = .error(message: "Error to fetch categories: \(error.localizedDescription)")
             
         }
+    }
+    
+    func addToQuantity(_ id: Int) {
+        serviceStore.addToQuantity(id)
+    }
+    
+    func removeFromQuantity(_ id: Int) {
+        serviceStore.removeFromQuantity(id)
+    }
+    
+    func makeOrder() async {
+        serviceStore.makeOrder()
     }
     
 }

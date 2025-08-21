@@ -6,6 +6,6 @@
 //
 //
 protocol ProductDetailProtocol {
-    
+    func addToCart(_ id: Int)
 }
 
