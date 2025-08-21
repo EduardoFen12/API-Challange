@@ -11,43 +11,49 @@ import Observation
 enum HomeState {
     case idle
     case loading
-    case error(message: String)
-    case loaded(deal: ProductModel, products: [ProductModel])
+    case error
+    case loaded
 }
 
 @Observable
 final class HomeViewModel: HomeProtocol {
     
-    var state: HomeState = .idle 
+    var state: HomeState = .idle
     private let serviceAPI: ProductAPIServiceProtocol
     private var serviceFavorites: StorePersistenceProtocol
+    
+    // Propriedades agora inicializadas
+    var dealOfDay: ProductModel
+    var products: [ProductModel]
+    var errorMessage: String
     
     init(serviceAPI: ProductAPIServiceProtocol, serviceFavorites: StorePersistenceProtocol) {
         self.serviceAPI = serviceAPI
         self.serviceFavorites = serviceFavorites
         
+        
+        self.dealOfDay = ProductModel(id: 0, title: "", description: "", category: "", price: 0, discountPercentage: 0, thumbnail: "")
+        self.products = []
+        self.errorMessage = ""
     }
     
     func toggleFavorite(_ id: Int) {
-        
         serviceFavorites.toggleFavorite(id)
-
     }
     
     func loadProducts() async {
-        
         state = .loading
         
         do {
-            
-            let dealOfDay = try await serviceAPI.getRandomProduct()
-            let allProducts = try await serviceAPI.getAllProducts()
-            
-            state = .loaded(deal: dealOfDay, products: allProducts)
+            dealOfDay = try await serviceAPI.getRandomProduct()
+            products = try await serviceAPI.getAllProducts()
+            state = .loaded
         } catch {
-
-            state = .error(message: "Error to fetch products: \(error.localizedDescription)")
-            
+            // Linha corrigida, sem o parêntese extra
+            errorMessage = "Error to fetch products: \(error.localizedDescription)"
+            state = .error
         }
     }
 }
+
+

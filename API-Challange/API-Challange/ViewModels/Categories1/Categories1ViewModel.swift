@@ -23,6 +23,7 @@ final class Categories1ViewModel: Categories1Protocol {
     private let serviceAPI: ProductAPIServiceProtocol
     var serviceFavorites: StorePersistenceProtocol
     
+    
     init(serviceAPI: ProductAPIServiceProtocol, serviceFavorites: StorePersistenceProtocol) {
         self.serviceAPI = serviceAPI
         self.serviceFavorites = serviceFavorites

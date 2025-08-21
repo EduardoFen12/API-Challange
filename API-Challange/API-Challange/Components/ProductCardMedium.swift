@@ -40,7 +40,6 @@ struct ProductCardMedium: View {
                 Placeholder(imageStyle: .medium)
                 
             }
-            
                 .background(RoundedRectangle(cornerRadius: 8).fill(.fillsQuaternary))
                 .clipShape(RoundedRectangle(cornerRadius: 8))
                 .overlay(alignment: .topTrailing) {

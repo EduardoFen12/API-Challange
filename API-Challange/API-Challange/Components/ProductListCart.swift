@@ -18,9 +18,9 @@ struct ProductListCart: View {
         HStack(spacing: 8) {
             
             Placeholder(imageStyle: .small)
-                    
+            
             HStack(spacing: 16) {
-
+                
                 VStack(spacing: 4) {
                     
                     Text(productName)
@@ -32,13 +32,12 @@ struct ProductListCart: View {
                         .layoutPriority(1)
                     
                     if !isMultiline(text: productName, font: .systemFont(ofSize: 13), maxWidth: 157, maxLines: 2) {
-                                    Spacer()
-                                }
+                        Spacer()
+                    }
                     
                     Text("US$ \(String(format: "%05.2f", price))")
                         .font(.system(size: 17, weight: .semibold))
                         .frame(maxWidth: .infinity, alignment: .leading)
-                    
                     
                 }
                 .frame(width: 157, height: 62)
@@ -92,7 +91,7 @@ struct ProductListCart: View {
         )
         .padding(.leading)
         .padding(.trailing)
-        
+    
     }
     
     func isMultiline(text: String, font: UIFont, maxWidth: CGFloat, maxLines: Int) -> Bool {

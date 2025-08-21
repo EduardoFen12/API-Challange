@@ -12,11 +12,12 @@ struct Categories1View: View {
     let category: CategoryModel
     let viewModel: Categories1ViewModel
     
+    //colocar esses states para a view model
     @State var showDetails = false
-    @State var productNavigation: ProductModel = ProductModel(id: 0, title: "", description: "", category: "", price: 0, discountPercentage: 0, thumbnail: "")
     @State private var searchText = ""
-
-
+    
+    //esse é dado de navegação, fica aqui
+    @State var productNavigation: ProductModel = ProductModel(id: 0, title: "", description: "", category: "", price: 0, discountPercentage: 0, thumbnail: "")
     
     var body: some View {
         NavigationStack {
@@ -73,9 +74,7 @@ struct Categories1View: View {
                                     showDetails = true
                                 }
                             }
-                            
                         }
-
                     }
                     .navigationTitle(category.name)
                     .navigationBarTitleDisplayMode(.inline)

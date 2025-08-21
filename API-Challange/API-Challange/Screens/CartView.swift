@@ -9,6 +9,8 @@ import SwiftUI
 
 struct CartView: View {
     
+    //receber um produto, tirar isso aqui dai
+    
     struct Product: Identifiable, Decodable {
         var id: UUID = UUID()
         var name: String

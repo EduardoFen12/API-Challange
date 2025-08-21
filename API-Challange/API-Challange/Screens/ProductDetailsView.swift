@@ -10,17 +10,21 @@ import SwiftData
 
 struct ProductDetailsView: View {
     
+    //esses dois podem ficar aqui
     let product: ProductModel
-    var stringPrice: String? { NumberFormatterManager.shared.doubleToString(self.product.price)}
-    
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.modelContext ) private var modelContext
-    @Query var favorites: [Favorite]
-    @State var counter: Int = 0
-    
     var isFavorite: Bool {
         favorites.contains { $0.productID == product.id }
     }
+    
+    
+    //esse cara deveria vir de uma viewmodel
+    var stringPrice: String? { NumberFormatterManager.shared.doubleToString(self.product.price)}
+    
+    //esse modelcontext e esse favorites deveriam vir lá dos serviços
+    @Environment(\.modelContext ) private var modelContext
+    @Query var favorites: [Favorite]
+    
     var toggleFavorite: () -> Void
     
     var body: some View {
@@ -51,9 +55,6 @@ struct ProductDetailsView: View {
                                         print(fav.productID)
                                     }
                                 }
-                        }
-                        .onAppear {
-                            counter += 1
                         }
                         .padding()
                         .background(RoundedRectangle(cornerRadius: 32).fill(.backgroundsSecondary))

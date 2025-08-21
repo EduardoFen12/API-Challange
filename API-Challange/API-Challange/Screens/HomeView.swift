@@ -34,10 +34,10 @@ struct HomeView: View {
         case .loading:
             ProgressView()
             
-        case .error(let message):
+        case .error:
             
             VStack(spacing: 12) {
-                Text(message)
+                Text(viewModel.errorMessage)
                     .foregroundStyle(.red)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
@@ -49,7 +49,7 @@ struct HomeView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             
-        case .loaded(let deal, let products):
+        case .loaded:
             ScrollView {
                 VStack(spacing: 16) {
                     
@@ -58,9 +58,9 @@ struct HomeView: View {
                             .font(.title2)
                             .fontWeight(.semibold)
                         
-                        ProductCardLarge(toggleFavorite: { viewModel.toggleFavorite(deal.id) }, product: deal)
+                        ProductCardLarge(toggleFavorite: { viewModel.toggleFavorite(viewModel.dealOfDay.id) }, product: viewModel.dealOfDay)
                             .onTapGesture {
-                                productNavigation = deal
+                                productNavigation = viewModel.dealOfDay
                                 showDetails = true
                             }
                         
@@ -71,7 +71,7 @@ struct HomeView: View {
                             
                             LazyVGrid(columns: [GridItem(), GridItem()]) {
                                 
-                                ForEach(products){ product in
+                                ForEach(viewModel.products){ product in
                                     ProductCardMedium(
                                         toggleFavorite: { viewModel.toggleFavorite(product.id)},
                                         product: product)
