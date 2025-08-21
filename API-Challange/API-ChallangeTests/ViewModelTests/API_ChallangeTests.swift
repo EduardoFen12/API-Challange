@@ -15,19 +15,24 @@ struct API_ChallangeTests {
         let mockedserviceAPI = MockedAPIService(shouldFail: false)
         let mockedStoreService = MockedStoreService(shouldFail: false)
         
-        let mockedHomeViewModel = HomeViewModel(serviceAPI: mockedserviceAPI, serviceFavorites: mockedStoreService)
+        let homeViewModel = HomeViewModel(serviceAPI: mockedserviceAPI, storeFavorites: mockedStoreService)
         
         //WHEN
-        await mockedHomeViewModel.loadProducts()
-
+//        await mockedHomeViewModel.loadProducts()
+//        mockedHomeViewModel.toggleFavorite(3)
         
         // THEN
-        XCTAssertTrue(mockedHomeViewModel.)
-
-        
+        XCTAssertFalse(homeViewModel.products.isEmpty)
+        XCTAssertTrue(homeViewModel.dealOfDay.id == 1)
+                
     }
     
     func test_loadProducts_whenAPIFails_shouldTransitionToErrorState() {
+        
+        let mockedserviceAPI = MockedAPIService(shouldFail: true)
+        let mockedStoreService = MockedStoreService(shouldFail: false)
+        
+        let mockedHomeViewModel = HomeViewModel(serviceAPI: mockedserviceAPI, storeFavorites: mockedStoreService)
         
         
     }
@@ -36,7 +41,4 @@ struct API_ChallangeTests {
         
         
     }
-    
-    
-
 }

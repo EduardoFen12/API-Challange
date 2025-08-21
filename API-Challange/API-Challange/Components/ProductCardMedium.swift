@@ -15,14 +15,14 @@ enum heart: String {
 
 struct ProductCardMedium: View {
     
-    @Environment(\.modelContext ) private var modelContext
-    @Query var favorites: [Favorite]
+    //isso tem que vir da viewmodel
+    var favorites: [Favorite]
     
-    var isFavorite: Bool {
-          favorites.contains { $0.productID == product.id }
-      }
+    var isFavorite: Bool
+    
     var toggleFavorite: () -> Void
     
+    //item recebido por navegação, pode ficar aqui
     @State var product: ProductModel
     
     
@@ -48,11 +48,9 @@ struct ProductCardMedium: View {
                         .padding(8)
                         .background(RoundedRectangle(cornerRadius: 8).fill(.fillsTertiary))
                         .onTapGesture {
-                            toggleFavorite()
                             
-                            for fav in favorites {
-                                print(fav.productID)
-                            }
+                            toggleFavorite()
+    
                         }
                 }
                 

@@ -22,7 +22,6 @@ final class FavoritesViewModel: FavoritesProtocol {
     
     var state: FavoriteState = .idle {
         didSet {
-            print("newState: \(state)")
         }
     }
     var serviceAPI: ProductAPIServiceProtocol
@@ -38,7 +37,6 @@ final class FavoritesViewModel: FavoritesProtocol {
         do {
             let productIds = favorites.map { $0.productID }
             let favoriteProducts = try await serviceAPI.getFiltredProducts(by: productIds)
-            favoriteProducts.forEach{print($0.id)}
             state = .loaded(favProducts: favoriteProducts)
         } catch {
             state = .error(message: "failed to load favorite products")

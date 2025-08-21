@@ -12,6 +12,7 @@ struct ProductListFavorites: View {
     @State var product: ProductModel
     @State var isClicked: Bool = false
     
+    //deveria vir de uma viewmodel
     var stringPrice: String? { NumberFormatterManager.shared.doubleToString(self.product.price)}
     var body: some View {
         

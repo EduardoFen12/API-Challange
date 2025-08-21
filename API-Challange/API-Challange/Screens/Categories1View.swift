@@ -6,13 +6,15 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct Categories1View: View {
+
+    //nao deveria estar aqui mas tudo bem
+    @Environment(\.modelContext) var context
     
     let category: CategoryModel
     let viewModel: Categories1ViewModel
-    
-    //colocar esses states para a view model
     @State var showDetails = false
     @State private var searchText = ""
     
@@ -29,7 +31,7 @@ struct Categories1View: View {
                     }
                 }
                 .sheet(isPresented: $showDetails, content: {
-                    ProductDetailsView(product: productNavigation, toggleFavorite: {viewModel.serviceFavorites.toggleFavorite(productNavigation.id)})
+                    ProductDetailsView(product: productNavigation, viewModel: ProductDetailViewModel(storeService: StorePersistenceService(context: context)), toggleFavorite: {viewModel.storePresistence.toggleFavorite(productNavigation.id)})
                 })
         }
     }
@@ -65,10 +67,7 @@ struct Categories1View: View {
                         LazyVGrid(columns: [GridItem(), GridItem()]) {
                             
                             ForEach(filteredProducts){ product in
-                                ProductCardMedium(
-                                    toggleFavorite: {
-                                        viewModel.toggleFavorites(product.id)
-                                    }, product: product)
+                                ProductCardMedium(favorites: viewModel.favorites, isFavorite: viewModel.isFavorite(product.id), toggleFavorite: {viewModel.toggleFavorite(product.id)}, product: product)
                                 .onTapGesture {
                                     productNavigation = product
                                     showDetails = true

@@ -18,18 +18,20 @@ enum HomeState {
 @Observable
 final class HomeViewModel: HomeProtocol {
     
-    var state: HomeState = .idle
-    private let serviceAPI: ProductAPIServiceProtocol
-    private var serviceFavorites: StorePersistenceProtocol
+
+    var state: HomeState = .idle 
+    let serviceAPI: ProductAPIServiceProtocol
+    var storeFavorites: StorePersistenceProtocol
     
     // Propriedades agora inicializadas
     var dealOfDay: ProductModel
     var products: [ProductModel]
     var errorMessage: String
+    var favorites: [Favorite] = []
     
-    init(serviceAPI: ProductAPIServiceProtocol, serviceFavorites: StorePersistenceProtocol) {
+    init(serviceAPI: ProductAPIServiceProtocol, storeFavorites: StorePersistenceProtocol) {
         self.serviceAPI = serviceAPI
-        self.serviceFavorites = serviceFavorites
+        self.storeFavorites = storeFavorites
         
         
         self.dealOfDay = ProductModel(id: 0, title: "", description: "", category: "", price: 0, discountPercentage: 0, thumbnail: "")
@@ -38,7 +40,23 @@ final class HomeViewModel: HomeProtocol {
     }
     
     func toggleFavorite(_ id: Int) {
-        serviceFavorites.toggleFavorite(id)
+        storeFavorites.toggleFavorite(id)
+    }
+    
+    func getFavorites() {
+        do {
+            
+            favorites = try storeFavorites.getFavorites()
+            
+        } catch {
+            
+            print(error.localizedDescription)
+            
+        }
+    }
+    
+    func isFavorite(_ id: Int) -> Bool {
+        favorites.contains(where: {$0.productID == id})
     }
     
     func loadProducts() async {
@@ -54,6 +72,8 @@ final class HomeViewModel: HomeProtocol {
             state = .error
         }
     }
+    
+
 }
 
 

@@ -21,16 +21,34 @@ final class Categories1ViewModel: Categories1Protocol {
     
     var state: Categories1State = .idle
     private let serviceAPI: ProductAPIServiceProtocol
-    var serviceFavorites: StorePersistenceProtocol
+    var storePresistence: StorePersistenceProtocol
+    var favorites: [Favorite] = []
+
     
     
     init(serviceAPI: ProductAPIServiceProtocol, serviceFavorites: StorePersistenceProtocol) {
         self.serviceAPI = serviceAPI
-        self.serviceFavorites = serviceFavorites
+        self.storePresistence = serviceFavorites
     }
     
-    func toggleFavorites(_ id: Int) {
-        serviceFavorites.toggleFavorite(id)
+    func toggleFavorite(_ id: Int) {
+        storePresistence.toggleFavorite(id)
+    }
+    
+    func getFavorites() {
+        do {
+            
+            favorites = try storePresistence.getFavorites()
+            
+        } catch {
+            
+            print(error.localizedDescription)
+            
+        }
+    }
+    
+    func isFavorite(_ id: Int) -> Bool {
+        favorites.contains(where: {$0.productID == id})
     }
     
     func loadProducts(category: CategoryModel) async {

@@ -10,20 +10,21 @@ import SwiftData
 
 struct ProductDetailsView: View {
     
-    //esses dois podem ficar aqui
+    //esses podem ficar aqui
     let product: ProductModel
     @Environment(\.dismiss) private var dismiss
     var isFavorite: Bool {
         favorites.contains { $0.productID == product.id }
     }
-    
-    
-    //esse cara deveria vir de uma viewmodel
+    @State var viewModel: ProductDetailViewModel
+
+    //isso aqui deveria vir da viewmodel
     var stringPrice: String? { NumberFormatterManager.shared.doubleToString(self.product.price)}
-    
-    //esse modelcontext e esse favorites deveriam vir lá dos serviços
-    @Environment(\.modelContext ) private var modelContext
+
+    //isso aqui deveria vir dos serviços
     @Query var favorites: [Favorite]
+    @Environment(\.modelContext ) private var modelContext
+    
     
     var toggleFavorite: () -> Void
     
@@ -51,9 +52,7 @@ struct ProductDetailsView: View {
                                 .onTapGesture {
                                     toggleFavorite()
                                     dismiss()
-                                    for fav in favorites {
-                                        print(fav.productID)
-                                    }
+                    
                                 }
                         }
                         .padding()
@@ -90,7 +89,7 @@ struct ProductDetailsView: View {
                 }
                 
                 Button {
-                    print("Add to cart clicked!")
+                    viewModel.addToCart(product.id)
                 } label: {
                     Text("Add to cart")
                         .font(.system(size: 17, weight: .semibold))

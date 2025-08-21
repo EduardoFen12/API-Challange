@@ -106,7 +106,3 @@ struct ProductListCart: View {
         return textSize.height > lineHeight * CGFloat(maxLines - 1)
     }
 }
-
-#Preview {
-    ProductListCart(productName: "Product name with two or more lines goes here", price: 0)
-}

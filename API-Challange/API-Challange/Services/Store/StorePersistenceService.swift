@@ -12,8 +12,9 @@ class StorePersistenceService: StorePersistenceProtocol {
     
     var context: ModelContext
     
+    var cartAmount: Double = 0
     
-        
+    
     init(context: ModelContext) {
         self.context = context
     }
@@ -31,11 +32,55 @@ class StorePersistenceService: StorePersistenceProtocol {
         if let favID = favorites?.first(where: {$0.productID == id}) {
             context.delete(favID)
             try? context.save()
-            print("entrou no if")
         } else {
             context.insert(Favorite(productID: id))
             try? context.save()
-            print("entrou no else")
         }
     }
+    
+    func getAllCart() throws -> [Cart] {
+        let descriptor = FetchDescriptor<Cart>()
+        let queriedCart = try context.fetch(descriptor)
+        return queriedCart
+    }
+    
+    func addToCart(_ id: Int) {
+        context.insert(Cart(productID: id))
+        try? context.save()
+    }
+    
+    func removeFromCart(_ id: Int) {
+        let cart = try? getAllCart()
+        if let selectedProduct = cart?.first(where: {$0.productID == id}) {
+            context.delete(selectedProduct)
+            try? context.save()
+        }
+    }
+    
+    func addToQuantity(_ id: Int) {
+        let cart = try? getAllCart()
+        if let selectedProduct = cart?.first(where: {$0.productID == id}) {
+            selectedProduct.quantity += 1
+            try? context.save()
+        }
+    }
+
+    func removeFromQuantity(_ id: Int) {
+        let cart = try? getAllCart()
+        if let selectedProduct = cart?.first(where: {$0.productID == id}) {
+            if selectedProduct.quantity <= 1 {
+                selectedProduct.quantity -= 1
+                removeFromCart(id)
+            } else {
+                selectedProduct.quantity -= 1
+            }
+            try? context.save()
+        }
+    }
+    
+    //para o carrinho
+    func changeCartAmount(_ totalPrice: Double) {
+        cartAmount = cartAmount + totalPrice
+    }
+    
 }
