@@ -72,8 +72,6 @@ final class HomeViewModel: HomeProtocol {
             state = .error
         }
     }
-    
-
 }
 
 

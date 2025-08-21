@@ -29,7 +29,7 @@ struct HomeView: View {
                                        viewModel: ProductDetailViewModel(storeService: StorePersistenceService(context: context)),
                                        toggleFavorite: {viewModel.storeFavorites.toggleFavorite(productNavigation.id)})
                     .onDisappear {
-                         viewModel.getFavorites() 
+                         viewModel.getFavorites()
                     }
                 })
         }

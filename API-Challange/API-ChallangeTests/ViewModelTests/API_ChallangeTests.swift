@@ -18,12 +18,21 @@ struct API_ChallangeTests {
         let homeViewModel = HomeViewModel(serviceAPI: mockedserviceAPI, storeFavorites: mockedStoreService)
         
         //WHEN
-//        await mockedHomeViewModel.loadProducts()
-//        mockedHomeViewModel.toggleFavorite(3)
+        await homeViewModel.loadProducts()
+        homeViewModel.getFavorites()
+        homeViewModel.toggleFavorite(3)
         
         // THEN
         XCTAssertFalse(homeViewModel.products.isEmpty)
         XCTAssertTrue(homeViewModel.dealOfDay.id == 1)
+        XCTAssertTrue(homeViewModel.favorites.contains(where: {$0.productID == 3}))
+        XCTAssertFalse(homeViewModel.favorites.contains(where: {$0.productID == 4}))
+        XCTAssertTrue(homeViewModel.isFavorite(3))
+        XCTAssertFalse(homeViewModel.isFavorite(4))
+        
+        homeViewModel.toggleFavorite(3)
+           
+        XCTAssertFalse(homeViewModel.isFavorite(3))
                 
     }
     
