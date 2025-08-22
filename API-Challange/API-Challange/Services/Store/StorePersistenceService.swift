@@ -42,14 +42,6 @@ class StorePersistenceService: StorePersistenceProtocol {
         return try context.fetch(descriptor)
     }
 
-    func fetchCartItem(for productID: Int) throws -> Cart? {
-        let predicate = #Predicate<Cart> { $0.productID == productID }
-        var descriptor = FetchDescriptor(predicate: predicate)
-        descriptor.fetchLimit = 1 // Otimização: só precisamos de 1 resultado
-        
-        let items = try context.fetch(descriptor)
-        return items.first
-    }
     
     /// Adiciona um produto ao carrinho. Se já existir, aumenta a quantidade.
     func addToCart(_ id: Int) {
@@ -109,6 +101,15 @@ class StorePersistenceService: StorePersistenceProtocol {
         }
     }
     
+    func fetchCartItem(for productID: Int) throws -> Cart? {
+        let predicate = #Predicate<Cart> { $0.productID == productID }
+        var descriptor = FetchDescriptor(predicate: predicate)
+        descriptor.fetchLimit = 1 // Otimização: só precisamos de 1 resultado
+        
+        let items = try context.fetch(descriptor)
+        return items.first
+    }
+
     // MARK: ORDERS
 
     func saveToOrders(_ title: String, price: Double, image: String) {

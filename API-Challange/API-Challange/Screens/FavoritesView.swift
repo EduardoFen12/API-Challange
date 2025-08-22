@@ -54,17 +54,9 @@ struct FavoritesView: View {
     private var content: some View {
         switch viewModel.state {
         case .idle:
-            Color.clear
-                .onAppear {
-
-                }
-
-        case .isLoading:
             ProgressView()
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-                .onAppear {
-                }
-            
+                    
         case .error(let message):
             VStack(spacing: 12) {
                 Text(message)

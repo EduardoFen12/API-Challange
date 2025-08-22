@@ -8,6 +8,8 @@
 import Foundation
 
 class MockedStoreService: StorePersistenceProtocol {
+
+    
     
     var shouldFail: Bool
     
@@ -19,6 +21,7 @@ class MockedStoreService: StorePersistenceProtocol {
     var cartOne = Cart(productID: 1)
     var cartTwo = Cart(productID: 2)
     var arrayOfCart: [Cart]
+    var arrayOfOrders: [Order] = []
     var lastChangedTotalPrice: Double?
     
     init(shouldFail: Bool) {
@@ -28,7 +31,10 @@ class MockedStoreService: StorePersistenceProtocol {
         self.arrayOfCart = [cartOne, cartTwo]
     }
     
-    func getFavorites() throws -> [API_Challange.Favorite] {
+    
+    // MARK: - FAVORITES
+    
+    func getFavorites() throws -> [Favorite] {
         if shouldFail {
             throw MockAPIError.forcedFailure
         }
@@ -43,7 +49,9 @@ class MockedStoreService: StorePersistenceProtocol {
         }
     }
     
-    func getAllCart() throws -> [API_Challange.Cart] {
+    // MARK: - CART
+    
+    func getAllCart() throws -> [Cart] {
         if shouldFail {
             throw MockAPIError.forcedFailure
         }
@@ -80,4 +88,29 @@ class MockedStoreService: StorePersistenceProtocol {
         self.lastChangedTotalPrice = totalPrice
     }
     
+    func fetchCartItem(for productID: Int) throws -> API_Challange.Cart? {
+        if shouldFail {
+            throw MockAPIError.forcedFailure
+        }
+        return arrayOfCart.first { $0.productID == productID }
+    }
+    
+    //MARK: - ORDERS
+    
+    func saveToOrders(_ title: String, price: Double, image: String) {
+        let date = Date(timeInterval: 7*86400, since: Date())
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "pt_BR")
+        formatter.dateFormat = "dd/MM/yyyy"
+        let dateString = formatter.string(from: date)
+        let newOrder = API_Challange.Order(title: title, date: dateString, price: price, image: image)
+        arrayOfOrders.append(newOrder)
+    }
+
+    func RecoverOrder() throws -> [Order] {
+        if shouldFail {
+            throw MockAPIError.forcedFailure
+        }
+        return arrayOfOrders
+    }
 }
