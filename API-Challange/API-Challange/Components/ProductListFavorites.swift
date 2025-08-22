@@ -28,6 +28,7 @@ struct ProductListFavorites: View {
                 Placeholder(imageStyle: .small)
 
             }
+            
             .background(RoundedRectangle(cornerRadius: 8).fill(.fillsQuaternary))
         
             HStack(spacing: 16) {

@@ -24,9 +24,10 @@ struct ProductListCart: View {
                 
             } placeholder: {
                 
-                Placeholder(imageStyle: .medium)
+                Placeholder(imageStyle: .small)
                 
             }
+            .frame(maxWidth: 78, maxHeight: 78)
             .background(RoundedRectangle(cornerRadius: 8).fill(.fillsQuaternary))
             
             
@@ -60,11 +61,11 @@ struct ProductListCart: View {
                     } label: {
                         Image(systemName: "minus")
                             .font(.system(size: 12, weight: .regular))
+                            .frame(width: 23, height: 23)
                             .foregroundStyle(.labelsPrimary)
                             .background(
                                 RoundedRectangle(cornerRadius: 4)
                                     .foregroundStyle(.fillsTertiary)
-                                    .frame(width: 23, height: 23)
                             )
                     }
                     
