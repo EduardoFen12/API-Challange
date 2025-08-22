@@ -11,19 +11,29 @@ struct ProductListDelivery: View {
     
     var productName: String
     var price: Double
-    var month: Int
+    var date: String
+    var image: String
     
     var body: some View {
         
         HStack(spacing: 8) {
-            
-            Placeholder(imageStyle: .small)
+                        
+            AsyncImage(url: URL(string: image)) { image in
+                image.resizable()
+                    .frame(maxWidth: 80, maxHeight: 80)
+                
+            } placeholder: {
+                
+                Placeholder(imageStyle: .small)
+                
+            }
+            .background(RoundedRectangle(cornerRadius: 8).fill(.fillsQuaternary))
                     
             HStack(spacing: 16) {
 
                 VStack(spacing: 4) {
-                    
-                    Text("DELIVERY BY MONTH, \(String(format: "%02d", month))")
+                    //Date
+                    Text(date)
                         .multilineTextAlignment(.leading)
                         .lineLimit(1)
                         .font(.system(size: 12, weight: .regular))
@@ -64,5 +74,5 @@ struct ProductListDelivery: View {
 }
 
 #Preview {
-    ProductListDelivery(productName: "Product name with two or more lines goes here", price: 0, month: 1)
+    ProductListDelivery(productName: "NOME", price: 0.0, date: "27/01", image: "nil")
 }

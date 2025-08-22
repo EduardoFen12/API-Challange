@@ -14,36 +14,34 @@ class StorePersistenceService: StorePersistenceProtocol {
     init(context: ModelContext) {
         self.context = context
     }
-        
+    
     // MARK: - Favorites
+    
+    func getFavorites() throws -> [Favorite] {
+        let descriptor = FetchDescriptor<Favorite>()
+        let queriedFavorites = try context.fetch(descriptor)
+        return queriedFavorites
+    }
+    
+    func toggleFavorite(_ id: Int) {
         
-        func getFavorites() throws -> [Favorite] {
-            let descriptor = FetchDescriptor<Favorite>()
-            let queriedFavorites = try context.fetch(descriptor)
-            return queriedFavorites
-        }
+        let favorites = try? getFavorites()
         
-        func toggleFavorite(_ id: Int) {
-            
-            let favorites = try? getFavorites()
-            
-            if let favID = favorites?.first(where: {$0.productID == id}) {
-                context.delete(favID)
-                try? context.save()
-            } else {
-                context.insert(Favorite(productID: id))
-                try? context.save()
-            }
+        if let favID = favorites?.first(where: {$0.productID == id}) {
+            context.delete(favID)
+            try? context.save()
+        } else {
+            context.insert(Favorite(productID: id))
+            try? context.save()
         }
+    }
     
     /// Busca todos os itens do carrinho.
     func getAllCart() throws -> [Cart] {
         let descriptor = FetchDescriptor<Cart>()
         return try context.fetch(descriptor)
     }
-    
-    /// Busca um item específico do carrinho pelo ID do produto.
-    /// Esta é uma função auxiliar para evitar repetição de código.
+
     func fetchCartItem(for productID: Int) throws -> Cart? {
         let predicate = #Predicate<Cart> { $0.productID == productID }
         var descriptor = FetchDescriptor(predicate: predicate)
@@ -94,7 +92,6 @@ class StorePersistenceService: StorePersistenceProtocol {
         }
     }
     
-    /// Diminui a quantidade de um produto no carrinho em 1. Se a quantidade chegar a 0, o item é removido.
     func removeFromQuantity(_ id: Int) {
         do {
             if let itemToUpdate = try fetchCartItem(for: id) {
@@ -111,4 +108,27 @@ class StorePersistenceService: StorePersistenceProtocol {
             print("Erro ao diminuir a quantidade: \(error.localizedDescription)")
         }
     }
+    
+    // MARK: ORDERS
+
+    func saveToOrders(_ title: String, price: Double, image: String) {
+        
+        let date = Date(timeInterval: 7*86400, since: Date())
+        
+        let formatter = DateFormatter()
+           formatter.locale = Locale(identifier: "pt_BR") 
+           formatter.dateFormat = "dd/MM/yyyy"
+        let dateString = formatter.string(from: date)
+        
+        let newOrder = Order(title: title, date: dateString, price: price, image: image)
+        context.insert(newOrder)
+        try? context.save()
+    }
+    
+    func RecoverOrder() throws -> [Order] {
+        let fetch = FetchDescriptor<Order>()
+        return try context.fetch(fetch)
+    }
 }
+
+

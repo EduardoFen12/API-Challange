@@ -21,6 +21,7 @@ struct ProductCardLarge: View {
             
             AsyncImage(url: URL(string: product.thumbnail)) { image in
                 image.resizable()
+
             } placeholder: {
                 
                 Placeholder(imageStyle: .medium)

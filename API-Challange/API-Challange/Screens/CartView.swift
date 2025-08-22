@@ -66,6 +66,9 @@ struct CartView: View {
                     
                     Button {
                         print("Botão Checkout clicado!")
+                        Task{
+                            await viewModel.saveToOrders()
+                        }
                     } label: {
                         Text("Checkout")
                             .font(.system(size: 17, weight: .semibold))

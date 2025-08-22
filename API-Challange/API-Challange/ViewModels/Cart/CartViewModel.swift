@@ -8,51 +8,24 @@
 import Foundation
 import SwiftData
 
-/// Represents the possible states of the cart view.
 enum CartState {
-    /// The initial state.
     case idle
-    /// The state while cart items are being loaded.
     case isLoading
-    /// The state when an error occurs.
     case error(message: String)
-    /// The state when the cart items have been successfully loaded.
     case loaded
-    /// The state when the cart is empty.
     case cartEmpty
 }
+ 
 
-/// A display item that combines a product with its corresponding cart information.
-struct CartDisplayItem: Identifiable, Equatable {
-    /// The product details.
-    let product: ProductModel
-    /// The cart item details (e.g., quantity).
-    let cartItem: Cart
-    
-    /// The unique identifier for the display item, based on the product's ID.
-    var id: Int { product.id }
-    
-    /// Checks for equality between two `CartDisplayItem` instances based on their ID.
-    static func == (lhs: CartDisplayItem, rhs: CartDisplayItem) -> Bool {
 
-        lhs.id == rhs.id
-    }
-}
 
-/// The view model responsible for managing the shopping cart's data and business logic.
 @Observable
 final class CartViewModel: CartViewModelProtocol {
-    /// The current state of the cart view.
     var state: CartState = .idle
-    /// The service for fetching product data from the API.
     var serviceAPI: ProductAPIServiceProtocol
-    /// The service for persisting cart data locally.
     var serviceStore: StorePersistenceProtocol
-    
-    /// The list of items to be displayed in the cart view.
     var cartDisplayItems: [CartDisplayItem] = []
     
-    /// The formatted total price of all items in the cart.
     var totalPrice: String {
         let total = cartDisplayItems.reduce(0) { partialResult, item in
             let itemSubtotal = item.product.price * Double(item.cartItem.quantity)
@@ -61,27 +34,40 @@ final class CartViewModel: CartViewModelProtocol {
         return NumberFormatterManager.shared.doubleToString(total)
     }
     
-    /// Initializes the view model with API and storage services.
-    /// - Parameters:
-    ///   - serviceAPI: The API service to fetch product details.
-    ///   - serviceStore: The persistence service to manage cart data.
+    func saveToOrders() async {
+        
+        cartDisplayItems.forEach { item in
+            
+            for _ in 1...item.cartItem.quantity {
+                serviceStore.saveToOrders(item.product.title, price: item.product.price, image: item.product.thumbnail)
+            }
+        }
+        
+        for item in cartDisplayItems {
+            serviceStore.removeFromCart(item.id)
+        }
+        
+        await loadCart()
+        
+    }
+    
+
     init(serviceAPI: ProductAPIServiceProtocol, serviceStore: StorePersistenceProtocol) {
         self.serviceAPI = serviceAPI
         self.serviceStore = serviceStore
     }
     
-    /// Loads the cart items by fetching data from the local database and the remote API.
     @MainActor
     func loadCart() async {
         state = .isLoading
         
         do {
-            // 1. Get cart items from the database (1 DB query)
+            //aqui talvez
             let cartItemsFromDB = try serviceStore.getAllCart()
             
             if cartItemsFromDB.isEmpty {
                 state = .cartEmpty
-                self.cartDisplayItems = [] // Clear the list for the UI
+                self.cartDisplayItems = [] // Clear the list for the UI (ISSO QUE FALTAVA)
                 return
             }
             
@@ -106,16 +92,13 @@ final class CartViewModel: CartViewModelProtocol {
         }
     }
     
-    /// Increases the quantity of a specific item in the cart.
-    /// - Parameter item: The `CartDisplayItem` to increase the quantity of.
+
     func increaseQuantity(for item: CartDisplayItem) {
         serviceStore.addToQuantity(item.id)
-        // Reloads the data to reflect the change in total price and quantity.
+
         Task { await self.loadCart() }
     }
-    
-    /// Decreases the quantity of a specific item in the cart.
-    /// - Parameter item: The `CartDisplayItem` to decrease the quantity of.
+
     func decreaseQuantity(for item: CartDisplayItem) {
         serviceStore.removeFromQuantity(item.id)
         Task { await self.loadCart() }

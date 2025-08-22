@@ -60,7 +60,7 @@ struct ProductDetailsView: View {
                                 Spacer()
                             }
                             
-                            Text(viewModel.stringPrice ?? "")
+                            Text(viewModel.stringPrice)
                                 .font(.system(size: 22, weight: .bold))
                                 .frame(maxWidth: .infinity, alignment: .leading)
                             

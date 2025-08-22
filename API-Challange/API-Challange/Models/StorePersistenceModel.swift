@@ -31,13 +31,29 @@ final class Cart: Equatable {
 }
 
 @Model
-final class Orders {
-    @Attribute(.unique)
-    var productID: Int
-    var date: Date
+final class Order {
     
-    init(productID: Int, date: Date) {
-        self.productID = productID
-        self.date = Date()
+    var title: String
+    var date: String
+    var price: Double
+    var image: String
+    
+    init(title: String, date: String, price: Double, image: String) {
+        self.title = title
+        self.date = date
+        self.price = price
+        self.image = image
+    }
+}
+
+struct CartDisplayItem: Identifiable, Equatable {
+    let product: ProductModel
+    let cartItem: Cart
+    
+    var id: Int { product.id }
+    
+    static func == (lhs: CartDisplayItem, rhs: CartDisplayItem) -> Bool {
+
+        lhs.id == rhs.id
     }
 }

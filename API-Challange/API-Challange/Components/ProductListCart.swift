@@ -18,7 +18,17 @@ struct ProductListCart: View {
         
         HStack(spacing: 8) {
             
-            Placeholder(imageStyle: .small)
+            AsyncImage(url: URL(string: item.product.thumbnail)) { image in
+                image.resizable()
+                    .frame(maxWidth: 78, maxHeight: 78)
+                
+            } placeholder: {
+                
+                Placeholder(imageStyle: .medium)
+                
+            }
+            .background(RoundedRectangle(cornerRadius: 8).fill(.fillsQuaternary))
+            
             
             HStack(spacing: 16) {
                 

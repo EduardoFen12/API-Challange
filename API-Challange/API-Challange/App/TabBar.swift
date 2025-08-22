@@ -47,7 +47,7 @@ struct TabBar: View {
             }
             .tag(3)
             
-            OrdersView()
+            OrdersView(viewModel: OrdersViewModel(storeService: StorePersistenceService(context: context)))
                 .tabItem {
                     Image(systemName: "bag.fill")
                     Text("Orders")
