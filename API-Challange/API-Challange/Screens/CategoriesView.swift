@@ -9,10 +9,10 @@ import SwiftUI
 
 struct CategoriesView: View {
     
-    let viewModel: CategoriesViewModel
-    
+    //nao deveria estar aqui mas tudo bem 
     @Environment(\.modelContext) private var context
     
+    let viewModel: CategoriesViewModel
     @State private var searchText = ""
     
     var body: some View {

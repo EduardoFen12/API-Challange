@@ -10,19 +10,11 @@ import SwiftData
 
 struct ProductDetailsView: View {
     
-    let product: ProductModel
-    var stringPrice: String? { NumberFormatterManager.shared.doubleToString(self.product.price)}
-    
-    @State var viewModel: ProductDetailViewModel
-    @Environment(\.dismiss) private var dismiss
-    @Environment(\.modelContext ) private var modelContext
-    @Query var favorites: [Favorite]
-    @State var counter: Int = 0
-//    var addToCart: (_ id: Int) -> Void
-    
+    var favorites: [Favorite]
     var isFavorite: Bool {
-        favorites.contains { $0.productID == product.id }
+        favorites.contains { $0.productID == viewModel.product.id }
     }
+    @State var viewModel: ProductDetailViewModel
     var toggleFavorite: () -> Void
     
     var body: some View {
@@ -32,7 +24,7 @@ struct ProductDetailsView: View {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 16){
                         
-                        AsyncImage(url: URL(string: product.thumbnail)) { image in
+                        AsyncImage(url: URL(string: viewModel.product.thumbnail)) { image in
                             image.resizable()
                         } placeholder: {
                             
@@ -48,21 +40,15 @@ struct ProductDetailsView: View {
                                 .background(RoundedRectangle(cornerRadius: 8).fill(.graysGray5))
                                 .onTapGesture {
                                     toggleFavorite()
-                                    dismiss()
-                                    for fav in favorites {
-                                        print(fav.productID)
-                                    }
+                    
                                 }
-                        }
-                        .onAppear {
-                            counter += 1
                         }
                         .padding()
                         .background(RoundedRectangle(cornerRadius: 32).fill(.backgroundsSecondary))
                         
                         VStack(spacing: 4) {
                             
-                            Text(product.title)
+                            Text(viewModel.product.title)
                                 .multilineTextAlignment(.leading)
                                 .lineLimit(2)
                                 .font(.system(size: 20, weight: .regular))
@@ -70,18 +56,18 @@ struct ProductDetailsView: View {
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .layoutPriority(1)
                             
-                            if !isMultiline(text: product.title, font: .systemFont(ofSize: 13), maxWidth: 157, maxLines: 2) {
+                            if !isMultiline(text: viewModel.product.title, font: .systemFont(ofSize: 13), maxWidth: 157, maxLines: 2) {
                                 Spacer()
                             }
                             
-                            Text(stringPrice ?? "")
+                            Text(viewModel.stringPrice)
                                 .font(.system(size: 22, weight: .bold))
                                 .frame(maxWidth: .infinity, alignment: .leading)
                             
                             
                         }
                         
-                        Text(product.description)
+                        Text(viewModel.product.description)
                             .font(.system(size: 17, weight: .regular))
                             .foregroundStyle(.labelsSecondary)
                     }
@@ -91,9 +77,7 @@ struct ProductDetailsView: View {
                 }
                 
                 Button {
-                    print("produto adicionado: \(product.title)")
-                    viewModel.addToCart(product.id)
-                    print("Add to cart clicked!")
+                    viewModel.addToCart(viewModel.product.id)
                 } label: {
                     Text("Add to cart")
                         .font(.system(size: 17, weight: .semibold))

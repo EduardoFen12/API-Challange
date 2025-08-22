@@ -11,43 +11,69 @@ import Observation
 enum HomeState {
     case idle
     case loading
-    case error(message: String)
-    case loaded(deal: ProductModel, products: [ProductModel])
+    case error
+    case loaded
 }
 
 @Observable
 final class HomeViewModel: HomeProtocol {
     
-    var state: HomeState = .idle 
+    var state: HomeState = .idle
     let serviceAPI: ProductAPIServiceProtocol
-    var serviceFavorites: StorePersistenceProtocol
+    var storeFavorites: StorePersistenceProtocol
+    var dealOfDay: ProductModel
+    var products: [ProductModel]
+    var errorMessage: String
+    var favorites: [Favorite] = []
     
-    init(serviceAPI: ProductAPIServiceProtocol, serviceFavorites: StorePersistenceProtocol) {
+    init(serviceAPI: ProductAPIServiceProtocol, storeFavorites: StorePersistenceProtocol) {
         self.serviceAPI = serviceAPI
-        self.serviceFavorites = serviceFavorites
+        self.storeFavorites = storeFavorites
         
+        self.dealOfDay = ProductModel(id: 0, title: "", description: "", category: "", price: 0, discountPercentage: 0, thumbnail: "")
+        self.products = []
+        self.errorMessage = ""
     }
     
-    func toggleFavorite(_ id: Int) {
-        
-        serviceFavorites.toggleFavorite(id)
 
+    func toggleFavorite(_ id: Int) {
+        storeFavorites.toggleFavorite(id)
+        getFavorites()
     }
     
+    func getFavorites() {
+        do {
+            favorites = try storeFavorites.getFavorites()
+        } catch {
+            print("Error fetching favorites: \(error.localizedDescription)")
+        }
+    }
+    
+
+    func isFavorite(_ id: Int) -> Bool {
+        favorites.contains(where: { $0.productID == id })
+    }
+    
+
+    @MainActor
     func loadProducts() async {
-        
-        state = .loading
+//        state = .loading
+        getFavorites()
         
         do {
-            
-            let dealOfDay = try await serviceAPI.getRandomProduct()
-            let allProducts = try await serviceAPI.getAllProducts()
-            
-            state = .loaded(deal: dealOfDay, products: allProducts)
-        } catch {
 
-            state = .error(message: "Error to fetch products: \(error.localizedDescription)")
+            async let deal = serviceAPI.getRandomProduct()
+            async let allProducts = serviceAPI.getAllProducts()
             
+            self.dealOfDay = try await deal
+            self.products = try await allProducts
+            
+            state = .loaded
+        } catch {
+            errorMessage = "Error fetching products: \(error.localizedDescription)"
+            state = .error
         }
     }
 }
+
+

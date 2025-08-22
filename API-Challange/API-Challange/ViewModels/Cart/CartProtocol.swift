@@ -6,6 +6,16 @@
 //
 
 protocol CartViewModelProtocol {
-    func loadCartProducts() async
-    func getCartProducts() async
+
+    var cartDisplayItems: [CartDisplayItem] { get }
+    var totalPrice: String { get }
+    
+
+    func loadCart() async
+    
+    func increaseQuantity(for item: CartDisplayItem)
+    
+    func decreaseQuantity(for item: CartDisplayItem)
+    
+    func removeItem(for item: CartDisplayItem)
 }

@@ -19,7 +19,7 @@ struct TabBar: View {
             
             
             HomeView(viewModel: HomeViewModel(serviceAPI: ProductAPIService(),
-                                              serviceFavorites: StorePersistenceService(context: context)))
+                                              storeFavorites: StorePersistenceService(context: context)))
             .tabItem {
                 Image(systemName: "house.fill")
                 Text("Home")
@@ -40,14 +40,14 @@ struct TabBar: View {
                 }
                 .tag(2)
             
-            FavoritesView(viewModel: FavoritesViewModel(serviceAPI: ProductAPIService(), serviceFavorites: StorePersistenceService(context: context)))
+            FavoritesView(viewModel: FavoritesViewModel(serviceAPI: ProductAPIService(), storeFavorites: StorePersistenceService(context: context)))
             .tabItem {
                 Image(systemName: "heart.fill")
                 Text("Favorites")
             }
             .tag(3)
             
-            OrdersView()
+            OrdersView(viewModel: OrdersViewModel(storeService: StorePersistenceService(context: context)))
                 .tabItem {
                     Image(systemName: "bag.fill")
                     Text("Orders")

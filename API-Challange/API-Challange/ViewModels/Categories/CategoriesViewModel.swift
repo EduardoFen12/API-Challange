@@ -1,4 +1,12 @@
 //
+//  CategoriesState.swift
+//  API-Challange
+//
+//  Created by Gustavo Ferreira bassani on 21/08/25.
+//
+
+
+//
 //  CategoriesViewModel.swift
 //  API-Challange
 //

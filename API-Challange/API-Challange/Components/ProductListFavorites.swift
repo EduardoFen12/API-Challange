@@ -9,9 +9,10 @@ import SwiftUI
 
 struct ProductListFavorites: View {
     
-    @State var product: ProductModel
     @State var isClicked: Bool = false
     
+    //deveria vir de uma viewmodel
+    @State var product: ProductModel
     var stringPrice: String? { NumberFormatterManager.shared.doubleToString(self.product.price)}
     var body: some View {
         
@@ -27,6 +28,7 @@ struct ProductListFavorites: View {
                 Placeholder(imageStyle: .small)
 
             }
+            
             .background(RoundedRectangle(cornerRadius: 8).fill(.fillsQuaternary))
         
             HStack(spacing: 16) {
@@ -80,6 +82,6 @@ struct ProductListFavorites: View {
         
     }
 }
-
-#Preview {
-    ProductListFavorites(product: ProductModel(id: 2, title: "TITLE", description: "description", category: "category", price: 44.44, discountPercentage: 44.44, thumbnail: "imageName"), isClicked: false)}
+//
+//#Preview {
+//    ProductListFavorites(product: ProductModel(id: 2, title: "TITLE", description: "description", category: "category", price: 44.44, discountPercentage: 44.44, thumbnail: "imageName"), isClicked: false)}

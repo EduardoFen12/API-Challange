@@ -1,3 +1,4 @@
+
 //
 //  CategoriesProtocol.swift
 //  API-Challange
@@ -8,3 +9,7 @@
 protocol CategoriesViewModelProtocol {
     func loadCategories() async
 }
+
+
+
+

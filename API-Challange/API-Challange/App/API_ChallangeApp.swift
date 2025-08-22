@@ -15,7 +15,7 @@ struct API_ChallangeApp: App {
         WindowGroup {
             TabBar()
         }
-        .modelContainer(for: [Favorite.self, Cart.self, Orders.self])
+        .modelContainer(for: [Favorite.self, Cart.self, Order.self])
     }
 }
 

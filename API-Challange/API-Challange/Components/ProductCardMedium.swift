@@ -15,18 +15,15 @@ enum heart: String {
 
 struct ProductCardMedium: View {
     
-    @Environment(\.modelContext ) private var modelContext
-    @Query var favorites: [Favorite]
-    
-    var isFavorite: Bool {
-          favorites.contains { $0.productID == product.id }
-      }
+    var favorites: [Favorite]
+    var isFavorite: Bool
     var toggleFavorite: () -> Void
     
-    @State var product: ProductModel
-    
-    
+    //item recebido por navegação, pode ficar aqui
+    var product: ProductModel
     var stringPrice: String? { NumberFormatterManager.shared.doubleToString(self.product.price)}
+    
+    
     
     var body: some View {
         VStack( spacing: 8) {
@@ -40,7 +37,6 @@ struct ProductCardMedium: View {
                 Placeholder(imageStyle: .medium)
                 
             }
-            
                 .background(RoundedRectangle(cornerRadius: 8).fill(.fillsQuaternary))
                 .clipShape(RoundedRectangle(cornerRadius: 8))
                 .overlay(alignment: .topTrailing) {
@@ -49,11 +45,9 @@ struct ProductCardMedium: View {
                         .padding(8)
                         .background(RoundedRectangle(cornerRadius: 8).fill(.fillsTertiary))
                         .onTapGesture {
-                            toggleFavorite()
                             
-                            for fav in favorites {
-                                print(fav.productID)
-                            }
+                            toggleFavorite()
+    
                         }
                 }
                 

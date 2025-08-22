@@ -9,12 +9,13 @@ import SwiftUI
 import SwiftData
 
 struct FavoritesView: View {
-    
+    //nao devia estar aqui mas tudo bem
     @Environment(\.modelContext) var context
-
+    
+    //aqui ta ok
+    @State private var productNavigation: ProductModel = ProductModel(id: 0, title: "", description: "", category: "", price: 0, discountPercentage: 0, thumbnail: "")
     @State private var showCartSheet = false
     @State private var searchText = ""
-    @State private var productNavigation: ProductModel = ProductModel(id: 0, title: "", description: "", category: "", price: 0, discountPercentage: 0, thumbnail: "")
 
     @State var viewModel: FavoritesViewModel
     
@@ -24,12 +25,14 @@ struct FavoritesView: View {
                 .navigationTitle("Favorites")
                 .searchable(text: $searchText)
                 .sheet(isPresented: $showCartSheet, content: {
-                    ProductDetailsView(product: productNavigation, viewModel: ProductDetailViewModel(storeService: StorePersistenceService(context: context)), toggleFavorite: {viewModel.serviceFavorites.toggleFavorite(productNavigation.id)})
+                    ProductDetailsView(favorites: viewModel.favorites, viewModel: ProductDetailViewModel(storeService: StorePersistenceService(context: context), product: productNavigation), toggleFavorite: {viewModel.toggleFavorite(productNavigation.id)})
                     .onDisappear {
                         Task {
                             
                             await viewModel.loadingFavorites()
                             await viewModel.getFavoriteProducts()
+
+                            viewModel.getFavorites()
                         }
                     }
                 })
@@ -46,7 +49,6 @@ struct FavoritesView: View {
         case .idle:
             Color.clear
                 .onAppear {
-                    print("passou pelo idle")
 
                 }
 
@@ -54,7 +56,6 @@ struct FavoritesView: View {
             ProgressView()
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                 .onAppear {
-                    print("passou pelo isloading")
                 }
             
         case .error(let message):

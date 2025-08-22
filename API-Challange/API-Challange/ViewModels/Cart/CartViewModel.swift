@@ -15,60 +15,99 @@ enum CartState {
     case loaded
     case cartEmpty
 }
+ 
+
+
 
 @Observable
 final class CartViewModel: CartViewModelProtocol {
-        
     var state: CartState = .idle
     var serviceAPI: ProductAPIServiceProtocol
     var serviceStore: StorePersistenceProtocol
-    var cart: [Cart] = []
-    var cartProducts: [ProductModel] = []
-    var totalPrice: String  {
-        Task {
-            await getCartProducts()
-        }
-        var total: Double = 0
-        for item in cart {
-            total = cartProducts.first(where: { $0.id == item.productID })!.price + total
+    var cartDisplayItems: [CartDisplayItem] = []
+    
+    var totalPrice: String {
+        let total = cartDisplayItems.reduce(0) { partialResult, item in
+            let itemSubtotal = item.product.price * Double(item.cartItem.quantity)
+            return partialResult + itemSubtotal
         }
         return NumberFormatterManager.shared.doubleToString(total)
     }
     
+    func saveToOrders() async {
+        
+        cartDisplayItems.forEach { item in
+            
+            for _ in 1...item.cartItem.quantity {
+                serviceStore.saveToOrders(item.product.title, price: item.product.price, image: item.product.thumbnail)
+            }
+        }
+        
+        for item in cartDisplayItems {
+            serviceStore.removeFromCart(item.id)
+        }
+        
+        await loadCart()
+        
+    }
+    
+
     init(serviceAPI: ProductAPIServiceProtocol, serviceStore: StorePersistenceProtocol) {
         self.serviceAPI = serviceAPI
         self.serviceStore = serviceStore
     }
     
-    func getCartProducts() async {
-        do {
-            let productIds = cart.map { $0.productID }
-            let awaitCartProducts = try await serviceAPI.getFiltredProducts(by: productIds)
-            awaitCartProducts.forEach{print($0.id)}
-            cartProducts = awaitCartProducts
-            state = .loaded
-        } catch {
-            state = .error(message: "failed to load favorite products")
-        }
-    }
-    
-    func loadCartProducts() async {
+    @MainActor
+    func loadCart() async {
         state = .isLoading
         
         do {
+            //aqui talvez
+            let cartItemsFromDB = try serviceStore.getAllCart()
             
-            cart = try serviceStore.getAllCart()
-            print("produtos do carrinho: \(cart.forEach({$0.productID}))")
-            if cart.isEmpty {
-                
+            if cartItemsFromDB.isEmpty {
                 state = .cartEmpty
+                self.cartDisplayItems = [] // Clear the list for the UI (ISSO QUE FALTAVA)
+                return
             }
             
+            // 2. Get product IDs for the API call
+            let productIds = cartItemsFromDB.map { $0.productID }
+            
+            // 3. Fetch product details from the API (1 API call)
+            let productsFromAPI = try await serviceAPI.getFiltredProducts(by: productIds)
+            
+            // 4. Combine the results into the list that the View will use
+            self.cartDisplayItems = productsFromAPI.compactMap { product in
+                if let cartItem = cartItemsFromDB.first(where: { $0.productID == product.id }) {
+                    return CartDisplayItem(product: product, cartItem: cartItem)
+                }
+                return nil
+            }
+            
+            state = .loaded
+            
         } catch {
-            
-            state = .error(message: "Error to fetch categories: \(error.localizedDescription)")
-            
+            state = .error(message: "Failed to load the cart: \(error.localizedDescription)")
         }
     }
     
+
+    func increaseQuantity(for item: CartDisplayItem) {
+        serviceStore.addToQuantity(item.id)
+
+        Task { await self.loadCart() }
+    }
+
+    func decreaseQuantity(for item: CartDisplayItem) {
+        serviceStore.removeFromQuantity(item.id)
+        Task { await self.loadCart() }
+    }
+    
+    /// Completely removes an item from the cart.
+    /// - Parameter item: The `CartDisplayItem` to remove.
+    func removeItem(for item: CartDisplayItem) {
+        serviceStore.removeFromCart(item.id)
+        Task { await self.loadCart() }
+    }
 }

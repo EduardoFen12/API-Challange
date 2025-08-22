@@ -10,17 +10,10 @@ import SwiftData
 
 struct ProductCardLarge: View {
     
-    @Environment(\.modelContext ) private var modelContext
-    @Query var favorites: [Favorite]
-    
-    var isFavorite: Bool {
-          favorites.contains { $0.productID == product.id }
-      }
+    var isFavorite: Bool
     var toggleFavorite: () -> Void
     var product: ProductModel
-    
     var stringPrice: String? { NumberFormatterManager.shared.doubleToString(self.product.price)}
-    
     
     var body: some View {
         
@@ -28,6 +21,7 @@ struct ProductCardLarge: View {
             
             AsyncImage(url: URL(string: product.thumbnail)) { image in
                 image.resizable()
+
             } placeholder: {
                 
                 Placeholder(imageStyle: .medium)
@@ -50,9 +44,7 @@ struct ProductCardLarge: View {
                         .onTapGesture {
                             toggleFavorite()
                             
-                            for fav in favorites {
-                                print(fav.productID)
-                            }
+                   
                         }
                 }
                 

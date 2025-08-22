@@ -17,49 +17,66 @@ enum FavoriteState {
     case favsEmpty
 }
 
+
 @Observable
 final class FavoritesViewModel: FavoritesProtocol {
     
-    var state: FavoriteState = .idle {
-        didSet {
-            print("newState: \(state)")
-        }
-    }
+
+    var state: FavoriteState = .idle
     var serviceAPI: ProductAPIServiceProtocol
-    var serviceFavorites: StorePersistenceProtocol
+    var storeFavorites: StorePersistenceProtocol
     var favorites: [Favorite] = []
+
     
-    init(serviceAPI: ProductAPIServiceProtocol, serviceFavorites: StorePersistenceProtocol) {
+    init(serviceAPI: ProductAPIServiceProtocol, storeFavorites: StorePersistenceProtocol) {
         self.serviceAPI = serviceAPI
-        self.serviceFavorites = serviceFavorites
+        self.storeFavorites = storeFavorites
+        
     }
     
+    @MainActor
     func getFavoriteProducts() async {
         do {
             let productIds = favorites.map { $0.productID }
+
+            guard !productIds.isEmpty else {
+                state = .favsEmpty
+                return
+            }
             let favoriteProducts = try await serviceAPI.getFiltredProducts(by: productIds)
-            favoriteProducts.forEach{print($0.id)}
             state = .loaded(favProducts: favoriteProducts)
         } catch {
-            state = .error(message: "failed to load favorite products")
+            state = .error(message: "Failed to load favorite products.")
         }
     }
     
-    func toggleFavorite(_ id: Int)  {
-        serviceFavorites.toggleFavorite(id)
+    func getFavorites() {
+        do {
+            favorites = try storeFavorites.getFavorites()
+        } catch {
+            print("Error fetching favorites: \(error.localizedDescription)")
+        }
     }
     
+
+    func toggleFavorite(_ id: Int) {
+        storeFavorites.toggleFavorite(id)
+        getFavorites()
+    }
+    
+    @MainActor
     func loadingFavorites() async {
-        state = .isLoading
+         
+//        state = .isLoading
         
         do {
-            favorites = try serviceFavorites.getFavorites()
+            favorites = try storeFavorites.getFavorites()
             
             if favorites.isEmpty {
                 
                 state = .favsEmpty
             }
-            
+
             
         } catch {
             

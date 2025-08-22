@@ -9,16 +9,17 @@ import SwiftUI
 import SwiftData
 
 struct Categories1View: View {
+
+    //nao deveria estar aqui mas tudo bem
+    @Environment(\.modelContext) var context
     
     let category: CategoryModel
     let viewModel: Categories1ViewModel
-    @Environment(\.modelContext) var context
-    
     @State var showDetails = false
-    @State var productNavigation: ProductModel = ProductModel(id: 0, title: "", description: "", category: "", price: 0, discountPercentage: 0, thumbnail: "")
     @State private var searchText = ""
-
-
+    
+    //esse é dado de navegação, fica aqui
+    @State var productNavigation: ProductModel = ProductModel(id: 0, title: "", description: "", category: "", price: 0, discountPercentage: 0, thumbnail: "")
     
     var body: some View {
         NavigationStack {
@@ -30,7 +31,7 @@ struct Categories1View: View {
                     }
                 }
                 .sheet(isPresented: $showDetails, content: {
-                    ProductDetailsView(product: productNavigation, viewModel: ProductDetailViewModel(storeService: StorePersistenceService(context: context)), toggleFavorite: {viewModel.serviceFavorites.toggleFavorite(productNavigation.id)})
+                    ProductDetailsView(favorites: viewModel.favorites, viewModel: ProductDetailViewModel(storeService: StorePersistenceService(context: context), product: productNavigation), toggleFavorite: {viewModel.toggleFavorite(productNavigation.id)})
                 })
         }
     }
@@ -66,18 +67,13 @@ struct Categories1View: View {
                         LazyVGrid(columns: [GridItem(), GridItem()]) {
                             
                             ForEach(filteredProducts){ product in
-                                ProductCardMedium(
-                                    toggleFavorite: {
-                                        viewModel.toggleFavorites(product.id)
-                                    }, product: product)
+                                ProductCardMedium(favorites: viewModel.favorites, isFavorite: viewModel.isFavorite(product.id), toggleFavorite: {viewModel.toggleFavorite(product.id)}, product: product)
                                 .onTapGesture {
                                     productNavigation = product
                                     showDetails = true
                                 }
                             }
-                            
                         }
-
                     }
                     .navigationTitle(category.name)
                     .navigationBarTitleDisplayMode(.inline)

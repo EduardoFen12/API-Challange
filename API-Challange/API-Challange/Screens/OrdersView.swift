@@ -11,52 +11,60 @@ struct OrdersView: View {
     
     @State private var searchText = ""
     
-    struct Product: Identifiable, Decodable {
-        var id: UUID = UUID()
-        var name: String
-        var price: Double
-        var month: Int
-        
-        init(name: String, price: Double, month: Int) {
-            self.name = name
-            self.price = price
-            self.month = month
-        }
-    }
-    
-    var products: [Product] = [
-        Product(name: "Iphone 16 Pro Max 128GB Space Gray", price: 5399, month: 1),
-        Product(name: "Cadeira Gamer Recliner", price: 1200, month: 2),
-        Product(name: "Memoria Ram 32GB DDR5", price: 569, month: 2),
-        Product(name: "Memoria Ram 32GB DDR5", price: 569, month: 2),
-        Product(name: "Memoria Ram 32GB DDR5", price: 569, month: 5),
-        Product(name: "Memoria Ram 32GB DDR5", price: 569, month: 7),
-        Product(name: "Memoria Ram 32GB DDR5", price: 569, month: 10),
-    ]
+    var viewModel: OrdersViewModel
     
     var body: some View {
         NavigationStack {
-            VStack(spacing: 16) {
-                if products.isEmpty {
-                    EmptyState(style: .orders)
-                } else {
-                    VStack {
-                        ScrollView {
-                            VStack (spacing: 16) {
-                                ForEach(products) { product in
-                                    ProductListDelivery(productName: product.name, price: product.price, month: product.month)
-                                }
+            content
+                .task {
+                    await viewModel.loadView()
+                }
+                .padding(.bottom)
+                .navigationTitle("Orders")
+                .searchable(text: $searchText)
+            
+        }
+    }
+    
+    
+    @ViewBuilder
+    var content: some View {
+        VStack(spacing: 16) {
+            
+            switch viewModel.state {
+            case .idle:
+                Color.clear
+            case .loading:
+                ProgressView()
+            case .isEmpty:
+                EmptyState(style: .orders)
+            case .loaded:
+                VStack {
+                    ScrollView {
+                        VStack (spacing: 16) {
+                            ForEach(viewModel.orders) { productOrder in
+                                ProductListDelivery(productName: productOrder.title, price: productOrder.price, date: productOrder.date , image: productOrder.image)
                             }
                         }
                     }
                 }
+                
+            case .error:
+                VStack(spacing: 12) {
+                    Text(viewModel.errorMessage)
+                        .foregroundStyle(.red)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal)
+                    
+                    Button("Tentar novamente") {
+                        Task { await viewModel.loadView() }
+                    }
+                    .buttonStyle(.borderedProminent)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             }
-            .padding(.bottom)
-            .navigationTitle("Orders")
-            .searchable(text: $searchText)
             
         }
-
     }
 }
 

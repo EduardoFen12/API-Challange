@@ -4,4 +4,9 @@
 //
 //  Created by Gustavo Ferreira bassani on 15/08/25.
 //
+//
 
+protocol OrdersProtocol {
+    var orders: [Order] { get set }
+    
+}
