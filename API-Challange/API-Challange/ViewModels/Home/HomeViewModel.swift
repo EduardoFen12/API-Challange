@@ -23,8 +23,9 @@ final class HomeViewModel: HomeProtocol {
     var storeFavorites: StorePersistenceProtocol
     var dealOfDay: ProductModel
     var products: [ProductModel]
-    var errorMessage: String
+    var errorMessage: String?
     var favorites: [Favorite] = []
+    var noFavorites: String?
     
     init(serviceAPI: ProductAPIServiceProtocol, storeFavorites: StorePersistenceProtocol) {
         self.serviceAPI = serviceAPI
@@ -32,7 +33,7 @@ final class HomeViewModel: HomeProtocol {
         
         self.dealOfDay = ProductModel(id: 0, title: "", description: "", category: "", price: 0, discountPercentage: 0, thumbnail: "")
         self.products = []
-        self.errorMessage = ""
+
     }
     
 
@@ -45,6 +46,7 @@ final class HomeViewModel: HomeProtocol {
         do {
             favorites = try storeFavorites.getFavorites()
         } catch {
+            noFavorites = "Error fetching favorites: \(error.localizedDescription)"
             print("Error fetching favorites: \(error.localizedDescription)")
         }
     }

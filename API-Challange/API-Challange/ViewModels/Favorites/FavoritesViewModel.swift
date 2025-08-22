@@ -11,7 +11,6 @@ import SwiftData
 
 enum FavoriteState {
     case idle
-    case isLoading
     case error(message: String)
     case loaded(favProducts: [ProductModel])
     case favsEmpty
@@ -67,7 +66,6 @@ final class FavoritesViewModel: FavoritesProtocol {
     @MainActor
     func loadingFavorites() async {
          
-//        state = .isLoading
         
         do {
             favorites = try storeFavorites.getFavorites()

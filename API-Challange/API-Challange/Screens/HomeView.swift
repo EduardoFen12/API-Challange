@@ -44,7 +44,7 @@ struct HomeView: View {
         case .error:
             
             VStack(spacing: 12) {
-                Text(viewModel.errorMessage)
+                Text(viewModel.errorMessage ?? "")
                     .foregroundStyle(.red)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
