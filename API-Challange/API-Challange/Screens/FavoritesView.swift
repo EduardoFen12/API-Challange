@@ -24,6 +24,13 @@ struct FavoritesView: View {
             content
                 .navigationTitle("Favorites")
                 .searchable(text: $searchText)
+                .onChange(of: searchText) {
+                    Task{
+                        await viewModel.loadingFavorites()
+                        await viewModel.getFavoriteProducts()
+                        viewModel.search(by: searchText)
+                    }
+                }
                 .sheet(isPresented: $showCartSheet, content: {
                     ProductDetailsView(favorites: viewModel.favorites, viewModel: ProductDetailViewModel(storeService: StorePersistenceService(context: context), product: productNavigation), toggleFavorite: {viewModel.toggleFavorite(productNavigation.id)})
                     .onDisappear {
@@ -73,12 +80,12 @@ struct FavoritesView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             
             
-        case .loaded(let favoriteProducts):
+        case .loaded:
             VStack(spacing: 16) {
                 VStack {
                     ScrollView {
                         VStack(spacing: 16) {
-                            ForEach(favoriteProducts) { fav in
+                            ForEach(viewModel.favProducts) { fav in
                                 Button {
                                     productNavigation = fav
                                     showCartSheet = true

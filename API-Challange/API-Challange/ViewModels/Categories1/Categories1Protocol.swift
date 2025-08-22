@@ -7,4 +7,5 @@
 
 protocol Categories1Protocol {
     func loadProducts(category: CategoryModel) async
+    func search(by name: String)
 }
