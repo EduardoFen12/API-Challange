@@ -9,4 +9,5 @@ protocol FavoritesProtocol {
     
     func loadingFavorites() async
     func getFavoriteProducts() async
+    func search(by name: String)
 }

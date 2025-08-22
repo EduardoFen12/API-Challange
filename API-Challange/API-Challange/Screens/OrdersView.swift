@@ -22,6 +22,12 @@ struct OrdersView: View {
                 .padding(.bottom)
                 .navigationTitle("Orders")
                 .searchable(text: $searchText)
+                .onChange(of: searchText) {
+                    Task{
+                        await viewModel.loadView()prefizx
+                        viewModel.search(by: searchText)
+                    }
+                }
             
         }
     }

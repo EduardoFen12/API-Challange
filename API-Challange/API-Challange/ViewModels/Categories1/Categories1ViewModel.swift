@@ -70,4 +70,10 @@ final class Categories1ViewModel: Categories1Protocol {
         
     }
     
+    func search(by name: String) {
+        if !name.isEmpty {
+            productsFromCategory = productsFromCategory.filter {$0.title.localizedCaseInsensitiveContains(name)}
+        }
+    }
+    
 }

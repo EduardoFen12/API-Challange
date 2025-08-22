@@ -78,6 +78,12 @@ struct Categories1View: View {
                     .navigationTitle(category.name)
                     .navigationBarTitleDisplayMode(.inline)
                     .searchable(text: $searchText, placement: .navigationBarDrawer)
+                    .onChange(of: searchText) {
+                        Task{
+                            await viewModel.loadProducts(category: category)
+                            viewModel.search(by: searchText)
+                        }
+                    }
                 }
             }
         }
