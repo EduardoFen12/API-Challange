@@ -6,19 +6,8 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXContainerItemProxy section */
-		C4D7B7D92E56362E00181366 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A05E950E2E4D17F3001E4855 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = A05E95152E4D17F3001E4855;
-			remoteInfo = "API-Challange";
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		A05E95162E4D17F3001E4855 /* API-Challange.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "API-Challange.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C4D7B7D52E56362E00181366 /* API-ChallangeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "API-ChallangeTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -27,22 +16,10 @@
 			path = "API-Challange";
 			sourceTree = "<group>";
 		};
-		C4D7B7D62E56362E00181366 /* API-ChallangeTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "API-ChallangeTests";
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		A05E95132E4D17F3001E4855 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C4D7B7D22E56362E00181366 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -56,7 +33,6 @@
 			isa = PBXGroup;
 			children = (
 				A05E95182E4D17F3001E4855 /* API-Challange */,
-				C4D7B7D62E56362E00181366 /* API-ChallangeTests */,
 				A05E95172E4D17F3001E4855 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -65,7 +41,6 @@
 			isa = PBXGroup;
 			children = (
 				A05E95162E4D17F3001E4855 /* API-Challange.app */,
-				C4D7B7D52E56362E00181366 /* API-ChallangeTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -95,29 +70,6 @@
 			productReference = A05E95162E4D17F3001E4855 /* API-Challange.app */;
 			productType = "com.apple.product-type.application";
 		};
-		C4D7B7D42E56362E00181366 /* API-ChallangeTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = C4D7B7DB2E56362E00181366 /* Build configuration list for PBXNativeTarget "API-ChallangeTests" */;
-			buildPhases = (
-				C4D7B7D12E56362E00181366 /* Sources */,
-				C4D7B7D22E56362E00181366 /* Frameworks */,
-				C4D7B7D32E56362E00181366 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				C4D7B7DA2E56362E00181366 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				C4D7B7D62E56362E00181366 /* API-ChallangeTests */,
-			);
-			name = "API-ChallangeTests";
-			packageProductDependencies = (
-			);
-			productName = "API-ChallangeTests";
-			productReference = C4D7B7D52E56362E00181366 /* API-ChallangeTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -130,10 +82,6 @@
 				TargetAttributes = {
 					A05E95152E4D17F3001E4855 = {
 						CreatedOnToolsVersion = 16.3;
-					};
-					C4D7B7D42E56362E00181366 = {
-						CreatedOnToolsVersion = 16.3;
-						TestTargetID = A05E95152E4D17F3001E4855;
 					};
 				};
 			};
@@ -152,20 +100,12 @@
 			projectRoot = "";
 			targets = (
 				A05E95152E4D17F3001E4855 /* API-Challange */,
-				C4D7B7D42E56362E00181366 /* API-ChallangeTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		A05E95142E4D17F3001E4855 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C4D7B7D32E56362E00181366 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -182,22 +122,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C4D7B7D12E56362E00181366 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		C4D7B7DA2E56362E00181366 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = A05E95152E4D17F3001E4855 /* API-Challange */;
-			targetProxy = C4D7B7D92E56362E00181366 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		A05E951F2E4D17F4001E4855 /* Debug */ = {
@@ -330,7 +255,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = W35YJ39H5L;
+				DEVELOPMENT_TEAM = J63SH8A52R;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -358,7 +283,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = W35YJ39H5L;
+				DEVELOPMENT_TEAM = J63SH8A52R;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -379,42 +304,6 @@
 			};
 			name = Release;
 		};
-		C4D7B7DC2E56362E00181366 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = W35YJ39H5L;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "br.academy.API-ChallangeTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/API-Challange.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/API-Challange";
-			};
-			name = Debug;
-		};
-		C4D7B7DD2E56362E00181366 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = W35YJ39H5L;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "br.academy.API-ChallangeTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/API-Challange.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/API-Challange";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -432,15 +321,6 @@
 			buildConfigurations = (
 				A05E95222E4D17F4001E4855 /* Debug */,
 				A05E95232E4D17F4001E4855 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		C4D7B7DB2E56362E00181366 /* Build configuration list for PBXNativeTarget "API-ChallangeTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				C4D7B7DC2E56362E00181366 /* Debug */,
-				C4D7B7DD2E56362E00181366 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

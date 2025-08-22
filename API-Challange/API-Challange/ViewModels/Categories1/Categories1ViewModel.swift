@@ -33,11 +33,12 @@ final class Categories1ViewModel: Categories1Protocol {
     
     func toggleFavorite(_ id: Int) {
         storePresistence.toggleFavorite(id)
+        getFavorites()
     }
     
     func getFavorites() {
         do {
-            
+
             favorites = try storePresistence.getFavorites()
             
         } catch {
