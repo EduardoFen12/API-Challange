@@ -41,7 +41,7 @@ struct Categories1View: View {
         switch viewModel.state {
         case .idle:
             
-            Color.clear
+            ProgressView()
         case .isLoading:
             ProgressView()
         case .error(let message):
@@ -58,7 +58,7 @@ struct Categories1View: View {
                 .buttonStyle(.borderedProminent)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-        case .loaded(let filteredProducts):
+        case .loaded:
             NavigationStack{
                 
                 VStack (spacing: 8) {
@@ -66,7 +66,7 @@ struct Categories1View: View {
                     ScrollView {
                         LazyVGrid(columns: [GridItem(), GridItem()]) {
                             
-                            ForEach(filteredProducts){ product in
+                            ForEach(viewModel.productsFromCategory){ product in
                                 ProductCardMedium(favorites: viewModel.favorites, isFavorite: viewModel.isFavorite(product.id), toggleFavorite: {viewModel.toggleFavorite(product.id)}, product: product)
                                 .onTapGesture {
                                     productNavigation = product

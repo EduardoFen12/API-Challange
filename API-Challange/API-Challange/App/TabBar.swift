@@ -10,7 +10,7 @@ import SwiftData
 
 struct TabBar: View {
 
-    @State private var selectedTab = 0
+    @State private var selectedTab = 1
 
     @Environment(\.modelContext) private var context
     
