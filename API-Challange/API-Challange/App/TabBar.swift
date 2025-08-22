@@ -40,7 +40,7 @@ struct TabBar: View {
                 }
                 .tag(2)
             
-            FavoritesView(viewModel: FavoritesViewModel(serviceAPI: ProductAPIService(), serviceFavorites: StorePersistenceService(context: context)))
+            FavoritesView(viewModel: FavoritesViewModel(serviceAPI: ProductAPIService(), storeFavorites: StorePersistenceService(context: context)))
             .tabItem {
                 Image(systemName: "heart.fill")
                 Text("Favorites")

@@ -15,16 +15,15 @@ enum heart: String {
 
 struct ProductCardMedium: View {
     
-    //isso tem que vir da viewmodel
     var favorites: [Favorite]
     var isFavorite: Bool
     var toggleFavorite: () -> Void
     
     //item recebido por navegação, pode ficar aqui
-    @State var product: ProductModel
-    
-    
+    var product: ProductModel
     var stringPrice: String? { NumberFormatterManager.shared.doubleToString(self.product.price)}
+    
+    
     
     var body: some View {
         VStack( spacing: 8) {

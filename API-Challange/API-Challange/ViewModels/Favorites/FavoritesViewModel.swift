@@ -24,12 +24,14 @@ final class FavoritesViewModel: FavoritesProtocol {
 
     var state: FavoriteState = .idle
     var serviceAPI: ProductAPIServiceProtocol
-    var serviceFavorites: StorePersistenceProtocol
+    var storeFavorites: StorePersistenceProtocol
     var favorites: [Favorite] = []
+
     
-    init(serviceAPI: ProductAPIServiceProtocol, serviceFavorites: StorePersistenceProtocol) {
+    init(serviceAPI: ProductAPIServiceProtocol, storeFavorites: StorePersistenceProtocol) {
         self.serviceAPI = serviceAPI
-        self.serviceFavorites = serviceFavorites
+        self.storeFavorites = storeFavorites
+        
     }
     
     @MainActor
@@ -49,13 +51,17 @@ final class FavoritesViewModel: FavoritesProtocol {
     }
     
     func getFavorites() {
-
-        _ = try? serviceFavorites.getFavorites()
+        do {
+            favorites = try storeFavorites.getFavorites()
+        } catch {
+            print("Error fetching favorites: \(error.localizedDescription)")
+        }
     }
     
 
-    func toggleFavorite(_ id: Int)  {
-        serviceFavorites.toggleFavorite(id)
+    func toggleFavorite(_ id: Int) {
+        storeFavorites.toggleFavorite(id)
+        getFavorites()
     }
     
     @MainActor
@@ -64,7 +70,7 @@ final class FavoritesViewModel: FavoritesProtocol {
 //        state = .isLoading
         
         do {
-            favorites = try serviceFavorites.getFavorites()
+            favorites = try storeFavorites.getFavorites()
             
             if favorites.isEmpty {
                 

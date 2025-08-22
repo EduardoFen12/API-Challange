@@ -10,17 +10,11 @@ import SwiftData
 
 struct ProductDetailsView: View {
     
-    //esses podem ficar aqui
-    let product: ProductModel
+    var favorites: [Favorite]
     var isFavorite: Bool {
-        favorites.contains { $0.productID == product.id }
+        favorites.contains { $0.productID == viewModel.product.id }
     }
     @State var viewModel: ProductDetailViewModel
-    var favorites: [Favorite]
-
-    //isso aqui deveria vir da viewmodel
-    var stringPrice: String? { NumberFormatterManager.shared.doubleToString(self.product.price)}
-    
     var toggleFavorite: () -> Void
     
     var body: some View {
@@ -30,7 +24,7 @@ struct ProductDetailsView: View {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 16){
                         
-                        AsyncImage(url: URL(string: product.thumbnail)) { image in
+                        AsyncImage(url: URL(string: viewModel.product.thumbnail)) { image in
                             image.resizable()
                         } placeholder: {
                             
@@ -54,7 +48,7 @@ struct ProductDetailsView: View {
                         
                         VStack(spacing: 4) {
                             
-                            Text(product.title)
+                            Text(viewModel.product.title)
                                 .multilineTextAlignment(.leading)
                                 .lineLimit(2)
                                 .font(.system(size: 20, weight: .regular))
@@ -62,18 +56,18 @@ struct ProductDetailsView: View {
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .layoutPriority(1)
                             
-                            if !isMultiline(text: product.title, font: .systemFont(ofSize: 13), maxWidth: 157, maxLines: 2) {
+                            if !isMultiline(text: viewModel.product.title, font: .systemFont(ofSize: 13), maxWidth: 157, maxLines: 2) {
                                 Spacer()
                             }
                             
-                            Text(stringPrice ?? "")
+                            Text(viewModel.stringPrice ?? "")
                                 .font(.system(size: 22, weight: .bold))
                                 .frame(maxWidth: .infinity, alignment: .leading)
                             
                             
                         }
                         
-                        Text(product.description)
+                        Text(viewModel.product.description)
                             .font(.system(size: 17, weight: .regular))
                             .foregroundStyle(.labelsSecondary)
                     }
@@ -83,7 +77,7 @@ struct ProductDetailsView: View {
                 }
                 
                 Button {
-                    viewModel.addToCart(product.id)
+                    viewModel.addToCart(viewModel.product.id)
                 } label: {
                     Text("Add to cart")
                         .font(.system(size: 17, weight: .semibold))

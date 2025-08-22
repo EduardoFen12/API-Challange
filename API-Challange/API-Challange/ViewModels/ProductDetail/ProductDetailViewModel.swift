@@ -10,9 +10,12 @@ import SwiftUI
 struct ProductDetailViewModel: ProductDetailProtocol {
     
     var storeService: StorePersistenceService
+    var product: ProductModel
+    var stringPrice: String { NumberFormatterManager.shared.doubleToString(product.price)}
     
-    init(storeService: StorePersistenceService) {
+    init(storeService: StorePersistenceService, product: ProductModel) {
         self.storeService = storeService
+        self.product = product
     }
     
     func addToCart(_ id: Int) {
