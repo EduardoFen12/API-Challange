@@ -86,20 +86,12 @@ class ProductAPIService: ProductAPIServiceProtocol {
     func getFourRandomCategories() async throws -> [CategoryModel] {
         
         let categories = try await getCategories()
-        
-        var randomCategories: [CategoryModel] = []
-        
-        guard !categories.isEmpty else {
+            
+        guard categories.count >= 4 else {
             throw URLError(.badServerResponse)
         }
         
-        for _ in 0..<4 {
-            let randomIndex = Int.random(in: 0..<categories.count)
-            
-            randomCategories.append(categories[randomIndex])
-        }
-        
-        return randomCategories
+        return Array(categories.shuffled().prefix(4))
     }
 
     func getFiltredProducts(by ids: [Int]) async throws -> [ProductModel] {
@@ -115,6 +107,20 @@ class ProductAPIService: ProductAPIServiceProtocol {
         
         
         return allFavoriteProducts
+    }
+    
+    func getProductsByCategory(by category: String) async throws -> [ProductModel] {
+        let urlString: String = "\(baseURL)/products/category/\(category)"
+        
+        guard let url = URL(string: urlString) else {
+            throw URLError(.badURL)
+        }
+        
+        let (data, _) = try await URLSession.shared.data(from: url)
+        let response = try JSONDecoder().decode(ProductsFromResponseModel.self, from: data)
+        
+        cachedProducts = response.products
+        return response.products
     }
     
 }

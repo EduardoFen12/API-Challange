@@ -12,7 +12,7 @@ enum Categories1State {
     case idle
     case isLoading
     case error(message: String)
-    case loaded(filteredProducts: [ProductModel])
+    case loaded
 }
 
 
@@ -23,7 +23,7 @@ final class Categories1ViewModel: Categories1Protocol {
     private let serviceAPI: ProductAPIServiceProtocol
     var storePresistence: StorePersistenceProtocol
     var favorites: [Favorite] = []
-
+    var productsFromCategory: [ProductModel] = []
     
     
     init(serviceAPI: ProductAPIServiceProtocol, serviceFavorites: StorePersistenceProtocol) {
@@ -54,25 +54,14 @@ final class Categories1ViewModel: Categories1Protocol {
     
     func loadProducts(category: CategoryModel) async {
         
-//        state = .isLoading
         getFavorites()
         
         do {
+            let products = try await serviceAPI.getProductsByCategory(by: category.slug)
             
-            let products = try await serviceAPI.getAllProducts()
+            productsFromCategory = products
             
-            var filteredProducts: [ProductModel] = []
-            
-            for product in products {
-                
-                if product.category == category.slug {
-                    
-                    filteredProducts.append(product)
-                    
-                }
-            }
-            
-            state = .loaded(filteredProducts: filteredProducts)
+            state = .loaded
         } catch {
             
             state = .error(message: "Error to fetch categories: \(error.localizedDescription)")

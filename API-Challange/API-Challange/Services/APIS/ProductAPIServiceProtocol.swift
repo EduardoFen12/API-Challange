@@ -15,5 +15,6 @@ protocol ProductAPIServiceProtocol {
     func getRandomProduct() async throws -> ProductModel
     func getFiltredProducts(by ids: [Int]) async throws -> [ProductModel]
     func getFourRandomCategories() async throws -> [CategoryModel]
+    func getProductsByCategory(by category: String) async throws -> [ProductModel]
     
 }
