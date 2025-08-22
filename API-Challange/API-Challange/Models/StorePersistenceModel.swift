@@ -15,7 +15,7 @@ final class Favorite {
 }
 
 @Model
-final class Cart {
+final class Cart: Equatable {
     @Attribute(.unique)
     var productID: Int
     var quantity: Int
@@ -23,6 +23,10 @@ final class Cart {
     init(productID: Int) {
         self.productID = productID
         self.quantity = 1
+    }
+    
+    static func == (lhs: Cart, rhs: Cart) -> Bool {
+        lhs.productID == rhs.productID
     }
 }
 

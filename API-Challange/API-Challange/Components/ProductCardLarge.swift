@@ -10,11 +10,9 @@ import SwiftData
 
 struct ProductCardLarge: View {
     
-    
     var isFavorite: Bool
     var toggleFavorite: () -> Void
     var stringPrice: String? { NumberFormatterManager.shared.doubleToString(self.product.price)}
-    
     var product: ProductModel
     
     var body: some View {

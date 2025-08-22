@@ -9,9 +9,10 @@ import SwiftUI
 
 struct ProductListCart: View {
     
-    var productName: String
-    var price: Double
-    @State var quantity: Int = 1
+    // As propriedades antigas foram substituídas por estas:
+    let item: CartDisplayItem
+    let onIncrease: () -> Void
+    let onDecrease: () -> Void
     
     var body: some View {
         
@@ -23,7 +24,7 @@ struct ProductListCart: View {
                 
                 VStack(spacing: 4) {
                     
-                    Text(productName)
+                    Text(item.product.title)
                         .multilineTextAlignment(.leading)
                         .lineLimit(2)
                         .font(.system(size: 13, weight: .regular))
@@ -31,11 +32,11 @@ struct ProductListCart: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .layoutPriority(1)
                     
-                    if !isMultiline(text: productName, font: .systemFont(ofSize: 13), maxWidth: 157, maxLines: 2) {
+                    if !isMultiline(text: item.product.title, font: .systemFont(ofSize: 13), maxWidth: 157, maxLines: 2) {
                         Spacer()
                     }
                     
-                    Text("US$ \(String(format: "%05.2f", price))")
+                    Text("US$ \(String(format: "%05.2f", item.product.price))")
                         .font(.system(size: 17, weight: .semibold))
                         .frame(maxWidth: .infinity, alignment: .leading)
                     
@@ -45,7 +46,7 @@ struct ProductListCart: View {
                 HStack(spacing: 0.5) {
                     
                     Button {
-                        quantity = quantity - 1
+                        onDecrease() // Ação agora chama a closure
                     } label: {
                         Image(systemName: "minus")
                             .font(.system(size: 12, weight: .regular))
@@ -57,13 +58,13 @@ struct ProductListCart: View {
                             )
                     }
                     
-                    Text("\(quantity)")
+                    Text("\(item.cartItem.quantity)") // Quantidade vem do `item`
                         .font(.system(size: 17, weight: .regular))
                         .foregroundStyle(.labelsPrimary)
                         .frame(width: 32)
                     
                     Button {
-                        quantity = quantity + 1
+                        onIncrease() // Ação agora chama a closure
                     } label: {
                         Image(systemName: "plus")
                             .font(.system(size: 12, weight: .regular))
@@ -81,7 +82,6 @@ struct ProductListCart: View {
             }
             .padding(8)
             
-            
         }
         .padding(8)
         .frame(maxWidth: .infinity, minHeight: 94)
@@ -89,9 +89,6 @@ struct ProductListCart: View {
             RoundedRectangle(cornerRadius: 16)
                 .foregroundStyle(.backgroundsSecondary)
         )
-        .padding(.leading)
-        .padding(.trailing)
-    
     }
     
     func isMultiline(text: String, font: UIFont, maxWidth: CGFloat, maxLines: Int) -> Bool {

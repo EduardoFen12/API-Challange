@@ -43,11 +43,16 @@ final class FavoritesViewModel: FavoritesProtocol {
         }
     }
     
+    func getFavorites() {
+        _ = try? serviceFavorites.getFavorites()
+    }
+    
     func toggleFavorite(_ id: Int)  {
         serviceFavorites.toggleFavorite(id)
     }
     
     func loadingFavorites() async {
+         
         state = .isLoading
         
         do {

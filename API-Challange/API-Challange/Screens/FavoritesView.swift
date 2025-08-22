@@ -31,6 +31,8 @@ struct FavoritesView: View {
                             
                             await viewModel.loadingFavorites()
                             await viewModel.getFavoriteProducts()
+
+                            viewModel.getFavorites()
                         }
                     }
                 })

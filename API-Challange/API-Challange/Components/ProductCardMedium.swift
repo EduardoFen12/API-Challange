@@ -17,9 +17,7 @@ struct ProductCardMedium: View {
     
     //isso tem que vir da viewmodel
     var favorites: [Favorite]
-    
     var isFavorite: Bool
-    
     var toggleFavorite: () -> Void
     
     //item recebido por navegação, pode ficar aqui

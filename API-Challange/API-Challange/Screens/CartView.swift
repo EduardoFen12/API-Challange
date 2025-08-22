@@ -1,24 +1,16 @@
-//
-//  CartView.swift
-//  API-Challange
-//
-//  Created by Eduardo Garcia Fensterseifer on 14/08/25.
-//
-
 import SwiftUI
 import SwiftData
 
 struct CartView: View {
     
-    let viewModel: CartViewModel
+    @State var viewModel: CartViewModel
     
     var body: some View {
         NavigationStack {
             content
                 .navigationTitle("Cart")
                 .task {
-                    await viewModel.loadCartProducts()
-                    await viewModel.getCartProducts()
+                    await viewModel.loadCart()
                 }
         }
     }
@@ -39,7 +31,7 @@ struct CartView: View {
                     .padding(.horizontal)
                 
                 Button("Tentar novamente") {
-                    Task { await viewModel.loadCartProducts() }
+                    Task { await viewModel.loadCart() }
                 }
                 .buttonStyle(.borderedProminent)
             }
@@ -48,52 +40,53 @@ struct CartView: View {
         case .loaded:
             
             VStack(spacing: 16) {
-                VStack {
-                    ScrollView {
-                        VStack (spacing: 16) {
-                            ForEach(viewModel.cartProducts) { product in
-                                ProductListCart(productName: product.title, price: product.price)
-                            }
+                ScrollView {
+                    VStack (spacing: 16) {
+                        ForEach(viewModel.cartDisplayItems) { item in
+                            ProductListCart(
+                                item: item,
+                                onIncrease: { viewModel.increaseQuantity(for: item) },
+                                onDecrease: { viewModel.decreaseQuantity(for: item) }
+                            )
                         }
+                    }
+                    .padding(.horizontal)
+                }
+                
+                VStack {
+                    HStack {
+                        Text("Total:")
+                            .font(.system(size: 15, weight: .regular))
+                            .foregroundStyle(.labelsPrimary)
+                        Spacer()
+                        Text("US$ \(viewModel.totalPrice)")
+                            .font(.system(size: 17, weight: .semibold))
+                            .foregroundColor(.labelsPrimary)
                     }
                     
-                    VStack {
-                        HStack {
-                            Text("Total:")
-                                .font(.system(size: 15, weight: .regular))
-                                .foregroundStyle(.labelsPrimary)
-                            Spacer()
-                            Text("US$ \(viewModel.totalPrice)")
-                                .font(.system(size: 17, weight: .semibold))
-                                .foregroundColor(.labelsPrimary)
-                        }
-                        
-                        Button {
-                            print("Botão Checkout clicado!")
-                        } label: {
-                            Text("Checkout")
-                                .font(.system(size: 17, weight: .semibold))
-                                .foregroundColor(.labelsPrimary)
-                                .frame(maxWidth: .infinity, minHeight: 54, maxHeight: 54)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 16)
-                                        .foregroundStyle(.fillsTertiary)
-                                )
-                        }
-                        
+                    Button {
+                        print("Botão Checkout clicado!")
+                    } label: {
+                        Text("Checkout")
+                            .font(.system(size: 17, weight: .semibold))
+                            .foregroundColor(.labelsPrimary)
+                            .frame(maxWidth: .infinity, minHeight: 54, maxHeight: 54)
+                            .background(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .foregroundStyle(.fillsTertiary)
+                            )
                     }
-                    .padding(.leading)
-                    .padding(.trailing)
                 }
+                .padding([.horizontal, .bottom])
             }
-                
-        case .cartEmpty:
-            EmptyState(style: .favorites)
             
+        case .cartEmpty:
+            EmptyState(style: .cart)
         }
     }
 }
 
 #Preview {
+
     TabBar()
 }

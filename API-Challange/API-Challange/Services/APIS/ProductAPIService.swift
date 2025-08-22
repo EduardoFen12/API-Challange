@@ -12,6 +12,8 @@ class ProductAPIService: ProductAPIServiceProtocol {
     
     private let baseURL = "https://dummyjson.com"
     
+    var cachedProducts: [ProductModel] = []
+    
     func getCategories() async throws -> [CategoryModel] {
         
         let urlString: String = "\(baseURL)/products/categories"
@@ -37,10 +39,17 @@ class ProductAPIService: ProductAPIServiceProtocol {
         let (data, _) = try await URLSession.shared.data(from: url)
         let response = try JSONDecoder().decode(ProductsFromResponseModel.self, from: data)
         
+        cachedProducts = response.products
         return response.products
     }
     
     func getProduct(number: Int) async throws -> ProductModel {
+        
+        
+        if let product = cachedProducts.first(where: {$0.id == number }) {
+            return product
+        }
+        
         let urlString: String = "\(baseURL)/products/\(number)"
         
         guard let url = URL(string: urlString) else {
@@ -55,6 +64,8 @@ class ProductAPIService: ProductAPIServiceProtocol {
         }
         
         let product = try JSONDecoder().decode(ProductModel.self, from: data)
+        
+        cachedProducts.append(product)
         
         return product
     }
@@ -72,7 +83,6 @@ class ProductAPIService: ProductAPIServiceProtocol {
         return products[randomIndex]
     }
     
-
     func getFourRandomCategories() async throws -> [CategoryModel] {
         
         let categories = try await getCategories()

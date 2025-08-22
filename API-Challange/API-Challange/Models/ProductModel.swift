@@ -9,7 +9,7 @@ struct ProductsFromResponseModel: Decodable {
     var products: [ProductModel]
 }
 
-struct ProductModel: Identifiable, Decodable {
+struct ProductModel: Equatable, Identifiable, Decodable {
 
     let id: Int
     let title: String
