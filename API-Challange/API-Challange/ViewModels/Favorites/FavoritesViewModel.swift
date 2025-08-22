@@ -12,7 +12,7 @@ import SwiftData
 enum FavoriteState {
     case idle
     case error(message: String)
-    case loaded(favProducts: [ProductModel])
+    case loaded
     case favsEmpty
 }
 
@@ -25,7 +25,7 @@ final class FavoritesViewModel: FavoritesProtocol {
     var serviceAPI: ProductAPIServiceProtocol
     var storeFavorites: StorePersistenceProtocol
     var favorites: [Favorite] = []
-
+    var favProducts: [ProductModel] = []
     
     init(serviceAPI: ProductAPIServiceProtocol, storeFavorites: StorePersistenceProtocol) {
         self.serviceAPI = serviceAPI
@@ -42,8 +42,9 @@ final class FavoritesViewModel: FavoritesProtocol {
                 state = .favsEmpty
                 return
             }
-            let favoriteProducts = try await serviceAPI.getFiltredProducts(by: productIds)
-            state = .loaded(favProducts: favoriteProducts)
+            
+            favProducts = try await serviceAPI.getFiltredProducts(by: productIds)
+            state = .loaded
         } catch {
             state = .error(message: "Failed to load favorite products.")
         }
@@ -65,8 +66,7 @@ final class FavoritesViewModel: FavoritesProtocol {
     
     @MainActor
     func loadingFavorites() async {
-         
-        
+
         do {
             favorites = try storeFavorites.getFavorites()
             
@@ -80,6 +80,12 @@ final class FavoritesViewModel: FavoritesProtocol {
             
             state = .error(message: "Error to fetch products: \(error.localizedDescription)")
             
+        }
+    }
+    
+    func search(by name: String) {
+        if !name.isEmpty {
+            favProducts = favProducts.filter {$0.title.localizedCaseInsensitiveContains(name)}
         }
     }
 }

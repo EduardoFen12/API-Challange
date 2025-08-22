@@ -49,4 +49,10 @@ class OrdersViewModel: OrdersProtocol {
             errorMessage = "Error fetching orders: \(error.localizedDescription)"
         }
     }
+    
+    func search(by name: String) {
+        if !name.isEmpty {
+            orders = orders.filter {$0.title.localizedCaseInsensitiveContains(name)}
+        }
+    }
 }

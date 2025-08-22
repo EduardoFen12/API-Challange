@@ -8,6 +8,7 @@
 
 protocol CategoriesViewModelProtocol {
     func loadCategories() async
+    func search(by name: String)
 }
 
 

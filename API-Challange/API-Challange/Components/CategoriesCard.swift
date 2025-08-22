@@ -9,12 +9,15 @@ import SwiftUI
 
 struct CategoriesCard: View {
     var category: CategoryModel
+    var productCategory: ProductCategory {
+        ProductCategory(rawValue: category.name) ?? .beauty
+    }
     
     var body: some View {
         
         VStack(spacing: 8){
             
-            CategoriesImage(systemName: .sparkles)
+            CategoriesImage(systemName: productCategory)
                 .frame(width: 84, height: 84)
                 .font(.system(size: 32))
                 .background(RoundedRectangle(cornerRadius: 16).fill(.backgroundsSecondary))
@@ -29,7 +32,7 @@ struct CategoriesCard: View {
         
     }
 } 
-//
-//#Preview {
-//    CategoriesCard(category: CategoryModel(name: "Beauty"))
-//}
+
+#Preview {
+    CategoriesCard(category: CategoryModel(slug: "fragrances", name: "Fragrances", url: "https://dummyjson.com/products/category/fragrances"))
+}

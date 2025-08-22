@@ -8,5 +8,5 @@
 
 protocol OrdersProtocol {
     var orders: [Order] { get set }
-    
+    func search(by name: String)
 }
