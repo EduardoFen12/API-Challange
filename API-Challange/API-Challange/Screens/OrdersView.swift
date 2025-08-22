@@ -10,8 +10,10 @@ import SwiftUI
 struct OrdersView: View {
     
     @State private var searchText = ""
+    @Environment(\.verticalSizeClass) var verticalSizeClass
     
     var viewModel: OrdersViewModel
+    var isIpad: Bool { verticalSizeClass == .regular }
     
     var body: some View {
         NavigationStack {
@@ -19,12 +21,12 @@ struct OrdersView: View {
                 .task {
                     await viewModel.loadView()
                 }
-                .padding(.bottom)
+//                .padding(.bottom)
                 .navigationTitle("Orders")
                 .searchable(text: $searchText)
                 .onChange(of: searchText) {
                     Task{
-                        await viewModel.loadView()prefizx
+                        await viewModel.loadView()
                         viewModel.search(by: searchText)
                     }
                 }
@@ -47,13 +49,31 @@ struct OrdersView: View {
             case .loaded:
                 VStack {
                     ScrollView {
-                        VStack (spacing: 16) {
-                            ForEach(viewModel.orders) { productOrder in
-                                ProductListDelivery(productName: productOrder.title, price: productOrder.price, date: productOrder.date , image: productOrder.image)
+                        if isIpad {
+                            ViewThatFits{
+                                //Horizontal
+                                VStack (spacing: 16) {
+                                    ForEach(viewModel.orders) { productOrder in
+                                        ProductListDelivery(productName: productOrder.title, price: productOrder.price, date: productOrder.date , image: productOrder.image, padding: 261, isIpad: isIpad)
+                                    }
+                                }
+                                //Vertical
+                                VStack (spacing: 16) {
+                                    ForEach(viewModel.orders) { productOrder in
+                                        ProductListDelivery(productName: productOrder.title, price: productOrder.price, date: productOrder.date , image: productOrder.image, padding: 130, isIpad: isIpad)
+                                    }
+                                }
+                            }
+                        } else {
+                            VStack (spacing: 16) {
+                                ForEach(viewModel.orders) { productOrder in
+                                    ProductListDelivery(productName: productOrder.title, price: productOrder.price, date: productOrder.date , image: productOrder.image)
+                                }
                             }
                         }
                     }
                 }
+                .padding(.top, isIpad ? 16 : 0)
                 
             case .error:
                 VStack(spacing: 12) {

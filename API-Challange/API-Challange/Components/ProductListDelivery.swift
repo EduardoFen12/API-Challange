@@ -13,6 +13,9 @@ struct ProductListDelivery: View {
     var price: Double
     var date: String
     var image: String
+//    @State var width: CGFloat = 361
+    @State var padding: CGFloat = 16
+    @State var isIpad: Bool = false
     
     var body: some View {
         
@@ -20,7 +23,7 @@ struct ProductListDelivery: View {
                         
             AsyncImage(url: URL(string: image)) { image in
                 image.resizable()
-                    .frame(maxWidth: 80, maxHeight: 80)
+                    .frame(width: 80, height: 80)
                 
             } placeholder: {
                 
@@ -56,23 +59,25 @@ struct ProductListDelivery: View {
                 }
                 .frame(width: 241, height: 62)
                 
+                Spacer(minLength: 0)
+                
             }
             .padding(8)
             
             
         }
         .padding(8)
-        .frame(maxWidth: .infinity, minHeight: 94)
+        .frame(maxWidth: .infinity, minHeight: 96, maxHeight: 96)
         .background(
             RoundedRectangle(cornerRadius: 16)
                 .foregroundStyle(.backgroundsSecondary)
         )
-        .padding(.leading)
-        .padding(.trailing)
+        .padding(.leading, padding)
+        .padding(.trailing, padding)
         
     }
 }
 
 #Preview {
-    ProductListDelivery(productName: "NOME", price: 0.0, date: "27/01", image: "nil")
+    ProductListDelivery(productName: "NOME", price: 0.0, date: "27/01", image: "nil", padding: 130, isIpad: true)
 }

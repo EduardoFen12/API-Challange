@@ -89,7 +89,7 @@ struct FavoritesView: View {
                     }
                 }
             }
-            .padding(.bottom)
+//            .padding(.bottom)
             
         case .favsEmpty:
             EmptyState(style: .favorites)
