@@ -31,7 +31,7 @@ struct Categories1View: View {
                     }
                 }
                 .sheet(isPresented: $showDetails, content: {
-                    ProductDetailsView(product: productNavigation, viewModel: ProductDetailViewModel(storeService: StorePersistenceService(context: context)), toggleFavorite: {viewModel.storePresistence.toggleFavorite(productNavigation.id)})
+                    ProductDetailsView(product: productNavigation, viewModel: ProductDetailViewModel(storeService: StorePersistenceService(context: context)), favorites: viewModel.favorites, toggleFavorite: {viewModel.toggleFavorite(productNavigation.id)})
                 })
         }
     }

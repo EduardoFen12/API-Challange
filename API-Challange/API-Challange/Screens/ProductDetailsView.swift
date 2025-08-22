@@ -12,19 +12,14 @@ struct ProductDetailsView: View {
     
     //esses podem ficar aqui
     let product: ProductModel
-    @Environment(\.dismiss) private var dismiss
     var isFavorite: Bool {
         favorites.contains { $0.productID == product.id }
     }
     @State var viewModel: ProductDetailViewModel
+    var favorites: [Favorite]
 
     //isso aqui deveria vir da viewmodel
     var stringPrice: String? { NumberFormatterManager.shared.doubleToString(self.product.price)}
-
-    //isso aqui deveria vir dos serviços
-    @Query var favorites: [Favorite]
-    @Environment(\.modelContext ) private var modelContext
-    
     
     var toggleFavorite: () -> Void
     
@@ -51,7 +46,6 @@ struct ProductDetailsView: View {
                                 .background(RoundedRectangle(cornerRadius: 8).fill(.graysGray5))
                                 .onTapGesture {
                                     toggleFavorite()
-                                    dismiss()
                     
                                 }
                         }

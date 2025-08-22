@@ -54,7 +54,8 @@ final class Categories1ViewModel: Categories1Protocol {
     
     func loadProducts(category: CategoryModel) async {
         
-        state = .isLoading
+//        state = .isLoading
+        getFavorites()
         
         do {
             

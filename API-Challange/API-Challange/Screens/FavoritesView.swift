@@ -25,7 +25,7 @@ struct FavoritesView: View {
                 .navigationTitle("Favorites")
                 .searchable(text: $searchText)
                 .sheet(isPresented: $showCartSheet, content: {
-                    ProductDetailsView(product: productNavigation, viewModel: ProductDetailViewModel(storeService: StorePersistenceService(context: context)), toggleFavorite: {viewModel.serviceFavorites.toggleFavorite(productNavigation.id)})
+                    ProductDetailsView(product: productNavigation, viewModel: ProductDetailViewModel(storeService: StorePersistenceService(context: context)), favorites: viewModel.favorites, toggleFavorite: {viewModel.serviceFavorites.toggleFavorite(productNavigation.id)})
                     .onDisappear {
                         Task {
                             

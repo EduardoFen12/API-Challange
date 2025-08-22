@@ -57,7 +57,7 @@ final class HomeViewModel: HomeProtocol {
 
     @MainActor
     func loadProducts() async {
-        state = .loading
+//        state = .loading
         getFavorites()
         
         do {

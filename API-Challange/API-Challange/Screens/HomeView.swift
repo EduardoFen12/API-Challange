@@ -26,7 +26,7 @@ struct HomeView: View {
                 }
                 .sheet(isPresented: $showDetails, content: {
                     ProductDetailsView(product: productNavigation,
-                                       viewModel: ProductDetailViewModel(storeService: StorePersistenceService(context: context)),
+                                       viewModel: ProductDetailViewModel(storeService: StorePersistenceService(context: context)), favorites: viewModel.favorites,
                                        toggleFavorite: {viewModel.storeFavorites.toggleFavorite(productNavigation.id)})
                     .onDisappear {
                          viewModel.getFavorites()
