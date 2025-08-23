@@ -7,20 +7,19 @@
 
 import SwiftUI
 
-struct ProductDetailViewModel: ProductDetailProtocol {
+class ProductDetailViewModel: ProductDetailProtocol {
     
-    var storeService: StorePersistenceService
+    var storeService: StorePersistenceProtocol
     var product: ProductModel
     var stringPrice: String { NumberFormatterManager.shared.doubleToString(product.price)}
     
-    init(storeService: StorePersistenceService, product: ProductModel) {
+    init(storeService: StorePersistenceProtocol, product: ProductModel) {
         self.storeService = storeService
         self.product = product
     }
-    
+   
     func addToCart(_ id: Int) {
         self.storeService.addToCart(id)
     }
-
-    
 }
+

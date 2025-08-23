@@ -24,6 +24,7 @@ final class Categories1ViewModel: Categories1Protocol {
     var storePresistence: StorePersistenceProtocol
     var favorites: [Favorite] = []
     var productsFromCategory: [ProductModel] = []
+    var errorMessage: String?
     
     
     init(serviceAPI: ProductAPIServiceProtocol, serviceFavorites: StorePersistenceProtocol) {
@@ -53,7 +54,7 @@ final class Categories1ViewModel: Categories1Protocol {
     }
     
     func loadProducts(category: CategoryModel) async {
-        
+        print(category.slug)
         getFavorites()
         
         do {
@@ -64,6 +65,7 @@ final class Categories1ViewModel: Categories1Protocol {
             state = .loaded
         } catch {
             
+            errorMessage = "Error to fetch categories: \(error.localizedDescription)"
             state = .error(message: "Error to fetch categories: \(error.localizedDescription)")
             
         }

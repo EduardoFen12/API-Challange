@@ -57,7 +57,6 @@ final class FavoritesViewModel: FavoritesProtocol {
             print("Error fetching favorites: \(error.localizedDescription)")
         }
     }
-    
 
     func toggleFavorite(_ id: Int) {
         storeFavorites.toggleFavorite(id)

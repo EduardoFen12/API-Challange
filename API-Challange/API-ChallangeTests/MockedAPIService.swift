@@ -17,11 +17,12 @@ class MockedAPIService: ProductAPIServiceProtocol {
     var mockProducts: [ProductModel]
     var mockCategories: [CategoryModel]
     var mockSingleProduct: ProductModel
+    
+    var oneCategoryModel: CategoryModel = CategoryModel(slug: "testSearch", name: "testSearch", url: "testSearch")
+    var oneMockProduct: ProductModel = ProductModel(id: 1, title: "", description: "", category: "", price: 1, discountPercentage: 1, thumbnail: "")
         
     init(
         shouldFail: Bool = false,
-        mockProducts: [ProductModel] = [],
-        mockCategories: [CategoryModel] = [],
         mockSingleProduct: ProductModel = ProductModel(
             id: 1,
             title: "Default Product",
@@ -33,9 +34,9 @@ class MockedAPIService: ProductAPIServiceProtocol {
         )
     ) {
         self.shouldFail = shouldFail
-        self.mockProducts = mockProducts
-        self.mockCategories = mockCategories
+        self.mockProducts = [oneMockProduct,oneMockProduct]
         self.mockSingleProduct = mockSingleProduct
+        self.mockCategories = [oneCategoryModel,oneCategoryModel,oneCategoryModel,oneCategoryModel]
     }
     
     // MARK: - Protocol Methods
@@ -74,8 +75,13 @@ class MockedAPIService: ProductAPIServiceProtocol {
             throw MockAPIError.forcedFailure
         }
 
+        var filtredProducts: [ProductModel] = []
+        ids.forEach { id in
+            filtredProducts.append(ProductModel(id: id, title: "", description: "", category: "", price: 1, discountPercentage: 1, thumbnail: ""))
+        }
         
-        return mockProducts
+        
+        return filtredProducts
     }
     
     func getFourRandomCategories() async throws -> [CategoryModel] {
@@ -84,5 +90,13 @@ class MockedAPIService: ProductAPIServiceProtocol {
         }
 
         return mockCategories
+    }
+    
+    func getProductsByCategory(by category: String) async throws -> [ProductModel] {
+        if shouldFail {
+            throw MockAPIError.forcedFailure
+        } else {
+            return mockProducts
+        }
     }
 }

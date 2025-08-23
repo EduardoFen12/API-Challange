@@ -25,6 +25,7 @@ final class CartViewModel: CartViewModelProtocol {
     var serviceAPI: ProductAPIServiceProtocol
     var serviceStore: StorePersistenceProtocol
     var cartDisplayItems: [CartDisplayItem] = []
+    var errorMessage: String?
     
     var totalPrice: String {
         let total = cartDisplayItems.reduce(0) { partialResult, item in
@@ -88,10 +89,10 @@ final class CartViewModel: CartViewModelProtocol {
             state = .loaded
             
         } catch {
+            errorMessage =  "Failed to load the cart: \(error.localizedDescription)"
             state = .error(message: "Failed to load the cart: \(error.localizedDescription)")
         }
     }
-    
 
     func increaseQuantity(for item: CartDisplayItem) {
         serviceStore.addToQuantity(item.id)

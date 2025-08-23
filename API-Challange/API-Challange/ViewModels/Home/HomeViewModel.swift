@@ -25,7 +25,6 @@ final class HomeViewModel: HomeProtocol {
     var products: [ProductModel]
     var errorMessage: String?
     var favorites: [Favorite] = []
-    var noFavorites: String?
     
     init(serviceAPI: ProductAPIServiceProtocol, storeFavorites: StorePersistenceProtocol) {
         self.serviceAPI = serviceAPI
@@ -39,16 +38,14 @@ final class HomeViewModel: HomeProtocol {
 
     func toggleFavorite(_ id: Int) {
         storeFavorites.toggleFavorite(id)
-        getFavorites()
+        try?  getFavorites()
     }
     
-    func getFavorites() {
+    func getFavorites() throws {
         do {
             favorites = try storeFavorites.getFavorites()
         } catch {
-            noFavorites = "Error fetching favorites: \(error.localizedDescription)"
-            print("Error fetching favorites: \(error.localizedDescription)")
-        }
+            print("Erro ao carregar favoritos: \(error.localizedDescription)")        }
     }
     
 
@@ -60,7 +57,7 @@ final class HomeViewModel: HomeProtocol {
     @MainActor
     func loadProducts() async {
 //        state = .loading
-        getFavorites()
+        try? getFavorites()
         
         do {
 
