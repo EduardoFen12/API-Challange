@@ -24,7 +24,7 @@ struct OrdersView: View {
                 .searchable(text: $searchText)
                 .onChange(of: searchText) {
                     Task{
-                        await viewModel.loadView()prefizx
+                        await viewModel.loadView()
                         viewModel.search(by: searchText)
                     }
                 }

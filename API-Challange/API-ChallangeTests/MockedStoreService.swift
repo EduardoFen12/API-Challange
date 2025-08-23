@@ -17,6 +17,8 @@ class MockedStoreService: StorePersistenceProtocol {
     var favoriteTwo: Favorite = Favorite(productID: 2)
     var arrayFavorites: [Favorite] = []
     var containerOfFavorites:[Favorite] = []
+    var orderOne = Order(title: "testeSearch", date: "27/01", price: 0, image: "")
+    var orderTwo = Order(title: "testeSearch", date: "27/01", price: 0, image: "")
     
     var cartOne = Cart(productID: 1)
     var cartTwo = Cart(productID: 2)
@@ -29,6 +31,7 @@ class MockedStoreService: StorePersistenceProtocol {
         self.arrayFavorites = [favoriteOne,favoriteTwo]
         self.containerOfFavorites = [favoriteOne, favoriteTwo]
         self.arrayOfCart = [cartOne, cartTwo]
+        self.arrayOfOrders = [orderOne, orderTwo]
     }
     
     

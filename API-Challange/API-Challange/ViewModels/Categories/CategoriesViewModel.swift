@@ -23,6 +23,7 @@ final class CategoriesViewModel: CategoriesViewModelProtocol {
     var state: CategoriesState = .idle
     var fourRandomCategories: [CategoryModel] = []
     var allCategories: [CategoryModel] = []
+    var errorMessage: String?
     
     init(service: ProductAPIServiceProtocol) {
         self.service = service
@@ -37,7 +38,7 @@ final class CategoriesViewModel: CategoriesViewModelProtocol {
             
             state = .loaded
         } catch {
-            
+            errorMessage = "Error to fetch categories: \(error.localizedDescription)"
             state = .error(message: "Error to fetch categories: \(error.localizedDescription)")
             
         }
