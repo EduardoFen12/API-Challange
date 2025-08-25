@@ -15,7 +15,7 @@ class NumberFormatterManager{
     private init() {
         formatter = NumberFormatter()
         formatter.numberStyle = .currency
-        formatter.locale = Locale(identifier: "pt_BR")
+        formatter.locale = Locale(identifier: "en_US")
     }
     
     func doubleToString(_ value: Double) -> String {

@@ -68,6 +68,7 @@ struct EmptyState: View {
                         .multilineTextAlignment(.center)
                         .lineLimit(2)
                         .frame(maxWidth: .infinity)
+                        .accessibilityLabel("\(style.title)")
                     
                     Text(style.subTitle)
                         .font(.system(size: 17, weight: .regular))

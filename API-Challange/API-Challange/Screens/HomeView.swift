@@ -64,6 +64,7 @@ struct HomeView: View {
                     
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Deals of the day")
+                            .accessibilityLabel("Deals of the day")
                             .font(.title2)
                             .fontWeight(.semibold)
                         
@@ -79,6 +80,7 @@ struct HomeView: View {
                             Text("Top picks")
                                 .font(.title2)
                                 .fontWeight(.semibold)
+                                .accessibilityLabel("Our main recomendation")
                             
                             LazyVGrid(columns: [GridItem(), GridItem()]) {
                                 

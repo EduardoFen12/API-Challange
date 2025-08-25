@@ -51,8 +51,7 @@ struct ProductListDelivery: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
 
                     
-                    Text("US$ \(String(format: "%05.2f", price))")
-                        .accessibilityLabel("Price: \(price) dollars")
+                    Text(NumberFormatterManager.shared.doubleToString(price))
                         .font(.system(size: 17, weight: .semibold))
                         .frame(maxWidth: .infinity, alignment: .leading)
                     
@@ -73,6 +72,7 @@ struct ProductListDelivery: View {
             RoundedRectangle(cornerRadius: 16)
                 .foregroundStyle(.backgroundsSecondary)
         )
+        .accessibilityElement(children: .combine)
         .padding(.leading, padding)
         .padding(.trailing, padding)
         
