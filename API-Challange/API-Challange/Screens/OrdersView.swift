@@ -81,8 +81,9 @@ struct OrdersView: View {
                         .foregroundStyle(.red)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal)
+                        .accessibilityLabel(viewModel.errorMessage)
                     
-                    Button("Tentar novamente") {
+                    Button("Try again") {
                         Task { await viewModel.loadView() }
                     }
                     .buttonStyle(.borderedProminent)

@@ -23,6 +23,7 @@ struct FavoritesView: View {
         NavigationStack {
             content
                 .navigationTitle("Favorites")
+                .accessibilityLabel("Favorite screen")
                 .searchable(text: $searchText)
                 .onChange(of: searchText) {
                     Task{

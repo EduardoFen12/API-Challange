@@ -44,6 +44,7 @@ struct ProductListFavorites: View {
 
                     
                     Text(stringPrice ?? "")
+                        .accessibilityLabel("Price: \(stringPrice ?? "") reals")
                         .font(.system(size: 17, weight: .semibold))
                         .foregroundStyle(.labelsPrimary)
                         .frame(maxWidth: .infinity, alignment: .leading)

@@ -52,6 +52,7 @@ struct ProductListDelivery: View {
 
                     
                     Text("US$ \(String(format: "%05.2f", price))")
+                        .accessibilityLabel("Price: \(price) dollars")
                         .font(.system(size: 17, weight: .semibold))
                         .frame(maxWidth: .infinity, alignment: .leading)
                     

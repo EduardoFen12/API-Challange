@@ -23,6 +23,7 @@ struct TabBar: View {
             .tabItem {
                 Image(systemName: "house.fill")
                 Text("Home")
+                    .accessibilityLabel("Home")
             }
             .tag(0)
             
@@ -30,6 +31,8 @@ struct TabBar: View {
                 .tabItem {
                     Image(systemName: "square.grid.2x2.fill")
                     Text("Categories")
+                        .accessibilityLabel("Categories")
+
                 }
                 .tag(1)
             
@@ -37,6 +40,8 @@ struct TabBar: View {
                 .tabItem {
                     Image(systemName: "cart.fill")
                     Text("Cart")
+                        .accessibilityLabel("Cart")
+
                 }
                 .tag(2)
             
@@ -44,6 +49,8 @@ struct TabBar: View {
             .tabItem {
                 Image(systemName: "heart.fill")
                 Text("Favorites")
+                    .accessibilityLabel("Favorites")
+
             }
             .tag(3)
             
@@ -51,6 +58,8 @@ struct TabBar: View {
                 .tabItem {
                     Image(systemName: "bag.fill")
                     Text("Orders")
+                        .accessibilityLabel("Orders")
+
                 }
                 .tag(4)
         }
