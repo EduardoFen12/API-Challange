@@ -30,7 +30,7 @@ struct CartView: View {
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
                 
-                Button("Tentar novamente") {
+                Button("Try again") {
                     Task { await viewModel.loadCart() }
                 }
                 .buttonStyle(.borderedProminent)

@@ -80,7 +80,7 @@ struct ProductDetailsView: View {
                     viewModel.addToCart(viewModel.product.id)
                 } label: {
                     Text("Add to cart")
-                        .accessibilityHint("Tap do add the product to card")
+                        .accessibilityHint("Tap to add the product to card")
                         .font(.system(size: 17, weight: .semibold))
                         .foregroundStyle(.labelsPrimary)
                         .frame(maxWidth: .infinity, minHeight: 54, maxHeight: 54)

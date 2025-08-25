@@ -42,7 +42,7 @@ struct CategoriesView: View {
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
                 
-                Button("Tentar novamente") {
+                Button("Try again") {
                     Task { await viewModel.loadCategories() }
                 }
                 .buttonStyle(.borderedProminent)

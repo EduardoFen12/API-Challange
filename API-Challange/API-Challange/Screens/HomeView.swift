@@ -51,7 +51,7 @@ struct HomeView: View {
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
                 
-                Button("Tentar novamente") {
+                Button("Try again") {
                     Task { await viewModel.loadProducts() }
                 }
                 .buttonStyle(.borderedProminent)
