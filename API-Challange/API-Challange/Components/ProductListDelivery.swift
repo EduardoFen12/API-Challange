@@ -36,7 +36,7 @@ struct ProductListDelivery: View {
 
                 VStack(spacing: 4) {
                     //Date
-                    Text(date)
+                    Text(getMonth(from: date) ?? "Formato de data inválido.")
                         .multilineTextAlignment(.leading)
                         .lineLimit(1)
                         .font(.system(size: 12, weight: .regular))
@@ -74,7 +74,24 @@ struct ProductListDelivery: View {
         )
         .padding(.leading, padding)
         .padding(.trailing, padding)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Order of \(productName), will be \(getMonth(from: date, isVoiceOver: true) ?? "deliverd by month 00"), and costed \(price)")
         
+    }
+    
+    func getMonth(from dateString: String, isVoiceOver: Bool = false) -> String? {
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = "dd/MM/yyyy"
+        inputFormatter.locale = Locale(identifier: "en_US_POSIX")
+        
+        guard let date = inputFormatter.date(from: dateString) else {
+            return nil
+        }
+        
+        let outputFormatter = DateFormatter()
+        outputFormatter.dateFormat = "MM"
+        
+        return isVoiceOver ? "delivered by month \(outputFormatter.string(from: date))" : "DELIVERY BY MONTH, \(outputFormatter.string(from: date))"
     }
 }
 

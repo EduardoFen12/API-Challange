@@ -96,7 +96,10 @@ struct ProductDetailsView: View {
                 
             }
             .navigationTitle("Details")
+            .accessibilityLabel("Details")
             .navigationBarTitleDisplayMode(.inline)
+            .presentationDetents([.large])
+            .presentationDragIndicator(.visible)
         }
         .ignoresSafeArea(edges: .bottom)
     }

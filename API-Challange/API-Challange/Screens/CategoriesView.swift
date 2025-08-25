@@ -58,6 +58,8 @@ struct CategoriesView: View {
                     )
                     ) {
                         CategoriesCard(category: category)
+                            .accessibilityLabel("\(category.name) featured category")
+                            .accessibilityHint("Goes to the \(category.name) category screen.")
                     }
                     
                 }
@@ -68,6 +70,8 @@ struct CategoriesView: View {
                 ForEach(viewModel.allCategories, id: \.name) { category in
                     NavigationLink (destination: Categories1View(category: category, viewModel: Categories1ViewModel(serviceAPI: ProductAPIService(), serviceFavorites: StorePersistenceService(context: context)))){
                         CategorieListItem(category: category)
+                            .accessibilityLabel("\(category.name) category")
+                            .accessibilityHint("Goes to the \(category.name) category screen.")
                     }
                                     
                     Divider()
