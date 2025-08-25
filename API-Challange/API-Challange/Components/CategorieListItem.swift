@@ -13,7 +13,7 @@ struct CategorieListItem: View {
     var body: some View {
         
         HStack {
-            Text(category.name)
+            Text(category.stringLocalized)
                 .font(.body)
                 .foregroundStyle(.labelsPrimary)
                 .padding(.leading, 16)

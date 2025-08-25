@@ -52,7 +52,7 @@ struct Categories1View: View {
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
                 
-                Button("Tentar novamente") {
+                Button("Try again") {
                     Task { await viewModel.loadProducts(category: category) }
                 }
                 .buttonStyle(.borderedProminent)
@@ -75,7 +75,7 @@ struct Categories1View: View {
                             }
                         }
                     }
-                    .navigationTitle(category.name)
+                    .navigationTitle(category.stringLocalized)
                     .navigationBarTitleDisplayMode(.inline)
                     .searchable(text: $searchText, placement: .navigationBarDrawer)
                     .onChange(of: searchText) {

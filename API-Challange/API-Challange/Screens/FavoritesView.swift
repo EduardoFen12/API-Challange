@@ -23,7 +23,7 @@ struct FavoritesView: View {
         NavigationStack {
             content
                 .navigationTitle("Favorites")
-                .accessibilityLabel("Favorite screen")
+                .accessibilityLabel("Favorites screen")
                 .searchable(text: $searchText)
                 .onChange(of: searchText) {
                     Task{
@@ -65,7 +65,7 @@ struct FavoritesView: View {
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
                 
-                Button("Tentar novamente") {
+                Button("Try again") {
                     Task { await viewModel.loadingFavorites() }
                 }
                 .buttonStyle(.borderedProminent)

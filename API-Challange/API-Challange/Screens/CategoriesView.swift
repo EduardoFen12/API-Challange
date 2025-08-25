@@ -42,7 +42,7 @@ struct CategoriesView: View {
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
                 
-                Button("Tentar novamente") {
+                Button("Try again") {
                     Task { await viewModel.loadCategories() }
                 }
                 .buttonStyle(.borderedProminent)
@@ -50,7 +50,7 @@ struct CategoriesView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
         case .loaded:
             HStack(spacing:8) {
-                ForEach(viewModel.fourRandomCategories, id: \.name) { category in
+                ForEach(viewModel.fourRandomCategories, id: \.stringLocalized) { category in
                     
                     NavigationLink (destination: Categories1View(
                         category: category,
@@ -58,8 +58,8 @@ struct CategoriesView: View {
                     )
                     ) {
                         CategoriesCard(category: category)
-                            .accessibilityLabel("\(category.name) featured category")
-                            .accessibilityHint("Goes to the \(category.name) category screen.")
+                            .accessibilityLabel("\(category.stringLocalized) featured category")
+                            .accessibilityHint("Goes to the \(category.stringLocalized) category screen.")
                     }
                     
                 }
@@ -67,11 +67,11 @@ struct CategoriesView: View {
             }
             .padding(.top, 16)
             ScrollView {
-                ForEach(viewModel.allCategories, id: \.name) { category in
+                ForEach(viewModel.allCategories, id: \.stringLocalized) { category in
                     NavigationLink (destination: Categories1View(category: category, viewModel: Categories1ViewModel(serviceAPI: ProductAPIService(), serviceFavorites: StorePersistenceService(context: context)))){
                         CategorieListItem(category: category)
-                            .accessibilityLabel("\(category.name) category")
-                            .accessibilityHint("Goes to the \(category.name) category screen.")
+                            .accessibilityLabel("\(category.stringLocalized) category")
+                            .accessibilityHint("Goes to the \(category.stringLocalized) category screen.")
                     }
                                     
                     Divider()
