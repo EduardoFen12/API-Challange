@@ -10,7 +10,7 @@ import SwiftUI
 struct CategoriesCard: View {
     var category: CategoryModel
     var productCategory: ProductCategory {
-        ProductCategory(rawValue: category.name) ?? .beauty
+        ProductCategory(rawValue: category.stringLocalized) ?? .beauty
     }
     
     var body: some View {
@@ -23,7 +23,7 @@ struct CategoriesCard: View {
                 .background(RoundedRectangle(cornerRadius: 16).fill(.backgroundsSecondary))
             
             
-            Text(category.name)
+            Text(category.stringLocalized)
                 .font(.subheadline)
                 .foregroundStyle(.labelsPrimary)
                 .lineLimit(1)

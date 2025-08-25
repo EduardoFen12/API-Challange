@@ -32,7 +32,7 @@ struct ProductCardLarge: View {
             VStack(alignment: .leading, spacing: 32) {
                 HStack {
                     
-                    Text(product.category)
+                    Text(product.stringLocalized)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .font(.footnote)
                         .foregroundStyle(.labelsSecondary)

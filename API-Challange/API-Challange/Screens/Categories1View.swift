@@ -75,7 +75,7 @@ struct Categories1View: View {
                             }
                         }
                     }
-                    .navigationTitle(category.name)
+                    .navigationTitle(category.stringLocalized)
                     .navigationBarTitleDisplayMode(.inline)
                     .searchable(text: $searchText, placement: .navigationBarDrawer)
                     .onChange(of: searchText) {
