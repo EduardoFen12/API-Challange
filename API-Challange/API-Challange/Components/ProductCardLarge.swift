@@ -63,6 +63,7 @@ struct ProductCardLarge: View {
             
             
         }
+        .accessibilityElement(children: .combine)
         .padding(8)
         .frame( maxWidth: 361, maxHeight: 176)
         .background(RoundedRectangle(cornerRadius: 16).fill(.backgroundsSecondary))

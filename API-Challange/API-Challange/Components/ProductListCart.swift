@@ -94,6 +94,7 @@ struct ProductListCart: View {
             .padding(8)
             
         }
+        .accessibilityElement(children: .combine)
         .padding(8)
         .frame(maxWidth: .infinity, minHeight: 94)
         .background(

@@ -80,6 +80,7 @@ struct ProductDetailsView: View {
                     viewModel.addToCart(viewModel.product.id)
                 } label: {
                     Text("Add to cart")
+                        .accessibilityHint("Tap do add the product to card")
                         .font(.system(size: 17, weight: .semibold))
                         .foregroundStyle(.labelsPrimary)
                         .frame(maxWidth: .infinity, minHeight: 54, maxHeight: 54)
@@ -116,7 +117,3 @@ struct ProductDetailsView: View {
         return textSize.height > lineHeight * CGFloat(maxLines - 1)
     }
 }
-
-//#Preview {
-//    ProductDetails(product: ProductModel(id: 2, title: "", description: "", category: "", price: 2.2, discountPercentage: 2.2, thumbnail: ""), _favorites: [Favorite(productID: 2)], toggleFavorite: {})
-//}

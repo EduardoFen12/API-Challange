@@ -12,7 +12,7 @@ struct ProductListFavorites: View {
     @State var isClicked: Bool = false
     
     //deveria vir de uma viewmodel
-    @State var product: ProductModel
+    var product: ProductModel
     var stringPrice: String? { NumberFormatterManager.shared.doubleToString(self.product.price)}
     var body: some View {
         
@@ -44,6 +44,7 @@ struct ProductListFavorites: View {
 
                     
                     Text(stringPrice ?? "")
+
                         .font(.system(size: 17, weight: .semibold))
                         .foregroundStyle(.labelsPrimary)
                         .frame(maxWidth: .infinity, alignment: .leading)
