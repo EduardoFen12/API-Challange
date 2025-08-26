@@ -11,22 +11,18 @@
         }
       }
     },
-    "%@ category" : {
+    "%@, %@" : {
       "localizations" : {
-        "pt-BR" : {
+        "en" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "Categoria %@ "
+            "state" : "new",
+            "value" : "%1$@, %2$@"
           }
-        }
-      }
-    },
-    "%@ featured category" : {
-      "localizations" : {
+        },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Categoria %@ em destaque"
+            "value" : "%1$@, %2$@"
           }
         }
       }
@@ -37,6 +33,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld"
+          }
+        }
+      }
+    },
+    "Actions available" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ações disponíveis"
           }
         }
       }
@@ -81,6 +87,16 @@
         }
       }
     },
+    "category screen, select a category to see itens." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "tela de categorias, selecione uma categoria para ver itens."
+          }
+        }
+      }
+    },
     "Checkout" : {
       "localizations" : {
         "pt-BR" : {
@@ -107,6 +123,76 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Detalhes"
+          }
+        }
+      }
+    },
+    "double tap do see details" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "toque duas vezes para ver detalhes"
+          }
+        }
+      }
+    },
+    "Double tap to add this product to cart" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dois toques para adicionar esse produto ao carrinho"
+          }
+        }
+      }
+    },
+    "double tap to decrease one unit of %@ at your cart" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dois toques para diminuir em uma unidade o item %@ no seu carrinho"
+          }
+        }
+      }
+    },
+    "double tap to increase one unit of %@ at your cart" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dois toques para aumentar me uma unidade o item %@ do seu carrinho"
+          }
+        }
+      }
+    },
+    "double tap to make purchase" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dois toques para efetuar a compra"
+          }
+        }
+      }
+    },
+    "double tap to remove %@ of your cart" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dois toques para remover %@ do seu carrinho"
+          }
+        }
+      }
+    },
+    "double tap to see details" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "toque duas vezes para ver detalhes"
           }
         }
       }
@@ -147,16 +233,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mobilia"
-          }
-        }
-      }
-    },
-    "Goes to the %@ category screen." : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vai para tela da categoria %@"
           }
         }
       }
@@ -358,12 +434,32 @@
         }
       }
     },
-    "Tap to add the product to card" : {
+    "tap to favorite" : {
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Toque para adicionar o produto ao carrinho"
+            "value" : "toque para favoritar "
+          }
+        }
+      }
+    },
+    "tap to unfavorite" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "toque para desfavoritar"
+          }
+        }
+      }
+    },
+    "Toggle favorite" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toque para favoritar"
           }
         }
       }
@@ -474,6 +570,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Relógios Femininos"
+          }
+        }
+      }
+    },
+    "you have %lld of product %@ at your cart" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "you have %1$lld of product %2$@ at your cart"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "você tem %1$lld do produto %2$@ no seu carrinho"
           }
         }
       }

@@ -19,7 +19,6 @@ struct ProductCardMedium: View {
     var isFavorite: Bool
     var toggleFavorite: () -> Void
     
-    //item recebido por navegação, pode ficar aqui
     var product: ProductModel
     var stringPrice: String? { NumberFormatterManager.shared.doubleToString(self.product.price)}
     
@@ -41,6 +40,7 @@ struct ProductCardMedium: View {
                 .clipShape(RoundedRectangle(cornerRadius: 8))
                 .overlay(alignment: .topTrailing) {
                     Image(systemName: ( isFavorite ? heart.filled.rawValue : heart.empty.rawValue))
+                        .accessibilityHidden(true)
                         .frame(width: 22)
                         .padding(8)
                         .background(RoundedRectangle(cornerRadius: 8).fill(.fillsTertiary))
@@ -62,9 +62,16 @@ struct ProductCardMedium: View {
                     .foregroundStyle(.labelsPrimary)
                 
             }
+
             
         }
         .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(product.title), \(stringPrice ?? "")")
+        .accessibilityHint("double tap to see details")
+        .accessibilityAddTraits(.isButton)
+        .accessibilityAction(named: "Toggle favorite") {
+            toggleFavorite()
+        }
         .frame(maxWidth: 161, maxHeight: 250)
         .padding(8)
         .background(RoundedRectangle(cornerRadius: 16).fill(.backgroundsSecondary))

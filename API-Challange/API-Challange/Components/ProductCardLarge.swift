@@ -28,11 +28,11 @@ struct ProductCardLarge: View {
                 
             }
             .background(RoundedRectangle(cornerRadius: 8).fill(.fillsQuaternary))
-            
             VStack(alignment: .leading, spacing: 32) {
                 HStack {
                     
                     Text(product.stringLocalized)
+                        .accessibilityHidden(true)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .font(.footnote)
                         .foregroundStyle(.labelsSecondary)
@@ -43,9 +43,8 @@ struct ProductCardLarge: View {
                         .background(RoundedRectangle(cornerRadius: 8).fill(.fillsTertiary))
                         .onTapGesture {
                             toggleFavorite()
-                            
-                   
                         }
+                        .accessibilityHidden(true)
                 }
                 
                 VStack(alignment: .leading, spacing: 4){
@@ -64,6 +63,12 @@ struct ProductCardLarge: View {
             
         }
         .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(product.title), \(stringPrice ?? "")")
+        .accessibilityHint("double tap to see details")
+        .accessibilityAddTraits(.isButton)
+        .accessibilityAction(named: "Toggle favorite") {
+            toggleFavorite()
+        }
         .padding(8)
         .frame( maxWidth: 361, maxHeight: 176)
         .background(RoundedRectangle(cornerRadius: 16).fill(.backgroundsSecondary))

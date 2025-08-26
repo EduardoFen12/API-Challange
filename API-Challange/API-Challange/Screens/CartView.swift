@@ -49,6 +49,7 @@ struct CartView: View {
                                 onDecrease: { viewModel.decreaseQuantity(for: item) }
                             )
                         }
+                        .accessibilityHint("double tap to see details")
                     }
                     .padding(.horizontal)
                 }
@@ -63,14 +64,16 @@ struct CartView: View {
                             .font(.system(size: 17, weight: .semibold))
                             .foregroundColor(.labelsPrimary)
                     }
+                    .accessibilityElement(children: .combine)
                     
                     Button {
-                        print("Botão Checkout clicado!")
+
                         Task{
                             await viewModel.saveToOrders()
                         }
                     } label: {
                         Text("Checkout")
+                            .accessibilityLabel("double tap to make purchase")
                             .font(.system(size: 17, weight: .semibold))
                             .foregroundColor(.labelsPrimary)
                             .frame(maxWidth: .infinity, minHeight: 54, maxHeight: 54)

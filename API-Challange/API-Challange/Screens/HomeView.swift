@@ -75,6 +75,8 @@ struct HomeView: View {
                                 productNavigation = viewModel.dealOfDay
                                 showDetails = true
                             }
+                            .accessibilityElement(children: .combine)
+                            .accessibilityHint("double tap do see details")
                         
                         VStack(alignment: .leading, spacing: 8) {
                             Text("Top picks")
@@ -90,6 +92,7 @@ struct HomeView: View {
                                         productNavigation = product
                                         showDetails = true
                                     }
+                                    
                                     
                                 }
                             }

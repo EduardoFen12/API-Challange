@@ -32,6 +32,8 @@ struct Categories1View: View {
                 }
                 .sheet(isPresented: $showDetails, content: {
                     ProductDetailsView(favorites: viewModel.favorites, viewModel: ProductDetailViewModel(storeService: StorePersistenceService(context: context), product: productNavigation), toggleFavorite: {viewModel.toggleFavorite(productNavigation.id)})
+                        .accessibilityElement(children: .combine)
+                        .accessibilityHint("double tap to see details")
                 })
         }
     }

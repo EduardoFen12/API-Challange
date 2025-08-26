@@ -58,8 +58,6 @@ struct CategoriesView: View {
                     )
                     ) {
                         CategoriesCard(category: category)
-                            .accessibilityLabel("\(category.stringLocalized) featured category")
-                            .accessibilityHint("Goes to the \(category.stringLocalized) category screen.")
                     }
                     
                 }
@@ -70,8 +68,6 @@ struct CategoriesView: View {
                 ForEach(viewModel.allCategories, id: \.stringLocalized) { category in
                     NavigationLink (destination: Categories1View(category: category, viewModel: Categories1ViewModel(serviceAPI: ProductAPIService(), serviceFavorites: StorePersistenceService(context: context)))){
                         CategorieListItem(category: category)
-                            .accessibilityLabel("\(category.stringLocalized) category")
-                            .accessibilityHint("Goes to the \(category.stringLocalized) category screen.")
                     }
                                     
                     Divider()

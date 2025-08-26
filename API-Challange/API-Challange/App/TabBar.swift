@@ -31,7 +31,8 @@ struct TabBar: View {
                 .tabItem {
                     Image(systemName: "square.grid.2x2.fill")
                     Text("Categories")
-                        .accessibilityLabel("Categories")
+                        .accessibilityLabel("category screen, select a category to see itens.")
+                        
 
                 }
                 .tag(1)

@@ -30,6 +30,7 @@ struct ProductListDelivery: View {
                 Placeholder(imageStyle: .small)
                 
             }
+            .accessibilityHidden(true)
             .background(RoundedRectangle(cornerRadius: 8).fill(.fillsQuaternary))
                     
             HStack(spacing: 16) {
@@ -66,17 +67,15 @@ struct ProductListDelivery: View {
             
             
         }
+        .accessibilityElement(children: .combine)
         .padding(8)
         .frame(maxWidth: .infinity, minHeight: 96, maxHeight: 96)
         .background(
             RoundedRectangle(cornerRadius: 16)
                 .foregroundStyle(.backgroundsSecondary)
         )
-        .accessibilityElement(children: .combine)
         .padding(.leading, padding)
         .padding(.trailing, padding)
-        .accessibilityElement(children: .combine)
-        .accessibilityLabel("Order of \(productName), will be \(getMonth(from: date, isVoiceOver: true) ?? "deliverd by month 00"), and costed \(price)")
         
     }
     
