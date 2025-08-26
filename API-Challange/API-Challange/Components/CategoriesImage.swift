@@ -91,7 +91,7 @@ enum ProductCategory: String, Codable, Identifiable {
 }
 
 struct CategoriesImage: View {
-//    var systemName: CategoriesEnum
+
     var systemName: ProductCategory
     
     var body: some View {

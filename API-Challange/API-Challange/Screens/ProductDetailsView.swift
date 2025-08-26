@@ -61,7 +61,7 @@ struct ProductDetailsView: View {
                             .font(.system(size: 17, weight: .regular))
                             .foregroundStyle(.labelsSecondary)
                     }
-                    // Container único para leitura do VO + ação extra no rotor
+
                     .accessibilityElement(children: .combine)
                     .accessibilityLabel("\(viewModel.product.title), \(viewModel.stringPrice)")
                     .accessibilityHint("Actions available")

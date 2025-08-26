@@ -14,14 +14,12 @@ struct CategoriesCard: View {
     }
     
     var body: some View {
-        
         VStack(spacing: 8){
             
             CategoriesImage(systemName: productCategory)
                 .frame(width: 84, height: 84)
                 .font(.system(size: 32))
                 .background(RoundedRectangle(cornerRadius: 16).fill(.backgroundsSecondary))
-            
             
             Text(category.stringLocalized)
                 .font(.subheadline)

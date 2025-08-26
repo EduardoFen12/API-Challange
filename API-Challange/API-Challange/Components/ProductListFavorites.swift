@@ -17,7 +17,6 @@ struct ProductListFavorites: View {
         
         HStack(spacing: 8) {
             
-            
             AsyncImage(url: URL(string: product.thumbnail)) { image in
                 image.resizable()
                     .frame(maxWidth: 78, maxHeight: 78)
@@ -36,11 +35,12 @@ struct ProductListFavorites: View {
                     
                     Text(product.title)
                         .multilineTextAlignment(.leading)
-                        .lineLimit(2)
                         .font(.system(size: 13, weight: .regular))
                         .foregroundStyle(.labelsPrimary)
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .lineLimit(2, reservesSpace: true)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity,  alignment: .leading)
 
+                    Spacer()
                     
                     Text(stringPrice ?? "")
 
@@ -83,6 +83,7 @@ struct ProductListFavorites: View {
         
     }
 }
-//
-//#Preview {
-//    ProductListFavorites(product: ProductModel(id: 2, title: "TITLE", description: "description", category: "category", price: 44.44, discountPercentage: 44.44, thumbnail: "imageName"), isClicked: false)}
+
+#Preview {
+    ProductListFavorites(isClicked: true, product: .init(id: 1, title: "texto titulo KKKKKKKKKKKKKKKKKKK", description: "descricao", category: "", price: 1, discountPercentage: 1, thumbnail: ""))
+}

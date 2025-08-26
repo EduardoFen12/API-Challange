@@ -28,7 +28,7 @@ struct CategorieListItem: View {
         }
         .frame(height: 60)
     }
-    
+
 }
 //
 //#Preview {

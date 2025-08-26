@@ -55,51 +55,52 @@ struct ProductListCart: View {
                 .frame(width: 157, height: 62)
                 .accessibilityElement(children: .combine)
                 
-                HStack(spacing: 0.5) {
-                    
-                    Button {
-                        onDecrease()
-                    } label: {
-                        Image(systemName: "minus")
-                            .font(.system(size: 12, weight: .regular))
-                            .frame(width: 23, height: 23)
-                            .foregroundStyle(.labelsPrimary)
-                            .background(
-                                RoundedRectangle(cornerRadius: 4)
-                                    .foregroundStyle(.fillsTertiary)
-                            )
-                    }
-                    .accessibilityLabel(item.cartItem.quantity > 1 ? "double tap to decrease one unit of \(item.product.title) at your cart" : "double tap to remove \(item.product.title) of your cart")
-
-                    
-                    Text("\(item.cartItem.quantity)")
-                        .accessibilityLabel("you have \(item.cartItem.quantity) of product \(item.product.title) at your cart")
-                        .font(.system(size: 17, weight: .regular))
-                        .foregroundStyle(.labelsPrimary)
-                        .frame(width: 32)
-                    
-                    Button {
-                        onIncrease()
-                    } label: {
-                        Image(systemName: "plus")
-                            .font(.system(size: 12, weight: .regular))
-                            .foregroundStyle(.labelsPrimary)
-                            .background(
-                                RoundedRectangle(cornerRadius: 4)
-                                    .foregroundStyle(.fillsTertiary)
-                                    .frame(width: 23, height: 23)
-                            )
-                    }
-                    .accessibilityLabel("double tap to increase one unit of \(item.product.title) at your cart")
-                    
-                }
-                .frame(width: 70, height: 23)
                 
             }
+            .frame(maxWidth: .infinity )
             .padding(8)
             
+            HStack( spacing: 4) {
+                
+                Button {
+                    onDecrease()
+                } label: {
+                    Image(systemName: "minus")
+                        .font(.system(size: 12, weight: .regular))
+                        .foregroundStyle(.labelsPrimary)
+                        .frame(width: 23, height: 23)
+                        .background(
+                            RoundedRectangle(cornerRadius: 4)
+                                .foregroundStyle(.fillsTertiary)
+                        )
+                }
+                .accessibilityLabel(item.cartItem.quantity > 1 ? "double tap to decrease one unit of \(item.product.title) at your cart" : "double tap to remove \(item.product.title) of your cart")
+
+                
+                Text("\(item.cartItem.quantity)")
+                    .accessibilityLabel("you have \(item.cartItem.quantity) of product \(item.product.title) at your cart")
+                    .font(.system(size: 17, weight: .regular))
+                    .foregroundStyle(.labelsPrimary)
+
+                
+                Button {
+                    onIncrease()
+                } label: {
+                    Image(systemName: "plus")
+                        .font(.system(size: 12, weight: .regular))
+                        .foregroundStyle(.labelsPrimary)
+                        .frame(width: 23, height: 23)
+                        .background(
+                            RoundedRectangle(cornerRadius: 4)
+                                .foregroundStyle(.fillsTertiary)
+                        )
+                }
+                .accessibilityLabel("double tap to increase one unit of \(item.product.title) at your cart")
+            }
+            
         }
-        .padding(8)
+        .padding(.leading, 8)
+        .padding(.trailing, 16)
         .frame(maxWidth: .infinity, minHeight: 94)
         .background(
             RoundedRectangle(cornerRadius: 16)
@@ -119,3 +120,5 @@ struct ProductListCart: View {
         return textSize.height > lineHeight * CGFloat(maxLines - 1)
     }
 }
+
+#Preview { ProductListCart(item: .init(product: .init(id: 1, title: "", description: "", category: "", price: 1, discountPercentage: 1, thumbnail: ""), cartItem: .init(productID: 1)), onIncrease: {}, onDecrease: {})}

@@ -30,7 +30,6 @@ struct OrdersView: View {
                         viewModel.search(by: searchText)
                     }
                 }
-            
         }
     }
     
@@ -66,7 +65,7 @@ struct OrdersView: View {
                             VStack (spacing: 16) {
                                 ForEach(viewModel.orders) { productOrder in
                                     ProductListDelivery(productName: productOrder.title, price: productOrder.price, date: productOrder.date , image: productOrder.image)
-                                        .accessibilityLabel("Order of \(productOrder.title), will be \(getMonth(from: productOrder.date, isVoiceOver: true) ?? "deliverd by month 00"), and costed \(productOrder.price)")
+                                        .accessibilityLabel("Order of \(productOrder.title), will be \(productOrder.date.getMonth(isVoiceOver: true) ?? "deliverd by month 00"), and costed \(productOrder.price)")
                                 }
                             }
                         }
@@ -91,20 +90,6 @@ struct OrdersView: View {
             }
             
         }
-    }
-    func getMonth(from dateString: String, isVoiceOver: Bool = false) -> String? {
-        let inputFormatter = DateFormatter()
-        inputFormatter.dateFormat = "dd/MM/yyyy"
-        inputFormatter.locale = Locale(identifier: "en_US_POSIX")
-        
-        guard let date = inputFormatter.date(from: dateString) else {
-            return nil
-        }
-        
-        let outputFormatter = DateFormatter()
-        outputFormatter.dateFormat = "MM"
-        
-        return isVoiceOver ? "delivered by month \(outputFormatter.string(from: date))" : "DELIVERY BY MONTH, \(outputFormatter.string(from: date))"
     }
 }
 
