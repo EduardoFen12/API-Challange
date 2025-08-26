@@ -51,13 +51,11 @@ struct OrdersView: View {
                     ScrollView {
                         if isIpad {
                             ViewThatFits{
-                                //Horizontal
                                 VStack (spacing: 16) {
                                     ForEach(viewModel.orders) { productOrder in
                                         ProductListDelivery(productName: productOrder.title, price: productOrder.price, date: productOrder.date , image: productOrder.image, padding: 261, isIpad: isIpad)
                                     }
                                 }
-                                //Vertical
                                 VStack (spacing: 16) {
                                     ForEach(viewModel.orders) { productOrder in
                                         ProductListDelivery(productName: productOrder.title, price: productOrder.price, date: productOrder.date , image: productOrder.image, padding: 130, isIpad: isIpad)

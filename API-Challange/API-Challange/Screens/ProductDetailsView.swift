@@ -1,10 +1,3 @@
-//
-//  ProductDetails.swift
-//  API-Challange
-//
-//  Created by Eduardo Garcia Fensterseifer on 15/08/25.
-//
-
 import SwiftUI
 import SwiftData
 
@@ -27,20 +20,19 @@ struct ProductDetailsView: View {
                         AsyncImage(url: URL(string: viewModel.product.thumbnail)) { image in
                             image.resizable()
                         } placeholder: {
-                            
                             Placeholder(imageStyle: .large)
-                            
                         }
                         .clipShape(RoundedRectangle(cornerRadius: 8))
+                        .accessibilityHidden(true)
                         .overlay(alignment: .topTrailing) {
                             Image(systemName: (isFavorite ? heart.filled : heart.empty).rawValue)
                                 .font(.system(size: 28))
                                 .frame(width: 34, height: 34)
                                 .padding(8)
                                 .background(RoundedRectangle(cornerRadius: 8).fill(.graysGray5))
+                                .accessibilityHidden(true)
                                 .onTapGesture {
                                     toggleFavorite()
-                    
                                 }
                         }
                         .padding()
@@ -63,14 +55,17 @@ struct ProductDetailsView: View {
                             Text(viewModel.stringPrice)
                                 .font(.system(size: 22, weight: .bold))
                                 .frame(maxWidth: .infinity, alignment: .leading)
-                            
-                            
                         }
-                        
+
                         Text(viewModel.product.description)
                             .font(.system(size: 17, weight: .regular))
                             .foregroundStyle(.labelsSecondary)
                     }
+                    // Container único para leitura do VO + ação extra no rotor
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel("\(viewModel.product.title), \(viewModel.stringPrice)")
+                    .accessibilityHint("Actions available")
+                    .accessibilityAction(named: isFavorite ? "tap to unfavorite" : "tap to favorite") { toggleFavorite() }
                     .padding(.leading)
                     .padding(.trailing)
                     .padding(.bottom)
@@ -80,7 +75,6 @@ struct ProductDetailsView: View {
                     viewModel.addToCart(viewModel.product.id)
                 } label: {
                     Text("Add to cart")
-                        .accessibilityHint("Tap to add the product to card")
                         .font(.system(size: 17, weight: .semibold))
                         .foregroundStyle(.labelsPrimary)
                         .frame(maxWidth: .infinity, minHeight: 54, maxHeight: 54)
@@ -94,10 +88,9 @@ struct ProductDetailsView: View {
                         .padding(.top, 12)
                 }
                 .background(.backgroundsPrimary)
-                
+                .accessibilityHint("Double tap to add this product to cart")
             }
             .navigationTitle("Details")
-            .accessibilityLabel("Details")
             .navigationBarTitleDisplayMode(.inline)
             .presentationDetents([.large])
             .presentationDragIndicator(.visible)

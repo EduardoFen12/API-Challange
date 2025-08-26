@@ -53,11 +53,12 @@ struct ProductListCart: View {
                     
                 }
                 .frame(width: 157, height: 62)
+                .accessibilityElement(children: .combine)
                 
                 HStack(spacing: 0.5) {
                     
                     Button {
-                        onDecrease() // Ação agora chama a closure
+                        onDecrease()
                     } label: {
                         Image(systemName: "minus")
                             .font(.system(size: 12, weight: .regular))
@@ -68,14 +69,17 @@ struct ProductListCart: View {
                                     .foregroundStyle(.fillsTertiary)
                             )
                     }
+                    .accessibilityLabel(item.cartItem.quantity > 1 ? "double tap to decrease one unit of \(item.product.title) at your cart" : "double tap to remove \(item.product.title) of your cart")
+
                     
-                    Text("\(item.cartItem.quantity)") // Quantidade vem do `item`
+                    Text("\(item.cartItem.quantity)")
+                        .accessibilityLabel("you have \(item.cartItem.quantity) of product \(item.product.title) at your cart")
                         .font(.system(size: 17, weight: .regular))
                         .foregroundStyle(.labelsPrimary)
                         .frame(width: 32)
                     
                     Button {
-                        onIncrease() // Ação agora chama a closure
+                        onIncrease()
                     } label: {
                         Image(systemName: "plus")
                             .font(.system(size: 12, weight: .regular))
@@ -86,6 +90,7 @@ struct ProductListCart: View {
                                     .frame(width: 23, height: 23)
                             )
                     }
+                    .accessibilityLabel("double tap to increase one unit of \(item.product.title) at your cart")
                     
                 }
                 .frame(width: 70, height: 23)
@@ -94,7 +99,6 @@ struct ProductListCart: View {
             .padding(8)
             
         }
-        .accessibilityElement(children: .combine)
         .padding(8)
         .frame(maxWidth: .infinity, minHeight: 94)
         .background(

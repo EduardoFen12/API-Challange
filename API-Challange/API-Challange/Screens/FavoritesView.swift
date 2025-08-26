@@ -16,7 +16,7 @@ struct FavoritesView: View {
     @State private var productNavigation: ProductModel = ProductModel(id: 0, title: "", description: "", category: "", price: 0, discountPercentage: 0, thumbnail: "")
     @State private var showCartSheet = false
     @State private var searchText = ""
-
+    
     @State var viewModel: FavoritesViewModel
     
     var body: some View {
@@ -34,15 +34,17 @@ struct FavoritesView: View {
                 }
                 .sheet(isPresented: $showCartSheet, content: {
                     ProductDetailsView(favorites: viewModel.favorites, viewModel: ProductDetailViewModel(storeService: StorePersistenceService(context: context), product: productNavigation), toggleFavorite: {viewModel.toggleFavorite(productNavigation.id)})
-                    .onDisappear {
-                        Task {
-                            
-                            await viewModel.loadingFavorites()
-                            await viewModel.getFavoriteProducts()
-
-                            viewModel.getFavorites()
+                        .accessibilityElement(children: .combine)
+                        .accessibilityHint("double tap to see details")
+                        .onDisappear {
+                            Task {
+                                
+                                await viewModel.loadingFavorites()
+                                await viewModel.getFavoriteProducts()
+                                
+                                viewModel.getFavorites()
+                            }
                         }
-                    }
                 })
                 .task {
                     await viewModel.loadingFavorites()
@@ -57,7 +59,7 @@ struct FavoritesView: View {
         case .idle:
             ProgressView()
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-                    
+            
         case .error(let message):
             VStack(spacing: 12) {
                 Text(message)
@@ -90,7 +92,7 @@ struct FavoritesView: View {
                     }
                 }
             }
-//            .padding(.bottom)
+            //            .padding(.bottom)
             
         case .favsEmpty:
             EmptyState(style: .favorites)
