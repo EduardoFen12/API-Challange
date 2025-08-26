@@ -41,6 +41,8 @@ struct ProductCardMedium: View {
                 .overlay(alignment: .topTrailing) {
                     Image(systemName: ( isFavorite ? heart.filled.rawValue : heart.empty.rawValue))
                         .accessibilityHidden(true)
+                        .font(.system(size:20))
+                        .frame(width: 22, height: 22)
                         .frame(width: 22)
                         .padding(8)
                         .background(RoundedRectangle(cornerRadius: 8).fill(.fillsTertiary))
@@ -56,14 +58,13 @@ struct ProductCardMedium: View {
                 Text(product.title)
                     .font(.subheadline)
                     .foregroundStyle(.labelsPrimary)
+                    .lineLimit(2)
                 
                 Text(stringPrice ?? "")
                     .font(.headline)
                     .foregroundStyle(.labelsPrimary)
-                
             }
-
-            
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
         .accessibilityElement(children: .combine)
         .accessibilityLabel("\(product.title), \(stringPrice ?? "")")

@@ -59,30 +59,31 @@ struct HomeView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             
         case .loaded:
+            
+            VStack(alignment: .leading, spacing: 8) {
+               
+                Text("Deals of the day")
+                    .accessibilityLabel("Deals of the day")
+                    .font(.title2)
+                    .fontWeight(.semibold)
+                
+                ProductCardLarge(isFavorite: viewModel.isFavorite(viewModel.dealOfDay.id),
+                                 toggleFavorite: { viewModel.toggleFavorite(viewModel.dealOfDay.id) },
+                                 product: viewModel.dealOfDay)
+                    .onTapGesture {
+                        productNavigation = viewModel.dealOfDay
+                        showDetails = true
+                    }
+                    .accessibilityElement(children: .combine)
+                    .accessibilityHint("double tap do see details")
+                
             ScrollView {
-                VStack(spacing: 16) {
-                    
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Deals of the day")
-                            .accessibilityLabel("Deals of the day")
-                            .font(.title2)
-                            .fontWeight(.semibold)
-                        
-                        ProductCardLarge(isFavorite: viewModel.isFavorite(viewModel.dealOfDay.id),
-                                         toggleFavorite: { viewModel.toggleFavorite(viewModel.dealOfDay.id) },
-                                         product: viewModel.dealOfDay)
-                            .onTapGesture {
-                                productNavigation = viewModel.dealOfDay
-                                showDetails = true
-                            }
-                            .accessibilityElement(children: .combine)
-                            .accessibilityHint("double tap do see details")
-                        
-                        VStack(alignment: .leading, spacing: 8) {
+                VStack(spacing: 8) {
                             Text("Top picks")
                                 .font(.title2)
                                 .fontWeight(.semibold)
                                 .accessibilityLabel("Our main recomendation")
+                                .frame(maxWidth: .infinity, alignment: .leading)
                             
                             LazyVGrid(columns: [GridItem(), GridItem()]) {
                                 
@@ -92,15 +93,12 @@ struct HomeView: View {
                                         productNavigation = product
                                         showDetails = true
                                     }
-                                    
-                                    
-                                }
                             }
                         }
                     }
-                    .padding()
                 }
             }
+            .padding()
         }
     }
 }

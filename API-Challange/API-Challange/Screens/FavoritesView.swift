@@ -100,7 +100,6 @@ struct FavoritesView: View {
     }
 }
 
-
 #Preview {
     TabBar()
 }

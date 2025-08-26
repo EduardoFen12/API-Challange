@@ -24,7 +24,6 @@ struct Placeholder: View {
                 return "placeHolderLarge"
             }
         }
-        
     }
     
     var imageStyle: ImageStyle
@@ -36,8 +35,6 @@ struct Placeholder: View {
                 RoundedRectangle(cornerRadius: 8)
                     .foregroundStyle(.fillsQuaternary)
             )
-        
-        
     }
 }
 

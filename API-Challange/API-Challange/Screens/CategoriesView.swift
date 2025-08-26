@@ -9,7 +9,6 @@ import SwiftUI
 
 struct CategoriesView: View {
     
-    //nao deveria estar aqui mas tudo bem 
     @Environment(\.modelContext) private var context
     
     let viewModel: CategoriesViewModel
@@ -18,7 +17,7 @@ struct CategoriesView: View {
     var body: some View {
         NavigationStack {
             content
-                .navigationTitle("Home")
+                .navigationTitle("Categories")
                 .task {
                     if case .idle = viewModel.state {
                         await viewModel.loadCategories()
@@ -59,9 +58,7 @@ struct CategoriesView: View {
                     ) {
                         CategoriesCard(category: category)
                     }
-                    
                 }
-                
             }
             .padding(.top, 16)
             ScrollView {
@@ -76,7 +73,6 @@ struct CategoriesView: View {
                         .padding(.vertical, 0)
                 }
             }
-            .navigationTitle("Categories")
             .searchable(text: $searchText)
             .onChange(of: searchText) {
                 Task{

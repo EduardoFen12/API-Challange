@@ -11,7 +11,6 @@ import SwiftData
 struct TabBar: View {
 
     @State private var selectedTab = 0
-
     @Environment(\.modelContext) private var context
     
     var body: some View {
@@ -32,8 +31,6 @@ struct TabBar: View {
                     Image(systemName: "square.grid.2x2.fill")
                     Text("Categories")
                         .accessibilityLabel("category screen, select a category to see itens.")
-                        
-
                 }
                 .tag(1)
             
@@ -51,7 +48,6 @@ struct TabBar: View {
                 Image(systemName: "heart.fill")
                 Text("Favorites")
                     .accessibilityLabel("Favorites")
-
             }
             .tag(3)
             
@@ -60,12 +56,9 @@ struct TabBar: View {
                     Image(systemName: "bag.fill")
                     Text("Orders")
                         .accessibilityLabel("Orders")
-
                 }
                 .tag(4)
         }
-        
-        
     }
 }
 

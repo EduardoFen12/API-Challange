@@ -38,7 +38,8 @@ struct ProductCardLarge: View {
                         .foregroundStyle(.labelsSecondary)
                     
                     Image(systemName: ( isFavorite ? heart.filled.rawValue : heart.empty.rawValue))
-                        .frame(width: 22)
+                        .font(.system(size: 20))
+                        .frame(width: 22, height: 22)
                         .padding(8)
                         .background(RoundedRectangle(cornerRadius: 8).fill(.fillsTertiary))
                         .onTapGesture {
@@ -74,7 +75,3 @@ struct ProductCardLarge: View {
         .background(RoundedRectangle(cornerRadius: 16).fill(.backgroundsSecondary))
     }
 }
-
-//#Preview {
-//    ProductCardLarge(product: ProductModel(id: 2, title: "Sei la", description: "Loooooooonnnnnggg description", category: "quauqler coisa" , price: 60.00, discountPercentage: 30.00, thumbnail: ""), toggleFavorite: )
-//}

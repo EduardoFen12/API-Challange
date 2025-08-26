@@ -17,7 +17,6 @@ struct ProductListFavorites: View {
         
         HStack(spacing: 8) {
             
-            
             AsyncImage(url: URL(string: product.thumbnail)) { image in
                 image.resizable()
                     .frame(maxWidth: 78, maxHeight: 78)

@@ -62,6 +62,7 @@ struct EmptyState: View {
                     .foregroundStyle(.graysGray2)
                                 
                 VStack(spacing: 16) {
+                    
                     Text(style.title)
                         .font(.system(size: 17, weight: .semibold))
                         .foregroundStyle(.labelsPrimary)
@@ -76,13 +77,10 @@ struct EmptyState: View {
                         .multilineTextAlignment(.center)
                         .frame(maxWidth: .infinity)
                 }
-                
-                
             }
             
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        
     }
     
 }
