@@ -27,12 +27,12 @@ final class CartViewModel: CartViewModelProtocol {
     var cartDisplayItems: [CartDisplayItem] = []
     var errorMessage: String?
     
-    var totalPrice: String {
+    var totalPrice: Double {
         let total = cartDisplayItems.reduce(0) { partialResult, item in
             let itemSubtotal = item.product.price * Double(item.cartItem.quantity)
             return partialResult + itemSubtotal
         }
-        return NumberFormatterManager.shared.doubleToString(total)
+        return total
     }
     
     func saveToOrders() async {

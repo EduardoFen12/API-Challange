@@ -47,7 +47,7 @@ struct ProductListCart: View {
                         Spacer()
                     }
                     
-                    Text("US$ \(String(format: "%05.2f", item.product.price))")
+                    Text(NumberFormatterManager.shared.doubleToString(item.product.price))
                         .font(.system(size: 17, weight: .semibold))
                         .frame(maxWidth: .infinity, alignment: .leading)
                     

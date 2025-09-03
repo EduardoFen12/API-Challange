@@ -25,7 +25,7 @@ struct EmptyState: View {
             }
         }
 
-        var title: String {
+        var title: LocalizedStringKey {
             switch self {
             case .cart:
                 return "Your cart is empty!"
@@ -36,7 +36,7 @@ struct EmptyState: View {
             }
         }
         
-        var subTitle: String {
+        var subTitle: LocalizedStringKey {
             switch self {
             case .cart:
                 return "Add an item to your cart."

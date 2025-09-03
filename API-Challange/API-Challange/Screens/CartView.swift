@@ -60,7 +60,7 @@ struct CartView: View {
                             .font(.system(size: 15, weight: .regular))
                             .foregroundStyle(.labelsPrimary)
                         Spacer()
-                        Text("US$ \(viewModel.totalPrice)")
+                        Text(NumberFormatterManager.shared.doubleToString(viewModel.totalPrice) )
                             .font(.system(size: 17, weight: .semibold))
                             .foregroundColor(.labelsPrimary)
                     }
