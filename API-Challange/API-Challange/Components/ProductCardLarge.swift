@@ -13,7 +13,8 @@ struct ProductCardLarge: View {
     var isFavorite: Bool
     var toggleFavorite: () -> Void
     var product: ProductModel
-    var stringPrice: String? { NumberFormatterManager.shared.doubleToString(self.product.price)}
+    var stringPrice: String? { NumberFormatterManager.shared.doubleToString(self.product.price) }
+    
     
     var body: some View {
         

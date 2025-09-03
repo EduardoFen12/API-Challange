@@ -2,6 +2,7 @@
   "sourceLanguage" : "en",
   "strings" : {
     "%@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -47,6 +48,16 @@
         }
       }
     },
+    "Add an item to your cart." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "adicione um item ao seu carrinho."
+          }
+        }
+      }
+    },
     "Add to cart" : {
       "localizations" : {
         "pt-BR" : {
@@ -63,6 +74,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Beleza"
+          }
+        }
+      }
+    },
+    "Buy an item and it will show up here." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "compre um item e ele aparecerá nessa tela."
           }
         }
       }
@@ -113,6 +134,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ofertas do dia"
+          }
+        }
+      }
+    },
+    "delivered by month %@" : {
+      "comment" : "VoiceOver accessibility label for delivery by month",
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "entrega no mês %@"
+          }
+        }
+      }
+    },
+    "DELIVERY BY MONTH" : {
+      "comment" : "Delivery grouped by month",
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "entrega no mês"
           }
         }
       }
@@ -193,6 +236,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "toque duas vezes para ver detalhes"
+          }
+        }
+      }
+    },
+    "Favorite an item and it will show up here." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "seus itens favoritos irão aparecer aqui."
           }
         }
       }
@@ -344,6 +397,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Moto"
+          }
+        }
+      }
+    },
+    "No favorites yet!" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você ainda não tem favoritos!"
+          }
+        }
+      }
+    },
+    "No orders yet!" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você ainda não tem pedidos!"
           }
         }
       }
@@ -505,11 +578,18 @@
       }
     },
     "US$ %@" : {
+      "extractionState" : "stale",
       "localizations" : {
-        "pt-BR" : {
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "US$ %@"
+            "value" : "Dolars %@"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "R$ %@"
           }
         }
       }
@@ -586,6 +666,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "você tem %1$lld do produto %2$@ no seu carrinho"
+          }
+        }
+      }
+    },
+    "Your cart is empty!" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seu carrinho está vazio!"
           }
         }
       }

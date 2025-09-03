@@ -15,8 +15,11 @@ class NumberFormatterManager{
     private init() {
         formatter = NumberFormatter()
         formatter.numberStyle = .currency
-        formatter.locale = Locale(identifier: "en_US")
-    }
+        if Locale.preferredLanguages.first?.hasPrefix("pt") == true {
+            formatter.locale = Locale(identifier: "pt_BR")
+        } else {
+            formatter.locale = Locale(identifier: "en_US")
+        }    }
     
     func doubleToString(_ value: Double) -> String {
         return formatter.string(from: NSNumber(value: value)) ?? ""

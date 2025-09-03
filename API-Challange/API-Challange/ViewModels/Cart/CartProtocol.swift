@@ -8,7 +8,7 @@
 protocol CartViewModelProtocol {
 
     var cartDisplayItems: [CartDisplayItem] { get }
-    var totalPrice: String { get }
+    var totalPrice: Double { get }
     
 
     func loadCart() async
